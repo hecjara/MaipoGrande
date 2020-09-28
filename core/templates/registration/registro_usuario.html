@@ -1,0 +1,71 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block contenido %}
+
+{% if perso %}
+
+    {% for p in perso %}
+
+
+        <input type="text" name="idper" id="idper" value="{{p.id_persona}}">
+
+        <table class="table table-bordered container">
+            <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">Nombres</th>
+                <th class="text-center">Apellidos</th>
+                <th class="text-center">Dirección</th>
+                <th class="text-center">Email</th>
+                <th class="text-center">Telefono</th>
+                <th class="text-center">Fecha Nacimiento</th>
+            </tr>
+            <tr>
+                <td class="text-center">
+                    {{p.id_persona}}
+                </td>
+                <td class="text-center">
+                    {{p.nombres}}
+                </td>
+                <td class="text-center">
+                    {{p.apellidos}}
+                </td>
+                <td class="text-center">
+                    {{p.direccion}}
+                </td>
+                <td class="text-center">
+                    {{p.email}}
+                </td>
+                <td class="text-center">
+                    {{p.telefono}}
+                </td>
+                <td class="text-center">
+                    {{p.fecha_nacimiento}}
+                </td>
+            </tr>
+        </table> -->
+        
+
+    {% endfor %}
+
+{% endif %}
+
+    <h2>Registro de usuario</h2>
+    <form action="" method="POST" class="container">
+        {% csrf_token %}
+
+        <table>
+            {{ form2.username|as_crispy_field }}
+            {{ form2.password1|as_crispy_field }}
+            {{ form2.password2|as_crispy_field }}
+        </table>
+
+        <input type="reset" value="Limpiar" class="btn btn-light-blue">
+        <input type="submit" value="Registrar" class="btn btn-dark-green">
+
+    </form>
+
+
+{% endblock %}

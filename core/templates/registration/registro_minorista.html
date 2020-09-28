@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block contenido %}
+<br>
+<div class="container">
+    <h2>Registro de compradores minoristas</h2>
+</div>
+
+<form action="" method="POST" class="container">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    <input type="reset" value="Limpiar" class="btn btn-light-blue">
+    <input type="submit" value="Registrar" class="btn btn-dark-green">
+
+</form>
+<br>
+
+
+{% endblock %}
