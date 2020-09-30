@@ -1,8 +1,21 @@
-<ul>
-    <li>
-        <a href="{% url 'solicitud_compra' %}">solicitud_compra</a>
-    </li>
-    <li>
-        <a href="{% url 'formulario_solicitud' %}">formulario_solicitud</a>
-    </li>
-</ul>
+
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+
+{% block contenido %}
+
+    <div class="container">
+        <br>
+        <ul>
+            <li>
+                <a href="{% url 'solicitud_compra' %}">solicitud_compra</a>
+            </li>
+            <li>
+                <a href="{% url 'formulario_solicitud' %}">formulario_solicitud</a>
+            </li>
+        </ul>
+    </div>
+
+{% endblock %}

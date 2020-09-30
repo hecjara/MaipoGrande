@@ -2,8 +2,6 @@
 
 {% load static %}
 
-
-
 {% block contenido %}
 
 <div class="container">
@@ -25,7 +23,29 @@
             </div>
         </div>
 
-        
+        <div class="form-row mb-4">
+            <div class="col">
+                <label for="">Dirección:</label>
+                <input type="text" name="direccion" id="direccion" class="form-control">
+            </div>
+            <div class="col">
+
+                <label for="">Rango fecha de entrega:</label>
+
+                <div class="form-row mb-4">
+                    <label for="">Entre:</label>
+                    <input type="date" name="" id="" class="form-control datepicker">
+                </div>
+
+                <div class="form-row mb-4">
+                    <label for="">Hasta:</label>
+                    <input type="date" name="" id="" class="form-control datepicker">
+                </div>
+
+
+                
+            </div>
+        </div>
         
 
 
@@ -39,5 +59,8 @@
 
 
 
+
+
 {% endblock %}
+
 
