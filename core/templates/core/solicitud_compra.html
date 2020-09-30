@@ -1,0 +1,55 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block contenido %}
+
+<div class="container">
+    <h1>Mis solicitudes <i class="fas fa-shopping-basket"></i></h1>
+    
+    <div class="table-responsive">
+        <!--Table-->
+        <table id="tablePreview" class="table table-hover table-fixed table-bordered ">
+            <!--Table head-->
+            <thead class="green white-text">
+                <tr>
+                    <th scope="col">Número de solicitud</th>
+                    <th scope="col">Fecha de ingreso</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Productos</th>
+                    <th scope="col">Oferta??</th>
+                    <th scope="col">Envio</th>
+                </tr>
+            </thead>
+            <!--Table head-->
+            <!--Table body-->
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>20/08/2020</td>
+                    <td>Pendiente</td>
+                    <td>Manzana</td>
+                    <td>??????</td>
+                    <td>12/09/2020 - 15/09/2020</td>
+                </tr>
+            </tbody>
+            <!--Table body-->
+        </table>
+        <!--Table-->
+    
+        <a href="" class="btn btn-success btn-rounded">
+            <i class="fas fa-plus-circle" aria-hidden="true"></i>
+            Nueva Solicitud
+        </a>
+    
+        <a href="" class="btn btn-danger btn-rounded">
+            <i class="fas fa-minus-circle" aria-hidden="true"></i>
+            Anular Solicitud
+        </a>
+    
+    </div>
+
+</div>
+
+
+{% endblock %}

@@ -17,6 +17,14 @@ def home(request):
     return render(request, "core/home.html")
 
 
+
+def links(request):
+    return render(request, "core/links.html")
+
+
+def solicitud_compra(request):
+    return render(request, "core/solicitud_compra.html")
+
 def registro_minorista(request):
 
     data = {"form": CustomUserForm()}
