@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, registro_minorista, codigo_activacion, registro_usuario, links, solicitud_compra
+from .views import home, registro_minorista, codigo_activacion, registro_usuario, links, solicitud_compra, formulario_solicitud
 
 urlpatterns = [
     path('', home, name="home"),
@@ -8,4 +8,5 @@ urlpatterns = [
     path('registro_usuario/<cod>/', registro_usuario, name="registro_usuario"),
     path('links/', links, name="links"),
     path('solicitud_compra/', solicitud_compra, name="solicitud_compra"),
+    path('formulario_solicitud/', formulario_solicitud, name="formulario_solicitud"),
 ]

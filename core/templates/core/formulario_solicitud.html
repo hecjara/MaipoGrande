@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+
+
+{% block contenido %}
+
+<div class="container">
+    <p class="h4 mb-4">Solicitud de productos</p>
+    
+    <form action="" method="POST">
+        <div class="form-row mb-4">
+            <div class="col">
+                <label for="">Producto:</label>
+                <select name="producto" id="producto" class="form-control" placeholder="Seleccione producto"> 
+                    <option value="" disabled selected>Seleccione producto</option>
+                    <!-- <option value="{{ t.id }}"></option> -->
+                </select>
+    
+            </div>
+            <div class="col">
+                <label for="">Cantidad:</label>
+                <input type="number" id="cantidad" name="cantidad" class="form-control" placeholder="Ingrese cantidad en kilos">
+            </div>
+        </div>
+
+        
+        
+
+
+    
+    
+    
+    </form>
+
+</div>
+
+
+
+
+{% endblock %}
+

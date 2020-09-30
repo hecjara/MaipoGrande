@@ -25,6 +25,9 @@ def links(request):
 def solicitud_compra(request):
     return render(request, "core/solicitud_compra.html")
 
+def formulario_solicitud(request):
+    return render(request, "core/formulario_solicitud.html")
+
 def registro_minorista(request):
 
     data = {"form": CustomUserForm()}
