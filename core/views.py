@@ -127,5 +127,3 @@ def codigo_activacion(request):
 
 
 
-
-

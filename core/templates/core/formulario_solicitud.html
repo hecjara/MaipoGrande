@@ -2,57 +2,92 @@
 
 {% load static %}
 
+{% block css %}
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'core/js/addinput.js' %}"></script>
+
+{% endblock %}
+
+
 {% block contenido %}
 
 <div class="container">
     <p class="h4 mb-4">Solicitud de productos</p>
-    
+
     <form action="" method="POST">
+
+        {% csrf_token %}
+
+        <label for="">Dirección de entrega:</label>
+        <input type="text" name="direccion" id="direccion" class="form-control w-50 p-3">
+
+        <label for="">Rango fecha de entrega:</label>
+
         <div class="form-row mb-4">
-            <div class="col">
-                <label for="">Producto:</label>
-                <select name="producto" id="producto" class="form-control" placeholder="Seleccione producto"> 
+            <div class="form-row mb-4">
+                <div class="col mr-2">
+                    <label for="">Desde:</label>
+                    <input type="date" name="min" id="min" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row mb-4">
+                <div class="col">
+                    <label for="">Hasta:</label>
+                    <input type="date" name="max" id="max" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row mb-4">
+            <div class="col-5">
+                <label for="">Productos:</label>
+                <select name="producto_0" id="producto_0" class="form-control w-50 p-3" placeholder="Seleccione producto">
                     <option value="" disabled selected>Seleccione producto</option>
                     <!-- <option value="{{ t.id }}"></option> -->
                 </select>
-    
+
             </div>
-            <div class="col">
+            <div class="col-4">
                 <label for="">Cantidad:</label>
-                <input type="number" id="cantidad" name="cantidad" class="form-control" placeholder="Ingrese cantidad en kilos">
+                <input type="number" id="cantidad_0" name="cantidad_0" class="form-control w-25 p-3">
             </div>
         </div>
 
         <div class="form-row mb-4">
-            <div class="col">
-                <label for="">Dirección:</label>
-                <input type="text" name="direccion" id="direccion" class="form-control">
+            <div id="container1" class="col-5">
+                <!-- <label for="">Producto:</label> -->
+
+
             </div>
-            <div class="col">
-
-                <label for="">Rango fecha de entrega:</label>
-
-                <div class="form-row mb-4">
-                    <label for="">Entre:</label>
-                    <input type="date" name="" id="" class="form-control datepicker">
-                </div>
-
-                <div class="form-row mb-4">
-                    <label for="">Hasta:</label>
-                    <input type="date" name="" id="" class="form-control datepicker">
-                </div>
-
-
-                
+            <div id="container2" class="col-4">
+                <!-- <label for="">Cantidad:</label> -->
             </div>
         </div>
-        
 
+   
 
-    
-    
-    
+        <!-- <div id="container"/> -->
+
+        <!-- <input type="text" id="member" name="member" value="">Number of members: (max. 10)<br />
+        <a href="#" id="filldetails" onclick="addFields()">Fill Details</a>
+        <div id="container"/> -->
+
+        <button onclick="crearInputs(); incrementValue();" type="button" class="btn btn-success">
+            <i class="fas fa-plus-circle mr-1"></i>
+            Agregar Producto
+        </button>
+
+        <!-- <button onclick="EliminarInputT('idc', 'idp')" type="button" class="btn btn-danger">
+            <i class="fas fa-minus-circle mr-1"></i>
+            Eliminar Producto
+        </button> -->
+
     </form>
+    
+    <input type="hidden" name="contador" id="contador" value="1">
 
 </div>
 
@@ -62,5 +97,3 @@
 
 
 {% endblock %}
-
-
