@@ -4,9 +4,11 @@
 
 {% block contenido %}
 
-<div class="container">
-    <h1>Mis solicitudes <i class="fas fa-shopping-basket"></i></h1>
+<br>
 
+<div class="container">
+    <h1 class="text-center">Mis solicitudes <i class="fas fa-shopping-basket"></i></h1>
+<br>
     <div class="table-responsive">
         <!--Table-->
         <table id="tablePreview" class="table table-hover table-fixed table-bordered ">
@@ -19,7 +21,8 @@
                     <!-- <th scope="col">Productos</th> -->
                     <!-- <th scope="col">Oferta??</th> -->
                     <th scope="col" class="text-center">Envio</th>
-                    <th scope="col" class="text-center">Opciones</th>
+                    <th scope="col" class="text-center">Opciones Solicitud</th>
+                    <th scope="col" class="text-center">Opciones Productos</th>
                 </tr>
             </thead>
             <!--Table head-->
@@ -32,8 +35,12 @@
                     <td class="text-center">{{ s.id_estado.nombre_estado }}</td>
                     <td class="text-center">Entre {{ s.fecha_min }} y {{ s.fecha_max }} </td>
                     <td class="text-center">
-                        <a class="btn btn-primary btn-sm" href="{% url 'agregar_producto' s.id_solicitud %}">Agregar Producto</a>
-                        <a class="btn btn-primary btn-sm" href="{% url 'listar_productos' s.id_solicitud %}">Administrar Productos</a>
+                        <a class="btn btn-primary btn-sm" href="">Modificar</a>
+                        <a class="btn btn-primary btn-sm" href="">Anular</a>
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-primary btn-sm" href="{% url 'agregar_producto' s.id_solicitud %}">Agregar</a>
+                        <a class="btn btn-primary btn-sm" href="{% url 'listar_productos' s.id_solicitud %}">Administrar</a>
                     </td>
                 </tr>
 

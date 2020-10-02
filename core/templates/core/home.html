@@ -3,40 +3,42 @@
 {% load static %}
 
 {% block javascript %}
-  <!-- <script src="{% static 'core/js/aaa.js' %}"></script> -->
+<!-- <script src="{% static 'core/js/aaa.js' %}"></script> -->
 
 {% endblock %}
 
 {% block contenido %}
 
+<br>
 
-<!-- <div class="container my-5 py-5 z-depth-1">
-  <section class="px-md-5 mx-md-5 dark-grey-text text-center text-lg-left">
-    <div class="row">
-      <div class="col-lg-6 mb-4 mb-lg-0 d-flex align-items-center justify-content-center">
-        <img src="{% static 'core/img/logo_maipo.png' %}" class="img-fluid" alt="">
-      </div>
-      <div class="col-lg-6 mb-4 mb-lg-0">
-        <h3 class="font-weight-bold">Maipo Grande</h3>
-        <p class="text-muted">La empresa Maipo Grande ofrece servicio de venta en grandes cantidades
-          para el extranjero y grandes oportunidades para la venta local.</p>
+{% if request.user.is_authenticated %}
+
+<div class="container">
+  <div class="row row-cols-1 row-cols-md-2">
+    <div class="col mb-4">
+      <div class="card">
+        <img src="{% static 'core/img/solicitar.jpg' %}" class="card-img-top" alt="solicitar">
+        <div class="card-body">
+          <h5 class="card-title">Solicitar productos</h5>
+          <p class="card-text">Aqui podras realizar solicitudes de los productos que necesitas, la solicitud abrira un proceso de venta para elegir el mejor precio.</p>
+          <a href="{% url 'formulario_solicitud' %}" class="btn btn-primary">Realizaar solicitud</a>
+        </div>
       </div>
     </div>
-  </section>
-</div> -->
+    <div class="col mb-4">
+      <div class="card">
+        <img src="{% static 'core/img/check-list.jpg' %}" class="card-img-top" alt="ver solicitudes">
+        <div class="card-body">
+          <h5 class="card-title">Ver mis solicitudes</h5>
+          <p class="card-text">Aquí podras ver las solicitudes que hayas realizado, administrarlas, administrar sus productos y hacer un seguimiento de su estado.</p>
+          <a href="{% url 'solicitud_compra' %}" class="btn btn-primary">Ver mis solicitudes</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<!-- <p>My name is Donald.</p>
-<p class="hometown">I live in Ducksburg.</p>
-
-<p>My name is Dolly.</p>
-<p class="hometown">I also live in Ducksburg.</p> -->
-<!-- <h2>JavaScript Functions</h2>
-
-<p>This example calls a function to convert from Fahrenheit to Celsius:</p>
-<p id="demo"></p> -->
-
-
-
+{% else %}
 
 <div class="mx-auto mt-4" style="max-width: 540px;">
   <div class="card mb-3" style="max-width: 540px;">
@@ -49,12 +51,10 @@
           <h5 class="card-title">Maipo Grande</h5>
           <p class="card-text">La empresa Maipo Grande ofrece servicio de venta en grandes cantidades
             para el extranjero y grandes oportunidades para la venta local.</p>
-          <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
         </div>
       </div>
     </div>
   </div>
-
 </div>
 
 <div class="card container">
@@ -105,45 +105,16 @@
     </div>
   </div>
 </div>
+{% endif %}
+
+
+
+<br>
 
 
 
 
 
-
-<!-- <div class="container my-5 py-5 z-depth-1">
-  <section class="px-md-5 mx-md-5 text-center dark-grey-text">
-    <h3 class="font-weight-bold mb-5">¿Necestitas una cuenta?</h3>
-    <div class="row">
-      <div class="col-md-6 mb-4 mb-md-0">
-        <i class="far fa-user-circle fa-3x blue-text"></i>
-        <p class="font-weight-bold my-3">Cuenta usuario mayorista</p>
-        <ul class="list-group text-muted mx-md-5">
-          <li class="list-group-item active">Privilegios</li>
-          <li class="list-group-item">Realizar solicitudes de compra</li>
-          <li class="list-group-item">Estado de solicitud en vivo</li>
-          <li class="list-group-item">Pagos en linea</li>
-          <li class="list-group-item">Participar en subasta de transporte</li>
-          <li class="list-group-item">Ofercer productos en los procesos de venta</li>
-        </ul>
-        <a class="btn btn-primary btn-md" href="{% url 'codigo_activacion' %}" role="button">Ingresa tu código</a>
-      </div>
-      <div class="col-md-6 mb-4 mb-md-0">
-        <i class="far fa-user-circle fa-3x green-text"></i>
-        <p class="font-weight-bold my-3">Cuenta usuario minorista</p>
-        <ul class="list-group text-muted mx-md-5">
-          <li class="list-group-item btn-green">Privilegios</li>
-          <li class="list-group-item">Registro sin necesidad de solicitud</li>
-          <li class="list-group-item">Acceso a ventas de saldo</li>
-          <li class="list-group-item">Pagos en linea</li>
-          <li class="list-group-item">Estado de envio en vivo</li>
-          <li class="list-group-item">Productos a los mejores precios</li>
-        </ul>
-        <a class="btn btn-green btn-md" href="{% url 'registro_minorista' %}" role="button">Registrate</a>
-      </div>
-    </div>
-  </section>
-</div> -->
 
 
 {% endblock %}
