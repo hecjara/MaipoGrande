@@ -67,7 +67,7 @@ def agregar_producto(request, id):
             messages.success(request, "Producto agregado a la solicitud correctamente")
 
         except Exception as e:
-            messages.success(
+            messages.error(
                 request, "Error al intentar agregar el producto a la solicitud" + str(e)
             )
         return redirect("listar_productos", solicitud.id_solicitud)
@@ -78,26 +78,29 @@ def agregar_producto(request, id):
 @login_required
 def formulario_solicitud(request):
 
-    est = 1
+    if request.POST:
+        est = 1
 
-    soli = SOLICITUD_COMPRA()
-    soli.fecha_pedido = datetime.now()
-    soli.direccion_destino = request.POST.get("direccion")
-    soli.fecha_min = request.POST.get("min")
-    soli.fecha_max = request.POST.get("max")
-    soli.id_usuario = request.user
+        soli = SOLICITUD_COMPRA()
+        soli.fecha_pedido = datetime.now()
+        soli.direccion_destino = request.POST.get("direccion")
+        soli.fecha_min = request.POST.get("min")
+        soli.fecha_max = request.POST.get("max")
+        soli.id_usuario = request.user
 
-    estado = ESTADO_SOLICITUD()
-    estado.id_estado = est
-    soli.id_estado = estado
+        estado = ESTADO_SOLICITUD()
+        estado.id_estado = est
+        soli.id_estado = estado
 
-    try:
-        soli.save()
-        messages.success(request, "Lista agregada correctamente")
+        try:
+            soli.save()
+            messages.success(request, "Lista agregada correctamente")
 
-    except:
-        messages.error(request, "No se ha podido agregar la lista")
-    return redirect("solicitud_compra")
+        except Exception as e:
+            messages.error(
+                request, "No se ha podido agregar la lista" + str(e)
+            )
+        return redirect("solicitud_compra")
 
     return render(request, "core/formulario_solicitud.html")
 
