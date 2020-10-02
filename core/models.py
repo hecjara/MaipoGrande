@@ -115,6 +115,8 @@ class SOLICITUD_COMPRA(models.Model):
     id_solicitud = models.AutoField(primary_key=True)
     fecha_pedido = models.DateField(null=False, blank=False)
     direccion_destino = models.CharField(max_length=100, null=False, blank=False)
+    fecha_min = models.DateField(null=False, blank=False)
+    fecha_max = models.DateField(null=False, blank=False)
     id_usuario  = models.ForeignKey(User, on_delete=models.CASCADE)
     id_estado = models.ForeignKey(ESTADO_SOLICITUD, on_delete=models.CASCADE)
 

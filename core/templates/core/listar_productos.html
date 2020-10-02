@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block contenido %}
+
+<br>
+<h2 class="d-flex justify-content-around">Productos de la Solicitud:</h2>
+<br>
+
+<div class="container">
+    <table>
+        <tr>
+            <thead>
+                <th class="text-center">Producto</th>
+                <th class="text-center">Cantidad</th>
+                <th class="text-center">Opciones</th>
+            </thead>
+        </tr>
+    
+        <tbody>
+            {% for d in det %}
+            <tr>
+                <td class="text-center">{{ d.id_producto.nombre }}</td>
+                <td class="text-center">{{ d.cantidad }}</td>
+                <td class="text-center">
+                    <a href="#">Modificar</a>
+                    <a href="#">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    
+    </table>
+</div>
+
+
+
+{% endblock %}

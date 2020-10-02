@@ -3,11 +3,12 @@ from django.db import connection
 from .forms import CustomUserForm, CustomUserForm2
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, authenticate
-from .models import PERSONA, PAIS
+from .models import PERSONA, PAIS, PRODUCTO, SOLICITUD_COMPRA, ESTADO_SOLICITUD, DETALLE_SOLICITUD
 import cx_Oracle
 from django.contrib.auth.models import User
 from django.contrib import messages
-
+from datetime import date
+from datetime import datetime
 
 # Create your views here.
 
@@ -21,11 +22,83 @@ def home(request):
 def links(request):
     return render(request, "core/links.html")
 
-
+@login_required
 def solicitud_compra(request):
-    return render(request, "core/solicitud_compra.html")
 
+    soli = SOLICITUD_COMPRA.objects.filter(id_usuario=request.user)
+
+    return render(request, 'core/solicitud_compra.html', {
+        'soli':soli
+    })
+
+@login_required
+def listar_productos(request, id): #id de la solicitud
+
+    det = DETALLE_SOLICITUD.objects.filter(id_solicitud=id)
+
+
+    return render(request, 'core/listar_productos.html', {
+        'det':det
+    })
+
+
+@login_required
+def agregar_producto(request, id):
+    
+    solicitud = SOLICITUD_COMPRA.objects.get(id_solicitud=id)
+    prod = PRODUCTO.objects.all()
+    
+
+
+    variables = {
+        'prod':prod,
+        'solicitud':solicitud
+    }
+
+    if request.POST:
+
+        detalle = DETALLE_SOLICITUD()
+        producto = PRODUCTO()
+        soli = SOLICITUD_COMPRA()
+        detalle.cantidad = request.POST.get('cant')
+        
+        soli.id_solicitud = request.POST.get('idsoli')
+        detalle.id_solicitud = soli
+
+        producto.id_producto = request.POST.get('cboproducto')
+        detalle.id_producto = producto
+
+        try:
+            detalle.save()
+            variables['mensaje'] = 'El producto ha sido agregado a la solicitud'
+        except:
+            variables['mensaje'] = 'Error al intentar agregar el producto a la solicitud'
+
+    return render(request, 'core/agregar_producto.html', variables)
+
+
+@login_required
 def formulario_solicitud(request):
+
+    est = 1
+
+    soli = SOLICITUD_COMPRA()
+    soli.fecha_pedido = datetime.now()
+    soli.direccion_destino = request.POST.get('direccion')
+    soli.fecha_min = request.POST.get('min')
+    soli.fecha_max = request.POST.get('max')   
+    soli.id_usuario = request.user
+
+    estado = ESTADO_SOLICITUD()
+    estado.id_estado = est
+    soli.id_estado = estado
+
+    try:
+        soli.save()
+        messages.success(request, 'Lista agregada correctamente')
+    except:
+        messages.error(request, 'No se ha podido agregar la lista')
+
     return render(request, "core/formulario_solicitud.html")
 
 def registro_minorista(request):
@@ -122,8 +195,6 @@ def codigo_activacion(request):
             messages.error(request, 'Usuario no existente o código de activación no valido')
             return render(request,"registration/codigo_activacion.html")
     return render(request, "registration/codigo_activacion.html")
-
-
 
 
 

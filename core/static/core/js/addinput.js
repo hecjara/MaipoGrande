@@ -41,6 +41,8 @@ function crearInputs() {
 
         prod.type = "select";
         prod.name = "producto" + contador;
+        // prod.value = "{{ p.id_producto }}";
+        // prod.options = "{{ p.nombre }}";
         // prod.id = "producto "+ contador;
         prod.setAttribute("class", "form-control w-50 p-3");
         cant.type = "number";
@@ -54,6 +56,9 @@ function crearInputs() {
         container2.appendChild(document.createElement("br"));
     // }
 }
+
+
+
 
 // function addFields(){
 //     // Number of inputs to create
