@@ -38,17 +38,34 @@
                     <td class="text-center">{{ s.id_solicitud }}</td>
                     <td class="text-center">{{ s.fecha_pedido }}</td>
                     <td class="text-center">{{ s.id_estado.nombre_estado }}</td>
-                    <td class="text-center">Entre {{ s.fecha_min }} y {{ s.fecha_max }} </td>
-                    <td class="text-center">
-                        <a class="btn btn-primary btn-sm" href=""><i class="fas fa-cogs mr-1"></i>Modificar</a>
-                        <a class="btn btn-danger btn-rounded btn-sm" href=""><i class="fas fa-minus-circle mr-1" aria-hidden="true"></i>Anular</a>
-                    </td>
-                    <td class="text-center">
-                        <a class="btn btn-primary btn-sm" href="{% url 'agregar_producto' s.id_solicitud %}"><i class="fas fa-cart-plus mr-1"></i>Agregar</a>
-                        <a class="btn btn-primary btn-sm" href="{% url 'listar_productos' s.id_solicitud %}"><i class="fas fa-cog mr-1"></i>Administrar</a>
-                    </td>
-                </tr>
+                    <td class="text-center">Entre {{ s.fecha_min|date:"d M" }} y {{ s.fecha_max|date:"d M Y" }} </td>
 
+                    {% if s.id_estado.nombre_estado == 'Anulado' %}
+
+                        <td class="text-center">
+                            <!-- <a class="btn btn-primary btn-sm" href=""><i class="fas fa-cogs mr-1"></i>Modificar</a> -->
+                            <a class="btn btn-danger btn-rounded btn-sm disabled" href="{% url 'anular_solicitud' s.id_solicitud %}" aria-disabled="true" role="button" ><i class="fas fa-minus-circle mr-1" aria-hidden="true"></i>Anular</a>
+                        </td>
+                        <td class="text-center">
+                            <a class="btn btn-primary btn-sm disabled" href="{% url 'agregar_producto' s.id_solicitud %}" aria-disabled="true" role="button" ><i class="fas fa-cart-plus mr-1"></i>Agregar</a>
+                            <a class="btn btn-primary btn-sm disabled" href="{% url 'listar_productos' s.id_solicitud %}" aria-disabled="true" role="button" ><i class="fas fa-cog mr-1"></i>Administrar</a>
+                        </td>
+
+                    {% else %}
+
+                        <td class="text-center">
+                            <!-- <a class="btn btn-primary btn-sm" href=""><i class="fas fa-cogs mr-1"></i>Modificar</a> -->
+                            <a class="btn btn-danger btn-rounded btn-sm" href="{% url 'anular_solicitud' s.id_solicitud %}"><i class="fas fa-minus-circle mr-1" aria-hidden="true"></i>Anular</a>
+                        </td>
+                        <td class="text-center">
+                            <a class="btn btn-primary btn-sm" href="{% url 'agregar_producto' s.id_solicitud %}"><i class="fas fa-cart-plus mr-1"></i>Agregar</a>
+                            <a class="btn btn-primary btn-sm" href="{% url 'listar_productos' s.id_solicitud %}"><i class="fas fa-cog mr-1"></i>Administrar</a>
+                        </td>
+
+                    {% endif %}
+
+                </tr>
+                
                 {% endfor %}
 
 

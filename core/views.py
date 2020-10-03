@@ -35,6 +35,22 @@ def solicitud_compra(request):
 
 
 @login_required
+def anular_solicitud(request, id):
+    solicitud = SOLICITUD_COMPRA.objects.get(pk=id)
+
+    estado = ESTADO_SOLICITUD()
+    estado.id_estado = 9 # 9: anulado
+    solicitud.id_estado = estado
+
+    try:
+        solicitud.save()
+        messages.success(request, "La solicitud ha sido anulada correctamente.")
+    except Exception as e:
+            messages.error(request, "Error al intentar agregar el producto a la solicitud" + str(e))
+    return redirect('solicitud_compra')
+
+
+@login_required
 def listar_productos(request, id):  # id de la solicitud
 
     det = DETALLE_SOLICITUD.objects.filter(id_solicitud=id)
