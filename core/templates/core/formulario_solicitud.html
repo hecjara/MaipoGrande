@@ -12,7 +12,7 @@
 {% block contenido %}
 <br>
 
-<div class="container">
+<div class="col-md-5 container">
     <p class="h4 mb-4">Solicitud de productos</p>
 
     <form action="" method="POST">
@@ -22,28 +22,28 @@
 
         <div class="card" style="width: auto;">
             <div class="card-body">
-                <label for="">Dirección de entrega:</label>
-                <input type="text" name="direccion" id="direccion" class="form-control w-50 p-3">
+                <label for="direccion">Dirección de entrega:</label>
+                <input type="text" name="direccion" id="direccion" class="form-control w-50 p-3" required>
             </div>
         </div>
 
 
         <div class="card" style="width: auto;">
             <div class="card-body">
-                <label for="">Rango fecha de entrega:</label>
+                <label for="min">Rango fecha de entrega:</label>
                 <hr>
                 <div class="form-row mb-4">
                     <div class="form-row mb-4">
                         <div class="col mr-2">
-                            <label for="">Desde:</label>
-                            <input type="date" name="min" id="min" class="form-control">
+                            <label for="min">Desde:</label>
+                            <input type="date" name="min" id="min" class="form-control" required>
                         </div>
                     </div>
 
                     <div class="form-row mb-4">
                         <div class="col">
-                            <label for="">Hasta:</label>
-                            <input type="date" name="max" id="max" class="form-control">
+                            <label for="max">Hasta:</label>
+                            <input type="date" name="max" id="max" class="form-control" required>
                         </div>
                     </div>
                 </div>

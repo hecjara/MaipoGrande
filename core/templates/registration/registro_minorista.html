@@ -5,18 +5,23 @@
 
 {% block contenido %}
 <br>
-<div class="container">
-    <h2>Registro de compradores minoristas</h2>
-</div>
 
-<form action="" method="POST" class="container">
-    {% csrf_token %}
-    {{ form|crispy }}
+<!-- <div class="col-md-3 container"> -->
+    <div class="container">
+        <h2>Registro de compradores minoristas</h2>
+    </div>
+    
+    <form action="" method="POST" class="container">
+        {% csrf_token %}
+        {{ form|crispy }}
+    
+        <input type="reset" value="Limpiar" class="btn btn-success">
+        <input type="submit" value="Registrar" class="btn btn-info">
+    
+    </form>
+<!-- </div> -->
 
-    <input type="reset" value="Limpiar" class="btn btn-success">
-    <input type="submit" value="Registrar" class="btn btn-info">
 
-</form>
 <br>
 
 

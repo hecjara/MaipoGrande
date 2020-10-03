@@ -12,59 +12,36 @@
         <strong>Ingresa tu código de activación</strong>
     </h5>
 
-    <form method="POST"> 
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="codigo">Código:</label>
-            <input type="text" class="form-control" id="codigo" name="codigo">
-        </div>
-        <div class="form-group">
-            <label for="rut">RUT (Sin puntos y con guión):</label>
-            <input type="text" class="form-control" id="rut" name="rut" placeholder="Ej: 12345678-9">
-        </div>
-        <div class="form-group">
-            <label for="dni">DNI:</label>
-            <input type="text" class="form-control" id="dni" name="dni" placeholder="Ingrese solo en caso de ser extranjero.">
-        </div>
-        <button type="submit" class="btn btn-primary">Activar</button>
-    </form>
+    <div class="col-md-5 container">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="codigo">Código:</label>
+                <input type="text" class="form-control" id="codigo" name="codigo">
+            </div>
+            <div class="form-group">
+                <label for="rut">RUT (Sin puntos y con guión):</label>
+                <input type="text" class="form-control" id="rut" name="rut" placeholder="Ej: 12345678-9">
+            </div>
+            <div class="form-group">
+                <label for="dni">DNI:</label>
+                <input type="text" class="form-control" id="dni" name="dni"
+                    placeholder="Ingrese solo en caso de ser extranjero.">
+            </div>
+            <div class="col text-center">
+                <button type="submit" class="btn btn-primary">Activar</button>
+            </div>
+
+            
+        </form>
+    </div>
+
+
     <br>
 
 </div>
 
 <br>
-
-
-
-<!-- <div class="card container">
-    <h5 class="card-header info-color white-text text-center py-4">
-        <strong>Ingresa tu código de activación</strong>
-    </h5>
-    <div class="card-body px-lg-5 pt-0">
-        <form class="text-center" style="color: #757575;" action="#!" action="" method="POST">
-            <br>
-            {% csrf_token %}
-            <div class="md-form mt-0">
-                <input type="text" id="codigo" class="form-control" name="codigo">
-                <label for="codigo">Código de activación</label>
-            </div>
-            <div class="md-form mt-0">
-                <input type="text" id="rut" class="form-control" name="rut">
-                <label for="rut">RUT</label>
-            </div>
-            <div class="md-form mt-0">
-                <input type="text" id="dni" class="form-control" name="dni"
-                    placeholder="Ingrese solo en caso de ser extranjero.">
-                <label for="dni">DNI</label>
-            </div>
-            <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
-                type="submit">Activar</button>
-            <hr>
-        </form>
-    </div>
-</div> -->
-
-
 
 <div class="d-flex justify-content-center">
     {% if messages %}
@@ -78,8 +55,6 @@
     {% endif %}
 </div>
 
-
-
 {% if perso %}
 
 {% for p in perso %}
@@ -90,7 +65,7 @@
         <tr>
             <th class="text-center">Nombres</th>
             <th class="text-center">Apellidos</th>
-            <th class="text-center">Email</th>
+            <th class="text-center">Tipo Cuenta</th>
             <th class="text-center">Opciones</th>
         </tr>
     </thead>
@@ -103,7 +78,7 @@
             {{p.apellidos}}
         </td>
         <td class="text-center">
-            {{p.email}}
+            {{p.id_tipo.nombre_tipo}}
         </td>
         <td class="text-center">
             <a href="{% url 'registro_usuario' p.codigo_activacion %}" class="btn btn-success">Activar Usuario</a>

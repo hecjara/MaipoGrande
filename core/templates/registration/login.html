@@ -6,18 +6,22 @@
 {% block contenido %}
 <br>
 
-    <div class="container">
-        <h2>Autenticación</h2>
-        <form action="" method="POST">
-            {% csrf_token %}
-            <table>
-                {{ form.username|as_crispy_field }}
-                {{ form.password|as_crispy_field }}
-            </table>
-            
-            <input type="submit" value="Login" class="btn btn-info btn-block my-4 waves-effect waves-light">
-        </form>
-    </div>
+
+<div class="col-md-3 container">
+    <h2>Autenticación</h2>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table>
+            {{ form.username|as_crispy_field }}
+            {{ form.password|as_crispy_field }}
+        </table>
+
+        <input type="submit" value="Login" class="btn btn-info btn-block my-4 waves-effect waves-light">
+    </form>
+</div>
+
+
+
 <br>
 
 

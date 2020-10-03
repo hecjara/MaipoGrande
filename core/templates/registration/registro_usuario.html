@@ -52,20 +52,26 @@
 
 {% endif %}
 
-    <h2>Registro de usuario</h2>
-    <form action="" method="POST" class="container">
-        {% csrf_token %}
+<br>
 
-        <table>
-            {{ form2.username|as_crispy_field }}
-            {{ form2.password1|as_crispy_field }}
-            {{ form2.password2|as_crispy_field }}
-        </table>
+    <div class="col-md-3 container">
+        <h2>Registro de usuario</h2>
+        <form action="" method="POST">
+            {% csrf_token %}
+    
+            <table>
+                {{ form2.username|as_crispy_field }}
+                {{ form2.password1|as_crispy_field }}
+                {{ form2.password2|as_crispy_field }}
+            </table>
+    
+            <input type="reset" value="Limpiar" class="btn btn-info">
+            <input type="submit" value="Registrar" class="btn btn-success">
+    
+        </form>
+    </div>
 
-        <input type="reset" value="Limpiar" class="btn btn-light-blue">
-        <input type="submit" value="Registrar" class="btn btn-dark-green">
 
-    </form>
 
 
 {% endblock %}

@@ -13,7 +13,7 @@ from .models import (
     TIPO_PERSONA,
 )
 import cx_Oracle
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib import messages
 from datetime import date
 from datetime import datetime
@@ -154,6 +154,11 @@ def registro_minorista(request):
 
             per.save()
 
+
+            grupo = Group.objects.get(name='CompradorMinorista') 
+            grupo.user_set.add(usu)
+
+
             # autenticar al usuario y redirigirlo al inicio
             username = formulario.cleaned_data["username"]
             password = formulario.cleaned_data["password1"]
@@ -181,6 +186,16 @@ def registro_usuario(request, cod):
             per.id_usuario = usu
 
             per.save()
+
+            if per.id_tipo.nombre_tipo == 'CompradorMayorista':
+                grupo = Group.objects.get(name='CompradorMayorista') 
+                grupo.user_set.add(usu)
+            elif per.id_tipo.nombre_tipo == 'Proveedor':
+                grupo = Group.objects.get(name='Proveedor') 
+                grupo.user_set.add(usu)
+            elif per.id_tipo.nombre_tipo == 'Transportista':
+                grupo = Group.objects.get(name='Transportista') 
+                grupo.user_set.add(usu)
 
             # autenticar al usuario y redirigirlo al inicio
             username = formulario.cleaned_data["username"]
