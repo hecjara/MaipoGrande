@@ -10,6 +10,7 @@ from .models import (
     SOLICITUD_COMPRA,
     ESTADO_SOLICITUD,
     DETALLE_SOLICITUD,
+    TIPO_PERSONA,
 )
 import cx_Oracle
 from django.contrib.auth.models import User
@@ -108,14 +109,14 @@ def formulario_solicitud(request):
 def registro_minorista(request):
 
     data = {"form": CustomUserForm()}
-
+    tp = 3
     if request.method == "POST":
         formulario = CustomUserForm(request.POST)
         if formulario.is_valid():
             formulario.save()
 
             per = PERSONA()
-
+            
             usu = User.objects.last()
 
             per.id_usuario = usu
@@ -130,6 +131,10 @@ def registro_minorista(request):
             pa = PAIS()
             pa.id_pais = formulario["pais"].value()
             per.id_pais = pa
+
+            tipo = TIPO_PERSONA()
+            tipo.id_tipo = tp
+            per.id_tipo = tipo
 
             per.save()
 
