@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 
 {% load static %}
-
+{% load auth_extras %}
 {% block javascript %}
 <!-- <script src="{% static 'core/js/aaa.js' %}"></script> -->
 
@@ -12,31 +12,42 @@
 <br>
 
 {% if request.user.is_authenticated %}
+    {% if request.user|has_group:"CompradorMayorista" %}
+      <div class="container">
+        <div class="row row-cols-1 row-cols-md-2">
+          <div class="col mb-4">
+            <div class="card">
+              <img src="{% static 'core/img/solicitar.jpg' %}" class="card-img-top" alt="solicitar">
+              <div class="card-body">
+                <h5 class="card-title">Solicitar productos</h5>
+                <p class="card-text">Aqui podras realizar solicitudes de los productos que necesitas, la solicitud abrira un proceso de venta para elegir el mejor precio.</p>
+                <a href="{% url 'formulario_solicitud' %}" class="btn btn-primary">Realizaar solicitud</a>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="{% static 'core/img/check-list.jpg' %}" class="card-img-top" alt="ver solicitudes">
+              <div class="card-body">
+                <h5 class="card-title">Ver mis solicitudes</h5>
+                <p class="card-text">Aquí podras ver las solicitudes que hayas realizado, administrarlas, administrar sus productos y hacer un seguimiento de su estado.</p>
+                <a href="{% url 'solicitud_compra' %}" class="btn btn-primary">Ver mis solicitudes</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<div class="container">
-  <div class="row row-cols-1 row-cols-md-2">
-    <div class="col mb-4">
-      <div class="card">
-        <img src="{% static 'core/img/solicitar.jpg' %}" class="card-img-top" alt="solicitar">
-        <div class="card-body">
-          <h5 class="card-title">Solicitar productos</h5>
-          <p class="card-text">Aqui podras realizar solicitudes de los productos que necesitas, la solicitud abrira un proceso de venta para elegir el mejor precio.</p>
-          <a href="{% url 'formulario_solicitud' %}" class="btn btn-primary">Realizaar solicitud</a>
-        </div>
-      </div>
-    </div>
-    <div class="col mb-4">
-      <div class="card">
-        <img src="{% static 'core/img/check-list.jpg' %}" class="card-img-top" alt="ver solicitudes">
-        <div class="card-body">
-          <h5 class="card-title">Ver mis solicitudes</h5>
-          <p class="card-text">Aquí podras ver las solicitudes que hayas realizado, administrarlas, administrar sus productos y hacer un seguimiento de su estado.</p>
-          <a href="{% url 'solicitud_compra' %}" class="btn btn-primary">Ver mis solicitudes</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+    {% elif request.user|has_group:"CompradorMinorista" %}
+      <h1>Menu comprador minorista</h1>
+
+    {% elif request.user|has_group:"Proveedor" %}
+      <h1>Menu Proveedor</h1>
+
+    {% elif request.user|has_group:"Transportista" %}
+      <h1>Menu Transportista</h1>
+
+    {% endif %}
 
 {% else %}
 

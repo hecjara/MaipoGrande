@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db import connection
 from .forms import CustomUserForm, CustomUserForm2
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth import login, authenticate
 from .models import (
     PERSONA,
@@ -18,12 +18,15 @@ from django.contrib import messages
 from datetime import date
 from datetime import datetime
 
+
+
 # Create your views here.
 
 
 def home(request):
 
     return render(request, "core/home.html")
+
 
 
 @login_required
