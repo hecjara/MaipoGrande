@@ -1,0 +1,121 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% load auth_extras %}
+{% block javascript %}
+<!-- <script src="{% static 'core/js/aaa.js' %}"></script> -->
+
+{% endblock %}
+
+{% block contenido %}
+
+<h3>{{ mensaje }}</h3>
+
+<div class="container">
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        <br>
+
+        <h1 class="d-flex justify-content-center">Formulario modificación de datos personales:</h1>
+
+        <hr>
+
+        <input type="text" name="txtid_usuario" id="txtid_usuario" value="{{ persona.id_usuario_id }}">
+        <input type="text" name="txtpersona" id="txtpersona" value="{{ persona.id_persona }}">
+        <!-- <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="">RUT:</label>
+                <input type="text" name="txtrut" id="txtrut" class="form-control" value="{{ persona.rut }}" disabled>
+
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="">DNI:</label>
+                <input type="text" name="txtdni" id="txtdni" class="form-control" value="{{ persona.dni }}" disabled>
+            </div>
+        </div> -->
+
+        <div class="form-row">
+            {% if persona.rut is not None %}
+
+            <div class="form-group col-md-6">
+                <label for="">RUT:</label>
+                <input type="text" name="txtrut" id="txtrut" class="form-control" value="{{ persona.rut }}">
+            </div>
+            {% else %}
+            <div class="form-group col-md-6">
+                <label for="">DNI:</label>
+                <input type="text" name="txtdni" id="txtdni" class="form-control" value="{{ persona.dni }}">
+            </div>
+
+            {% endif %}
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="">Nombres:</label>
+                <input type="text" name="txtnombres" id="txtnombres" class="form-control" value="{{ persona.nombres }}">
+
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="">Apellidos:</label>
+                <input type="text" name="txtapellidos" id="txtapellidos" class="form-control"
+                    value="{{ persona.apellidos }}">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="">Teléfono:</label>
+                <input type="number" name="txttelefono" id="txttelefono" class="form-control"
+                    value="{{ persona.telefono }}">
+
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="">Correo Electrónico:</label>
+                <input type="email" name="txtemail" id="txtemail" class="form-control" value="{{ persona.email }}">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="">Dirección:</label>
+                <input type="text" name="txtdireccion" id="txtdireccion" class="form-control"
+                    value="{{ persona.direccion }}">
+
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="">País:</label>
+                <select name="cbopais" id="cbopais" class="form-control">
+                    <option value="">Seleccionar</option>
+                    {% for p in pais %}
+                    <option {% if p.id_pais == persona.id_pais.id_pais %} {{'selected'}} {% endif %}
+                        value="{{ p.id_pais }}">{{ p.nombre_pais }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="">Fecha de nacimiento:</label>
+                <input type="date" name="txtfecha" id="txtfecha" class="form-control" date
+                    value="{{ persona.fecha_nacimiento|date:"Y-m-d" }}">
+
+            </div>
+
+        </div>
+
+        <input type="submit" value="Modificar datos" class="btn btn-success">
+        <input type="submit" value="Volver" class="btn btn-warning">
+
+    </form>
+</div>
+
+
+
+{% endblock %}

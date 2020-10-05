@@ -69,8 +69,8 @@
                             Usuario: {{ request.user.username }} <i class="fas fa-user"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Perfil <i class="far fa-id-card"></i></a>
-                            <a class="dropdown-item" href="#">Actualizar Datos <i class="fas fa-users-cog"></i></a>
+                            <a class="dropdown-item" href="{% url 'perfil_usuario' request.user.id %}">Perfil Usuaraio <i class="far fa-id-card"></i></a>
+                            <a class="dropdown-item" href="{% url 'perfil_usuario' request.user.id %}">Actualizar Datos <i class="fas fa-users-cog"></i></a>
                             <a class="dropdown-item" href="{% url 'logout' %}">Desconectarse <i
                                     class="fas fa-sign-out-alt"></i></a>
                         </div>

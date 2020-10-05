@@ -28,6 +28,56 @@ def home(request):
     return render(request, "core/home.html")
 
 
+@login_required
+def modificar_datos_personales(request, id):
+
+    persona = PERSONA.objects.get(id_usuario=id)
+    pais = PAIS.objects.all()
+
+    variables = {
+        'pais':pais,
+        'persona':persona
+    }
+
+    if request.POST:
+        persona = PERSONA()
+
+        usu = User()
+        usu.id = request.POST.get('txtid_usuario')
+
+        persona.id_usuario_id = usu
+        persona.rut = request.POST.get('txtrut')
+        persona.dni = request.POST.get('txtdni')
+        persona.id_persona = request.POST.get('txtpersona')
+        persona.nombres = request.POST.get('txtnombres')
+        persona.apellidos = request.POST.get('txtapellidos')
+        persona.fecha_nacimiento = request.POST.get('txtfecha')
+        persona.telefono = request.POST.get('txttelefono')
+        persona.email = request.POST.get('txtemail')
+        persona.direccion = request.POST.get('txtdireccion')
+
+        pais = PAIS()
+        pais.id_pais = request.POST.get('cbopais')
+        persona.id_pais = pais
+
+        try:
+            persona.save()
+            messages.success(request, "Sus datos personales han sido modificados correctamente.")
+        except Exception as e:
+            messages.error(request, "Error al intentar modificar sus datos personales" + str(e))
+        return redirect('perfil_usuario', request.user.id)
+
+    return render(request, "core/modificar_datos_personales.html", variables)
+
+def perfil_usuario(request, id):
+    persona = PERSONA.objects.get(id_usuario=id)
+    pais = PAIS.objects.all()
+
+    return render(request, "core/perfil_usuario.html", {
+        'persona':persona,
+        'pais':pais
+    })
+
 
 @login_required
 def solicitud_compra(request):
@@ -238,4 +288,5 @@ def codigo_activacion(request):
             )
             return render(request, "registration/codigo_activacion.html")
     return render(request, "registration/codigo_activacion.html")
+
 
