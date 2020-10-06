@@ -13,7 +13,7 @@
 <div class="container table-responsive">
     <table class="table table-bordered table-hover table-condensed">
         <tr>
-            <thead class="table-success"> 
+            <thead class="table-success">
                 <!-- <th>id detalle</th>
                 <th>id solicitud</th> -->
                 <th class="text-center">Producto</th>
@@ -21,7 +21,7 @@
                 <th class="text-center">Opciones</th>
             </thead>
         </tr>
-    
+
         <tbody>
             {% for d in det %}
             <tr>
@@ -30,20 +30,29 @@
                 <td class="text-center">{{ d.id_producto.nombre }}</td>
                 <td class="text-center">{{ d.cantidad }} Kilos</td>
                 <td class="text-center">
-                    <a href="#" role="button" class="btn btn-primary">Modificar</a>
-                    <a href="{% url 'eliminar_detalleproducto' d.id_detalle %}" role="button" class="btn btn-danger">Eliminar</a>
-                    <a href="{% url 'agregar_producto' d.id_solicitud.id_solicitud %}" role="button" class="btn btn-success">Agregar otro Producto</a>
+                    <a href="{% url 'modificar_detalleproducto' d.id_detalle %}" role="button"
+                        class="btn btn-primary">Modificar</a>
+                    <a href="{% url 'eliminar_detalleproducto' d.id_detalle %}" role="button"
+                        class="btn btn-danger">Eliminar</a>
+                    <a href="{% url 'agregar_producto' d.id_solicitud.id_solicitud %}" role="button"
+                        class="btn btn-success">Agregar otro Producto</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
 
-        
+
     </table>
-  
+
 </div>
 
-
+<div class="d-flex justify-content-center">
+    {% if messages %}
+    {% for m in messages %}
+    <div>{{ m }}</div>
+    {% endfor %}
+    {% endif %}
+</div>
 
 
 

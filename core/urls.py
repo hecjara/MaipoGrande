@@ -12,6 +12,7 @@ from .views import (
     modificar_datos_personales,
     perfil_usuario,
     eliminar_detalleproducto,
+    modificar_detalleproducto,
  
 )
 
@@ -32,5 +33,5 @@ urlpatterns = [
         name="modificar_datos_personales",
     ),
     path("eliminar_detalleproducto/<id>/", eliminar_detalleproducto, name="eliminar_detalleproducto"),
-
+    path("modificar_detalleproducto/<id>/", modificar_detalleproducto, name="modificar_detalleproducto"),
 ]

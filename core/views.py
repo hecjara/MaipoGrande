@@ -117,6 +117,39 @@ def eliminar_detalleproducto(request, id):
         messages.error(request, "Error al intentar eliminar el producto" + str(e))
     return redirect('listar_productos', detalle.id_solicitud.id_solicitud)
 
+@login_required
+def modificar_detalleproducto(request, id):
+    detalle = DETALLE_SOLICITUD.objects.get(pk=id)
+    productos = PRODUCTO.objects.all()
+
+    variables = {
+        'detalle':detalle,
+        'productos':productos
+    }
+
+    if request.POST:
+        detalle = DETALLE_SOLICITUD()
+
+        detalle.id_detalle = request.POST.get('iddetalle')
+        detalle.cantidad = request.POST.get('cant')
+
+        solicitud = SOLICITUD_COMPRA()
+        solicitud.id_solicitud = request.POST.get('idsolicitud')
+        detalle.id_solicitud = solicitud
+
+        producto = PRODUCTO()
+        producto.id_producto = request.POST.get('cboproducto')
+        detalle.id_producto = producto
+
+        try:
+            detalle.save()
+            messages.success(request, "Producto modificado correctamente.")
+        except Exception as e:
+            messages.error(request, "Error al intentar modificar el producto" + str(e))
+        return redirect('listar_productos', detalle.id_solicitud.id_solicitud)
+
+    return render(request, "core/modificar_detalleproducto.html", variables)
+
 
 @login_required
 def listar_productos(request, id):  # id de la solicitud
