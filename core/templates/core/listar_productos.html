@@ -4,14 +4,18 @@
 
 {% block contenido %}
 
+
+
+
 <br>
 <h2 class="d-flex justify-content-around">Productos de la Solicitud:</h2>
 <br>
-
-<div class="container">
-    <table>
+<div class="container table-responsive">
+    <table class="table table-bordered table-hover table-condensed">
         <tr>
-            <thead>
+            <thead class="table-success"> 
+                <!-- <th>id detalle</th>
+                <th>id solicitud</th> -->
                 <th class="text-center">Producto</th>
                 <th class="text-center">Cantidad</th>
                 <th class="text-center">Opciones</th>
@@ -21,18 +25,25 @@
         <tbody>
             {% for d in det %}
             <tr>
+                <!-- <td>{{ d.id_detalle }}</td>
+                <td>{{ d.id_solicitud.id_solicitud }}</td> -->
                 <td class="text-center">{{ d.id_producto.nombre }}</td>
-                <td class="text-center">{{ d.cantidad }}</td>
+                <td class="text-center">{{ d.cantidad }} Kilos</td>
                 <td class="text-center">
-                    <a href="#">Modificar</a>
-                    <a href="#">Eliminar</a>
+                    <a href="#" role="button" class="btn btn-primary">Modificar</a>
+                    <a href="{% url 'eliminar_detalleproducto' d.id_detalle %}" role="button" class="btn btn-danger">Eliminar</a>
+                    <a href="{% url 'agregar_producto' d.id_solicitud.id_solicitud %}" role="button" class="btn btn-success">Agregar otro Producto</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
-    
+
+        
     </table>
+  
 </div>
+
+
 
 
 

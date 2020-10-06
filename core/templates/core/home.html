@@ -40,13 +40,82 @@
 
     {% elif request.user|has_group:"CompradorMinorista" %}
       <h1>Menu comprador minorista</h1>
-
+      <div class="container">
+        <div class="row row-cols-1 row-cols-md-2">
+          <div class="col mb-4">
+            <div class="card">
+              <img src="{% static 'core/img/solicitar.jpg' %}" class="card-img-top" alt="agregar">
+              <div class="card-body">
+                <h5 class="card-title">Ver ventas de saldo</h5>
+                <p class="card-text">Aqui podras realizar la compra de productos de saldo.</p>
+                <a href="" class="btn btn-primary">Ventas de saldo</a>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col mb-4">
+            <div class="card">
+              <img src="{% static 'core/img/check-list.jpg' %}" class="card-img-top" alt="ver subastas">
+              <div class="card-body">
+                <h5 class="card-title">Ver subastas activas</h5>
+                <p class="card-text">Aca podras ver las subastas activas y realizar ofertas.</p>
+                <a href="{% url '#' %}" class="btn btn-primary">Ver subastas</a>
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </div>
     {% elif request.user|has_group:"Proveedor" %}
       <h1>Menu Proveedor</h1>
-
+      <div class="container">
+        <div class="row row-cols-1 row-cols-md-2">
+          <div class="col mb-4">
+            <div class="card">
+              <img src="{% static 'core/img/solicitar.jpg' %}" class="card-img-top" alt="agregar">
+              <div class="card-body">
+                <h5 class="card-title">Agregar productos a bodega</h5>
+                <p class="card-text">Aqui podras agregar productos a la bodega de Maipo Grande para que puedan participar de las subastas.</p>
+                <a href="" class="btn btn-primary">Administrar productos</a>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="{% static 'core/img/check-list.jpg' %}" class="card-img-top" alt="ver subastas">
+              <div class="card-body">
+                <h5 class="card-title">Ver subastas activas</h5>
+                <p class="card-text">Aca podras ver las subastas activas y realizar ofertas.</p>
+                <a href="" class="btn btn-primary">Ver subastas</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     {% elif request.user|has_group:"Transportista" %}
       <h1>Menu Transportista</h1>
-
+      <div class="container">
+        <div class="row row-cols-1 row-cols-md-2">
+          <div class="col mb-4">
+            <div class="card">
+              <img src="{% static 'core/img/solicitar.jpg' %}" class="card-img-top" alt="agregar">
+              <div class="card-body">
+                <h5 class="card-title">Subastas transporte</h5>
+                <p class="card-text">Aqui podras ver las subastas de transporte y participar.</p>
+                <a href="" class="btn btn-primary">Ver subastas de transporte</a>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col mb-4">
+            <div class="card">
+              <img src="{% static 'core/img/check-list.jpg' %}" class="card-img-top" alt="ver subastas">
+              <div class="card-body">
+                <h5 class="card-title">Ver subastas activas</h5>
+                <p class="card-text">Aca podras ver las subastas activas y realizar ofertas.</p>
+                <a href="{% url '#' %}" class="btn btn-primary">Ver subastas</a>
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </div>
     {% endif %}
 
 {% else %}

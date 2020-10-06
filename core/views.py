@@ -41,7 +41,7 @@ def modificar_datos_personales(request, id):
 
     if request.POST:
         persona = PERSONA()
-
+        tp=3
         usu = User()
         usu.id = request.POST.get('txtid_usuario')
 
@@ -59,6 +59,10 @@ def modificar_datos_personales(request, id):
         pais = PAIS()
         pais.id_pais = request.POST.get('cbopais')
         persona.id_pais = pais
+
+        tipo = TIPO_PERSONA()
+        tipo.id_tipo = tp
+        persona.id_tipo = tipo
 
         try:
             persona.save()
@@ -102,13 +106,27 @@ def anular_solicitud(request, id):
             messages.error(request, "Error al intentar agregar el producto a la solicitud" + str(e))
     return redirect('solicitud_compra')
 
+@login_required
+def eliminar_detalleproducto(request, id):
+    detalle = DETALLE_SOLICITUD.objects.get(pk=id)
+
+    try:
+        detalle.delete()
+        messages.success(request, "Producto eliminado correctamente.")
+    except Exception as e:
+        messages.error(request, "Error al intentar eliminar el producto" + str(e))
+    return redirect('listar_productos', detalle.id_solicitud.id_solicitud)
+
 
 @login_required
 def listar_productos(request, id):  # id de la solicitud
 
     det = DETALLE_SOLICITUD.objects.filter(id_solicitud=id)
+    variables = {
+        "det":det
+    }
 
-    return render(request, "core/listar_productos.html", {"det": det})
+    return render(request, "core/listar_productos.html", variables)
 
 
 @login_required
