@@ -170,7 +170,6 @@ class PROCESO_VENTA(models.Model):
     fecha_termino = models.DateTimeField(null=False, blank=False)
     id_solicitud = models.ForeignKey(SOLICITUD_COMPRA, on_delete=models.CASCADE, null=True, blank=True)
     id_postulacion = models.ForeignKey(POSTULACION_PRODUCTO, on_delete=models.CASCADE)
-    id_tipo = models.ForeignKey(TIPO_PROCESO_VENTA, on_delete=models.CASCADE)
     id_estado = models.ForeignKey(ESTADO_PROCESO_VENTA, on_delete=models.CASCADE)
 
 class SUBASTA_TRANSPORTE(models.Model):
