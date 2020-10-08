@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
 from django.db import connection
 from .forms import CustomUserForm, CustomUserForm2
-from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
+from django.contrib.auth.decorators import (
+    login_required,
+    permission_required,
+    user_passes_test,
+)
 from django.contrib.auth import login, authenticate
 from .models import (
     PERSONA,
@@ -18,31 +22,40 @@ from django.contrib.auth.models import User, Group
 from django.contrib import messages
 from datetime import date
 from datetime import datetime
-
+from django.db import connection
+from django.core.files.base import ContentFile
+import base64
 
 
 # Create your views here.
 
 
-def home(request):
-
+def home(request):     
     return render(request, "core/home.html")
 
 
-def listar_procesoventa(request):
-
-    proceso = PROCESO_VENTA.objects.all()
-    detalle = DETALLE_SOLICITUD.objects.all()
-    solicitud = SOLICITUD_COMPRA.objects.all()
-
-    variables = {
-        'proceso':proceso,
-        'detalle':detalle,
-        'solicitud':solicitud
+def procesos_venta(request):  # listar procesos de ventas activos
+    
+    data = {
+        'procesos':listar_procesoventa()
     }
 
+    return render(request, "core/procesos_venta.html", data)
 
-    return render(request, "core/listar_procesoventa.html", variables)
+
+def listar_procesoventa():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_PROCESOVENTA", [out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
 
 @login_required
 def modificar_datos_personales(request, id):
@@ -50,30 +63,27 @@ def modificar_datos_personales(request, id):
     persona = PERSONA.objects.get(id_usuario=id)
     pais = PAIS.objects.all()
 
-    variables = {
-        'pais':pais,
-        'persona':persona
-    }
+    variables = {"pais": pais, "persona": persona}
 
     if request.POST:
         persona = PERSONA()
-        tp=3
+        tp = 3
         usu = User()
-        usu.id = request.POST.get('txtid_usuario')
+        usu.id = request.POST.get("txtid_usuario")
 
         persona.id_usuario_id = usu
-        persona.rut = request.POST.get('txtrut')
-        persona.dni = request.POST.get('txtdni')
-        persona.id_persona = request.POST.get('txtpersona')
-        persona.nombres = request.POST.get('txtnombres')
-        persona.apellidos = request.POST.get('txtapellidos')
-        persona.fecha_nacimiento = request.POST.get('txtfecha')
-        persona.telefono = request.POST.get('txttelefono')
-        persona.email = request.POST.get('txtemail')
-        persona.direccion = request.POST.get('txtdireccion')
+        persona.rut = request.POST.get("txtrut")
+        persona.dni = request.POST.get("txtdni")
+        persona.id_persona = request.POST.get("txtpersona")
+        persona.nombres = request.POST.get("txtnombres")
+        persona.apellidos = request.POST.get("txtapellidos")
+        persona.fecha_nacimiento = request.POST.get("txtfecha")
+        persona.telefono = request.POST.get("txttelefono")
+        persona.email = request.POST.get("txtemail")
+        persona.direccion = request.POST.get("txtdireccion")
 
         pais = PAIS()
-        pais.id_pais = request.POST.get('cbopais')
+        pais.id_pais = request.POST.get("cbopais")
         persona.id_pais = pais
 
         tipo = TIPO_PERSONA()
@@ -82,22 +92,29 @@ def modificar_datos_personales(request, id):
 
         try:
             persona.save()
-            messages.success(request, "Sus datos personales han sido modificados correctamente.", extra_tags='alert alert-success')
-        except Exception as e:
-            messages.error(request, "Error al intentar modificar sus datos personales" + str(e), extra_tags='alert alert-danger'
+            messages.success(
+                request,
+                "Sus datos personales han sido modificados correctamente.",
+                extra_tags="alert alert-success",
             )
-        return redirect('perfil_usuario', request.user.id)
+        except Exception as e:
+            messages.error(
+                request,
+                "Error al intentar modificar sus datos personales" + str(e),
+                extra_tags="alert alert-danger",
+            )
+        return redirect("perfil_usuario", request.user.id)
 
     return render(request, "core/modificar_datos_personales.html", variables)
+
 
 def perfil_usuario(request, id):
     persona = PERSONA.objects.get(id_usuario=id)
     pais = PAIS.objects.all()
 
-    return render(request, "core/perfil_usuario.html", {
-        'persona':persona,
-        'pais':pais
-    })
+    return render(
+        request, "core/perfil_usuario.html", {"persona": persona, "pais": pais}
+    )
 
 
 @login_required
@@ -113,16 +130,24 @@ def anular_solicitud(request, id):
     solicitud = SOLICITUD_COMPRA.objects.get(pk=id)
 
     estado = ESTADO_SOLICITUD()
-    estado.id_estado = 9 # 9: anulado
+    estado.id_estado = 9  # 9: anulado
     solicitud.id_estado = estado
 
     try:
         solicitud.save()
-        messages.success(request, "La solicitud ha sido anulada correctamente.", extra_tags='alert alert-success')
+        messages.success(
+            request,
+            "La solicitud ha sido anulada correctamente.",
+            extra_tags="alert alert-success",
+        )
     except Exception as e:
-            messages.error(request, "Error al intentar agregar el producto a la solicitud" + str(e), extra_tags='alert alert-danger'
-            )
-    return redirect('solicitud_compra')
+        messages.error(
+            request,
+            "Error al intentar agregar el producto a la solicitud" + str(e),
+            extra_tags="alert alert-danger",
+        )
+    return redirect("solicitud_compra")
+
 
 @login_required
 def eliminar_detalleproducto(request, id):
@@ -130,11 +155,19 @@ def eliminar_detalleproducto(request, id):
 
     try:
         detalle.delete()
-        messages.success(request, "Producto eliminado correctamente.", extra_tags='alert alert-success')
-    except Exception as e:
-        messages.error(request, "Error al intentar eliminar el producto" + str(e), extra_tags='alert alert-danger'
+        messages.success(
+            request,
+            "Producto eliminado correctamente.",
+            extra_tags="alert alert-success",
         )
-    return redirect('listar_productos', detalle.id_solicitud.id_solicitud)
+    except Exception as e:
+        messages.error(
+            request,
+            "Error al intentar eliminar el producto" + str(e),
+            extra_tags="alert alert-danger",
+        )
+    return redirect("listar_productos", detalle.id_solicitud.id_solicitud)
+
 
 @login_required
 def modificar_detalleproducto(request, id):
@@ -143,32 +176,37 @@ def modificar_detalleproducto(request, id):
 
     resultado = 0
 
-    variables = {
-        'detalle':detalle,
-        'productos':productos
-    }
+    variables = {"detalle": detalle, "productos": productos}
 
     if request.POST:
         detalle = DETALLE_SOLICITUD()
 
-        detalle.id_detalle = request.POST.get('iddetalle')
-        detalle.cantidad = request.POST.get('cant')
+        detalle.id_detalle = request.POST.get("iddetalle")
+        detalle.cantidad = request.POST.get("cant")
 
         solicitud = SOLICITUD_COMPRA()
-        solicitud.id_solicitud = request.POST.get('idsolicitud')
+        solicitud.id_solicitud = request.POST.get("idsolicitud")
         detalle.id_solicitud = solicitud
 
         producto = PRODUCTO()
-        producto.id_producto = request.POST.get('cboproducto')
+        producto.id_producto = request.POST.get("cboproducto")
         detalle.id_producto = producto
 
         try:
             detalle.save()
-            messages.success(request, "Producto modificado correctamente.", extra_tags='alert alert-success')
+            messages.success(
+                request,
+                "Producto modificado correctamente.",
+                extra_tags="alert alert-success",
+            )
 
         except Exception as e:
-            messages.error(request, "Error al intentar modificar el producto" + str(e), extra_tags='alert alert-danger')
-        return redirect('listar_productos', detalle.id_solicitud.id_solicitud)
+            messages.error(
+                request,
+                "Error al intentar modificar el producto" + str(e),
+                extra_tags="alert alert-danger",
+            )
+        return redirect("listar_productos", detalle.id_solicitud.id_solicitud)
 
     return render(request, "core/modificar_detalleproducto.html", variables)
 
@@ -177,9 +215,7 @@ def modificar_detalleproducto(request, id):
 def listar_productos(request, id):  # id de la solicitud
 
     det = DETALLE_SOLICITUD.objects.filter(id_solicitud=id)
-    variables = {
-        "det":det
-    }
+    variables = {"det": det}
 
     return render(request, "core/listar_productos.html", variables)
 
@@ -207,11 +243,17 @@ def agregar_producto(request, id):
 
         try:
             detalle.save()
-            messages.success(request, "Producto agregado a la solicitud correctamente", extra_tags='alert alert-success')
+            messages.success(
+                request,
+                "Producto agregado a la solicitud correctamente",
+                extra_tags="alert alert-success",
+            )
 
         except Exception as e:
             messages.error(
-                request, "Error al intentar agregar el producto a la solicitud" + str(e), extra_tags='alert alert-danger'
+                request,
+                "Error al intentar agregar el producto a la solicitud" + str(e),
+                extra_tags="alert alert-danger",
             )
         return redirect("listar_productos", solicitud.id_solicitud)
 
@@ -237,11 +279,17 @@ def formulario_solicitud(request):
 
         try:
             soli.save()
-            messages.success(request, "Lista agregada correctamente", extra_tags='alert alert-success')
+            messages.success(
+                request,
+                "Lista agregada correctamente",
+                extra_tags="alert alert-success",
+            )
 
         except Exception as e:
             messages.error(
-                request, "No se ha podido agregar la lista" + str(e), extra_tags='alert alert-danger'
+                request,
+                "No se ha podido agregar la lista" + str(e),
+                extra_tags="alert alert-danger",
             )
         return redirect("solicitud_compra")
 
@@ -258,7 +306,7 @@ def registro_minorista(request):
             formulario.save()
 
             per = PERSONA()
-            
+
             usu = User.objects.last()
 
             per.id_usuario = usu
@@ -280,10 +328,8 @@ def registro_minorista(request):
 
             per.save()
 
-
-            grupo = Group.objects.get(name='CompradorMinorista') 
+            grupo = Group.objects.get(name="CompradorMinorista")
             grupo.user_set.add(usu)
-
 
             # autenticar al usuario y redirigirlo al inicio
             username = formulario.cleaned_data["username"]
@@ -313,14 +359,14 @@ def registro_usuario(request, cod):
 
             per.save()
 
-            if per.id_tipo.nombre_tipo == 'CompradorMayorista':
-                grupo = Group.objects.get(name='CompradorMayorista') 
+            if per.id_tipo.nombre_tipo == "CompradorMayorista":
+                grupo = Group.objects.get(name="CompradorMayorista")
                 grupo.user_set.add(usu)
-            elif per.id_tipo.nombre_tipo == 'Proveedor':
-                grupo = Group.objects.get(name='Proveedor') 
+            elif per.id_tipo.nombre_tipo == "Proveedor":
+                grupo = Group.objects.get(name="Proveedor")
                 grupo.user_set.add(usu)
-            elif per.id_tipo.nombre_tipo == 'Transportista':
-                grupo = Group.objects.get(name='Transportista') 
+            elif per.id_tipo.nombre_tipo == "Transportista":
+                grupo = Group.objects.get(name="Transportista")
                 grupo.user_set.add(usu)
 
             # autenticar al usuario y redirigirlo al inicio
@@ -351,15 +397,18 @@ def codigo_activacion(request):
         perso = buscar_persona(cod, rut, dni)
 
         if perso:
-            messages.success(request, "Usuario encontrado!", extra_tags='alert alert-success')
+            messages.success(
+                request, "Usuario encontrado!", extra_tags="alert alert-success"
+            )
             return render(
                 request, "registration/codigo_activacion.html", {"perso": perso}
             )
         else:
             messages.error(
-                request, "Usuario no existente o código de activación no valido", extra_tags='alert alert-danger'
+                request,
+                "Usuario no existente o código de activación no valido",
+                extra_tags="alert alert-danger",
             )
             return render(request, "registration/codigo_activacion.html")
     return render(request, "registration/codigo_activacion.html")
-
 

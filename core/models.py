@@ -123,7 +123,6 @@ class PRODUCTO(models.Model):
     id_producto = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50, null=False, blank=False)
     imagen = models.ImageField(null=True, blank=True)
-    descripcion = models.CharField(max_length=255,null=True, blank=True)
     
 class DETALLE_SOLICITUD(models.Model):
     id_detalle = models.AutoField(primary_key=True)

@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% load auth_extras %}
+{% block javascript %}
+<script src="{% static 'core/js/countdown.js' %}"></script>
+{% endblock %}
+
+{% block contenido %}
+
+<br>
+{% for p in procesos %}
+<div class="container">
+  <div class="card text-center mb-3">
+    <div class="card-header bg-success text-white">
+      {{ p.4 }}
+    </div>
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <img src="{{ p.5 }}" class="card-img" alt="imagen-fruta">
+      </div>
+
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">Producto: {{ p.0 }}</h5>
+          <p class="card-text">Cantidad Solicitada: {{ p.1 }} Kilos</p>
+          <p class="card-text">Inicio: {{ p.2 }}</p>
+          <p class="card-text">Termino: {{ p.3 }}</p>
+          <a href="#" class="btn btn-primary">Postular mi producto</a>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer bg-success text-white">
+      <input type="hidden" name="fechaT" id="fechaT" value="{{ p.3|date:"m/d/y H:00" }}">
+      <p class="card-text" id="cuentaAtras"></p>    
+    </div>
+  </div>
+</div>
+{% endfor %}
+<br>
+
+{% endblock %}
