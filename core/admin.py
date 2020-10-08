@@ -3,12 +3,11 @@ from .models import ASEGURADORA, BODEGA, CONTRATO, DATO_PAGO, DETALLE_SOLICITUD,
 
 # Register your models here.
 
-# class PeliculaAdmin(admin.ModelAdmin):
-#     list_display = ['nombre', 'duracion', 'anio', 'genero']
-#     search_fields = ['nombre', 'anio']
-#     list_filter = ['genero']
-#     list_per_page = 10
-
+class ProductoAdmin(admin.ModelAdmin):
+    list_display = ['id_producto', 'nombre', 'imagen']
+    search_fields = ['nombre']
+    list_filter = ['nombre']
+    list_per_page = 10
 
 
 admin.site.register(ASEGURADORA)
@@ -29,7 +28,7 @@ admin.site.register(PAIS)
 admin.site.register(PERSONA)
 admin.site.register(POSTULACION_PRODUCTO)
 admin.site.register(PROCESO_VENTA)
-admin.site.register(PRODUCTO)
+admin.site.register(PRODUCTO, ProductoAdmin)
 admin.site.register(SEGURO)
 admin.site.register(SOLICITUD_COMPRA)
 admin.site.register(SUBASTA_TRANSPORTE)

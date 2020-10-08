@@ -70,7 +70,7 @@
             <div class="card">
               <img src="{% static 'core/img/solicitar.jpg' %}" class="card-img-top" alt="agregar">
               <div class="card-body">
-                <h5 class="card-title">Agregar productos a bodega</h5>
+                <h5 class="card-title">Administrar productos de bodega</h5>
                 <p class="card-text">Aqui podras agregar productos a la bodega de Maipo Grande para que puedan participar de las subastas.</p>
                 <a href="" class="btn btn-primary">Administrar productos</a>
               </div>
@@ -82,7 +82,7 @@
               <div class="card-body">
                 <h5 class="card-title">Ver subastas activas</h5>
                 <p class="card-text">Aca podras ver las subastas activas y realizar ofertas.</p>
-                <a href="" class="btn btn-primary">Ver subastas</a>
+                <a href="{% url 'listar_procesoventa' %}" class="btn btn-primary">Ver subastas</a>
               </div>
             </div>
           </div>

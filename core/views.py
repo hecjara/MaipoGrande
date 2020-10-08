@@ -11,12 +11,11 @@ from .models import (
     ESTADO_SOLICITUD,
     DETALLE_SOLICITUD,
     TIPO_PERSONA,
+    PROCESO_VENTA,
 )
 import cx_Oracle
 from django.contrib.auth.models import User, Group
 from django.contrib import messages
-
-
 from datetime import date
 from datetime import datetime
 
@@ -29,6 +28,21 @@ def home(request):
 
     return render(request, "core/home.html")
 
+
+def listar_procesoventa(request):
+
+    proceso = PROCESO_VENTA.objects.all()
+    detalle = DETALLE_SOLICITUD.objects.all()
+    solicitud = SOLICITUD_COMPRA.objects.all()
+
+    variables = {
+        'proceso':proceso,
+        'detalle':detalle,
+        'solicitud':solicitud
+    }
+
+
+    return render(request, "core/listar_procesoventa.html", variables)
 
 @login_required
 def modificar_datos_personales(request, id):
