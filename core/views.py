@@ -34,13 +34,14 @@ def home(request):
     return render(request, "core/home.html")
 
 
-
+@login_required
 def producto_procesoventa(request, id):
     data = {
         'producto':ver_productoProceso(id)
     }
     return render(request, "core/producto_procesoventa.html", data)
 
+@login_required
 def ver_productoProceso(id):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -54,7 +55,7 @@ def ver_productoProceso(id):
         lista.append(fila)
     return lista
 
-
+@login_required
 def procesos_venta(request):  # listar procesos de ventas activos
     
     data = {
@@ -63,7 +64,7 @@ def procesos_venta(request):  # listar procesos de ventas activos
 
     return render(request, "core/procesos_venta.html", data)
 
-
+@login_required
 def listar_procesoventa():
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -129,6 +130,7 @@ def modificar_datos_personales(request, id):
     return render(request, "core/modificar_datos_personales.html", variables)
 
 
+@login_required
 def perfil_usuario(request, id):
     persona = PERSONA.objects.get(id_usuario=id)
     pais = PAIS.objects.all()
@@ -194,8 +196,6 @@ def eliminar_detalleproducto(request, id):
 def modificar_detalleproducto(request, id):
     detalle = DETALLE_SOLICITUD.objects.get(pk=id)
     productos = PRODUCTO.objects.all()
-
-    resultado = 0
 
     variables = {"detalle": detalle, "productos": productos}
 
@@ -371,8 +371,6 @@ def registro_usuario(request, cod):
         if formulario.is_valid():
             formulario.save()
             usu = User.objects.last()
-
-            persona = PERSONA()
 
             per = PERSONA.objects.get(codigo_activacion=cod)
 
