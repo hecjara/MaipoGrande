@@ -34,6 +34,27 @@ def home(request):
     return render(request, "core/home.html")
 
 
+
+def producto_procesoventa(request, id):
+    data = {
+        'producto':ver_productoProceso(id)
+    }
+    return render(request, "core/producto_procesoventa.html", data)
+
+def ver_productoProceso(id):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_PRODUCTOPROCESO", [id, out_cur])
+    
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
 def procesos_venta(request):  # listar procesos de ventas activos
     
     data = {
@@ -48,7 +69,7 @@ def listar_procesoventa():
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
 
-    cursor.callproc("SP_LISTAR_PROCESOVENTA", [out_cur])
+    cursor.callproc("SP_LISTAR_PROCESOVENTA_ACTIVO", [out_cur])
 
     lista = []
 

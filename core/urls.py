@@ -14,6 +14,7 @@ from .views import (
     eliminar_detalleproducto,
     modificar_detalleproducto,
     procesos_venta,
+    producto_procesoventa,
 )
 
 urlpatterns = [
@@ -31,4 +32,5 @@ urlpatterns = [
     path("eliminar_detalleproducto/<id>/", eliminar_detalleproducto, name="eliminar_detalleproducto"),
     path("modificar_detalleproducto/<id>/", modificar_detalleproducto, name="modificar_detalleproducto"),
     path("procesos_venta/", procesos_venta, name="procesos_venta"),
+    path("producto_procesoventa/<id>/", producto_procesoventa, name="producto_procesoventa"),
 ]

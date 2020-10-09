@@ -1,0 +1,125 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% load auth_extras %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'core/js/countdown.js' %}"></script>
+<script src="{% static 'core/js/hora.js' %}"></script>
+{% endblock %}
+
+{% block contenido %}
+
+<br>
+
+{% for p in producto %}
+<div class="container">
+    <div class="card text-center mb-3">
+        <div class="card-header bg-success text-white font-weight-bolder">
+            {{ p.4 }}
+        </div>
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="{{ p.5 }}" class="card-img" alt="imagen-fruta">
+            </div>
+
+            <div class="col-md-8">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Producto: {{ p.0 }}</li>
+                        <li class="list-group-item">Cantidad Solicitada: {{ p.1 }} Kilos</li>
+                        <li class="list-group-item">Inicio: {{ p.2 }}</li>
+                        <li class="list-group-item">Termino: {{ p.3 }}</li>
+                        <li class="list-group-item">
+                            <a href="#" class="btn btn-primary">Ofertar mi producto</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card w-50 container mb-2">
+                    <div class="card-body">
+                        <h5 class="card-title">Estado subasta:</h5>
+                        <input type="hidden" name="fechaT" id="fechaT" value="{{ p.3|date:"m/d/y H:00" }}">
+                        <p class="card-text font-weight-bolder" id="cuentaAtras"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-success text-white"></div>
+    </div>
+</div>
+
+{% endfor %}
+
+<div class="container text-center">
+    <div class="card text-white bg-info mb-3 ">
+        <div class="card-body ">
+            <div class="row">
+                <div class="col">
+                    <h5 class="card-title">Mejor Oferta Hasta el momento:</h5>
+                    <p class="card-text">proveedor1</p>
+                    <p class="card-text">Oferta: $50.000</p>
+                    <p class="card-text">Fecha y Hora: 11/10/20 a las 17:04</p>
+                </div>
+                <div class="col">
+                    <h5 class="card-title">Hora Actual:</h5>
+                    <h1 id="display-time"></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="container table-responsive">
+    <table class="table table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th scope="col" class="text-center">Usuario</th>
+                <th scope="col" class="text-center">Fecha y Hora Oferta</th>
+                <th scope="col" class="text-center">Cantidad Ofercida</th>
+                <th scope="col" class="text-center">Precio Ofrecido</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Proveedor1</td>
+                <td>11/10/20 a las 15:35</td>
+                <td>40 Kilos</td>
+                <td>$60.000</td>
+            </tr>
+            <tr>
+                <td>Proveedor2</td>
+                <td>11/10/20 a las 15:48</td>
+                <td>30 Kilos</td>
+                <td>$45.000</td>
+            </tr>
+            <tr>
+                <td>Proveedor3</td>
+                <td>11/10/20 a las 15:52</td>
+                <td>25 Kilos</td>
+                <td>$25.000</td>
+            </tr>
+            <tr>
+                <td>Proveedor4</td>
+                <td>11/10/20 a las 16:22</td>
+                <td>40 Kilos</td>
+                <td>$55.000</td>
+            </tr>
+            <tr>
+                <td>Proveedor1</td>
+                <td>11/10/20 a las 17:04</td>
+                <td>40 Kilos</td>
+                <td>$50.000</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<br>
+
+{% endblock %}
