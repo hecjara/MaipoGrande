@@ -41,7 +41,7 @@ def producto_procesoventa(request, id):
     }
     return render(request, "core/producto_procesoventa.html", data)
 
-@login_required
+
 def ver_productoProceso(id):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -64,7 +64,7 @@ def procesos_venta(request):  # listar procesos de ventas activos
 
     return render(request, "core/procesos_venta.html", data)
 
-@login_required
+
 def listar_procesoventa():
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
