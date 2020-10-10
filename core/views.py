@@ -57,15 +57,30 @@ def ver_productoProceso(id):
 
 @login_required
 def procesos_venta(request):  # listar procesos de ventas activos
-    
+    id_usuario = request.user.id
+
     data = {
-        'procesos':listar_procesoventa()
+        'procesos':listar_procesoventaconproductoscoincidentes(id_usuario)
     }
 
     return render(request, "core/procesos_venta.html", data)
 
 
-def listar_procesoventa():
+def listar_procesoventaconproductoscoincidentes(id_usuario):  # listar procesos de venta que tengan un producto que el proveedor tenga en bodega
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTARPROCESOSXPRODUCTOSQUETENGO", [id_usuario, out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
+def listar_procesoventa():        # listar todos los procesos de venta activos
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -77,7 +92,6 @@ def listar_procesoventa():
     for fila in out_cur:
         lista.append(fila)
     return lista
-
 
 @login_required
 def modificar_datos_personales(request, id):
