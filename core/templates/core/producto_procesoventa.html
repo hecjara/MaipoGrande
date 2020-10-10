@@ -42,7 +42,7 @@
                 <div class="card w-50 container mb-2">
                     <div class="card-body">
                         <h5 class="card-title">Estado subasta:</h5>
-                        <input type="hidden" name="fechaT" id="fechaT" value="{{ p.3|date:"m/d/y H:00" }}">
+                        <input type="hidden" name="fechaT" id="fechaT" value="{{ p.3|date:"m/d/y" }} {{ p.3|time:"H:i" }}">
                         <p class="card-text font-weight-bolder" id="cuentaAtras"></p>
                     </div>
                 </div>
