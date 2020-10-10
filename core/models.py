@@ -132,8 +132,10 @@ class DETALLE_SOLICITUD(models.Model):
 
 class POSTULACION_PRODUCTO(models.Model):
     id_postulacion = models.AutoField(primary_key=True)
-    fecha_publicacion = models.DateField(null=False, blank=False)
+    fecha_publicacion = models.DateTimeField(null=False, blank=False)
     id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    oferta = models.IntegerField(null=True, blank=True)
+    fecha_oferta = models.DateTimeField(null=True, blank=True)
     
 class BODEGA(models.Model):
     id_bodega = models.AutoField(primary_key=True)
@@ -148,7 +150,7 @@ class PRODUCTO_BODEGA(models.Model):
     cantidad = models.IntegerField(null=False, blank=False)
     fecha_elaboracion = models.DateField(null=False, blank=False)
     fecha_vencimiento = models.DateField(null=False, blank=False)
-    precio_kilo = models.IntegerField(null=False, blank=False)
+    precio_estandar = models.IntegerField(null=False, blank=False)
 
 class DETALLE_POSTULACION(models.Model):
     id_detalle = models.AutoField(primary_key=True)
@@ -190,15 +192,22 @@ class TIPO_PAGO(models.Model):
     id_tipo = models.AutoField(primary_key=True)
     nombre_tipo = models.CharField(max_length=50, null=False, blank=False)
 
+
+class ESTADO_MINORISTA(models.Model):
+    id_estado = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=50, null=False, blank=False)
+
 class PROCESO_MINORISTA(models.Model):
     id_proceso = models.AutoField(primary_key=True)
-    fecha = models.DateField(null=False, blank=False)
+    fecha_inicio = models.DateTimeField(null=False, blank=False)
+    fecha_termino = models.DateTimeField(null=False, blank=False)
     id_prod_bod = models.ForeignKey(PRODUCTO_BODEGA, on_delete=models.CASCADE)
+    id_estado = models.ForeignKey(ESTADO_MINORISTA, on_delete=models.CASCADE, null=True, blank=True)
 
 class PAGO(models.Model):
     id_pago = models.AutoField(primary_key=True)
     total = models.IntegerField(null=False, blank=False)
-    fecha_pago = models.DateField(null=False, blank=False)
+    fecha_pago = models.DateTimeField(null=False, blank=False)
     id_tipo = models.ForeignKey(TIPO_PAGO, on_delete=models.CASCADE)
     id_dato_pago = models.ForeignKey(DATO_PAGO, on_delete=models.CASCADE)
     id_proceso = models.ForeignKey(PROCESO_VENTA, on_delete=models.CASCADE, null=True, blank=True)
