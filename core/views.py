@@ -16,6 +16,7 @@ from .models import (
     DETALLE_SOLICITUD,
     TIPO_PERSONA,
     PROCESO_VENTA,
+    POSTULACION_PRODUCTO
 )
 import cx_Oracle
 from django.contrib.auth.models import User, Group
@@ -26,21 +27,53 @@ from django.db import connection
 from django.core.files.base import ContentFile
 import base64
 
-
 # Create your views here.
-
 
 def home(request):     
     return render(request, "core/home.html")
 
 
 @login_required
+def mis_productos(request):
+
+    id_usuario = request.user.id
+
+    data = {
+        'procesos':listar_misproductos(id_usuario)
+    }
+
+    return render(request, "core/mis_productos.html", data)
+
+def listar_misproductos(id_usuario):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_MISPRODUCTOS", [id_usuario, out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+@login_required
 def producto_procesoventa(request, id):
     data = {
         'producto':ver_productoProceso(id)
     }
-    return render(request, "core/producto_procesoventa.html", data)
+    
+    # if request.POST:
+    #     usuario = User()
+    #     postprod = POSTULACION_PRODUCTO()
 
+    #     now = datetime.now()
+
+    #     postprod.fecha_publicacion = now
+    #     postprod.fecha_oferta = now
+    #     postprod.id_usuario = request.user.id
+
+    return render(request, "core/producto_procesoventa.html", data)
 
 def ver_productoProceso(id):
     django_cursor = connection.cursor()
@@ -78,6 +111,7 @@ def listar_procesoventaconproductoscoincidentes(id_usuario):  # listar procesos 
     for fila in out_cur:
         lista.append(fila)
     return lista
+
 
 
 def listar_procesoventa():        # listar todos los procesos de venta activos

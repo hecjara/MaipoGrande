@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% load auth_extras %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
+
+{% block contenido %}
+
+<br>
+<h2 class="d-flex justify-content-around text-white">Mis Productos:</h2>
+<br>
+<div class="container table-responsive">
+    <table class="table table-bordered table-hover table-condensed">
+        <tr>
+            <thead>
+                <th class="text-center">ID</th>
+                <th class="text-center">ID Producto</th>
+                <th class="text-center">Producto</th>
+                <th class="text-center">Cantidad</th>
+                <th class="text-center">Precio</th>
+                <th class="text-center">Elaboración</th>
+                <th class="text-center">Vencimiento</th>
+            </thead>
+        </tr>
+
+        <tbody>
+            {% for p in procesos %}
+            <tr>
+                <td class="text-center">{{ p.0 }}</td>
+                <td class="text-center">{{ p.7 }}</td>
+                <td class="text-center">{{ p.8 }}</td>
+                <td class="text-center">{{ p.1 }}</td>
+                <td class="text-center">{{ p.4 }}</td>
+                <td class="text-center">{{ p.2|date:"d/m/y" }}</td>
+                <td class="text-center">{{ p.3|date:"d/m/y" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<br>
+
+{% endblock %}

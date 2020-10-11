@@ -48,11 +48,11 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="">Cantidad</label>
-                                                <input type="number" name="" id="" class="form-control" placeholder="Cantidad en Kilos">
+                                                <input type="number" name="cantidadtxt" id="cantidadtxt" class="form-control" placeholder="Cantidad en Kilos">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="">Precio Oferta</label>
-                                                <input type="number" name="" id="" class="form-control" placeholder="$">
+                                                <input type="number" name="ofertatxt" id="ofertatxt" class="form-control" placeholder="$">
                                             </div>
                                         </div>
 
@@ -76,6 +76,8 @@
         <div class="card-footer bg-success text-white"></div>
     </div>
 </div>
+
+<input type="hidden" name="id_producto" id="id_producto" value="{{ p.8 }}">
 
 {% endfor %}
 

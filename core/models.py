@@ -124,24 +124,16 @@ class PRODUCTO(models.Model):
     nombre = models.CharField(max_length=50, null=False, blank=False)
     imagen = models.ImageField(null=True, blank=True)
     
+class BODEGA(models.Model):
+    id_bodega = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=50, null=False, blank=False)
+    direccion = models.CharField(max_length=50, null=False, blank=False)
+
 class DETALLE_SOLICITUD(models.Model):
     id_detalle = models.AutoField(primary_key=True)
     id_producto = models.ForeignKey(PRODUCTO, on_delete=models.CASCADE)
     cantidad = models.IntegerField(null=False, blank=False)
     id_solicitud = models.ForeignKey(SOLICITUD_COMPRA, on_delete=models.CASCADE)
-
-class POSTULACION_PRODUCTO(models.Model):
-    id_postulacion = models.AutoField(primary_key=True)
-    fecha_publicacion = models.DateTimeField(null=False, blank=False)
-    id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    cantidad = models.IntegerField(null=True, blank=True)
-    oferta = models.IntegerField(null=True, blank=True)
-    fecha_oferta = models.DateTimeField(null=True, blank=True)
-    
-class BODEGA(models.Model):
-    id_bodega = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=50, null=False, blank=False)
-    direccion = models.CharField(max_length=50, null=False, blank=False)
 
 class PRODUCTO_BODEGA(models.Model):
     id_prod_bod = models.AutoField(primary_key=True)
@@ -153,10 +145,19 @@ class PRODUCTO_BODEGA(models.Model):
     fecha_vencimiento = models.DateField(null=False, blank=False)
     precio_estandar = models.IntegerField(null=False, blank=False)
 
-class DETALLE_POSTULACION(models.Model):
-    id_detalle = models.AutoField(primary_key=True)
-    id_postulacion = models.ForeignKey(POSTULACION_PRODUCTO, on_delete=models.CASCADE)
-    id_prod_bod = models.ForeignKey(PRODUCTO_BODEGA, on_delete=models.CASCADE, null=True, blank=True)
+class POSTULACION_PRODUCTO(models.Model):
+    id_postulacion = models.AutoField(primary_key=True)
+    fecha_publicacion = models.DateTimeField(null=False, blank=False)
+    id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    cantidad = models.IntegerField(null=True, blank=True)
+    oferta = models.IntegerField(null=True, blank=True)
+    fecha_oferta = models.DateTimeField(null=True, blank=True)
+    id_prod_bod = models.ForeignKey(PRODUCTO_BODEGA, on_delete=models.CASCADE)
+    
+# class DETALLE_POSTULACION(models.Model):
+#     id_detalle = models.AutoField(primary_key=True)
+#     id_postulacion = models.ForeignKey(POSTULACION_PRODUCTO, on_delete=models.CASCADE)
+#     id_prod_bod = models.ForeignKey(PRODUCTO_BODEGA, on_delete=models.CASCADE, null=True, blank=True)
 
 class TIPO_PROCESO_VENTA(models.Model):
     id_tipo = models.AutoField(primary_key=True)
