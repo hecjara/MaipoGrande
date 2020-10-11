@@ -2,6 +2,11 @@
 
 {% load static %}
 {% load auth_extras %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+{% endblock %}
+
 {% block javascript %}
 {% endblock %}
 
@@ -9,181 +14,178 @@
 
 <br>
 
-{% if request.user.is_authenticated %}
-    {% if request.user|has_group:"CompradorMayorista" %}
-      <div class="container">
-        <div class="row row-cols-1 row-cols-md-2">
-          <div class="col mb-4">
-            <div class="card">
-              <img src="{% static 'core/img/solicitar.jpg' %}" class="card-img-top" alt="solicitar">
-              <div class="card-body">
-                <h5 class="card-title">Solicitar productos</h5>
-                <p class="card-text">Aqui podras realizar solicitudes de los productos que necesitas, la solicitud abrira un proceso de venta para elegir el mejor precio.</p>
-                <a href="{% url 'formulario_solicitud' %}" class="btn btn-primary">Realizaar solicitud</a>
-              </div>
-            </div>
-          </div>
-          <div class="col mb-4">
-            <div class="card">
-              <img src="{% static 'core/img/check-list.jpg' %}" class="card-img-top" alt="ver solicitudes">
-              <div class="card-body">
-                <h5 class="card-title">Ver mis solicitudes</h5>
-                <p class="card-text">Aquí podras ver las solicitudes que hayas realizado, administrarlas, administrar sus productos y hacer un seguimiento de su estado.</p>
-                <a href="{% url 'solicitud_compra' %}" class="btn btn-primary">Ver mis solicitudes</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-    {% elif request.user|has_group:"CompradorMinorista" %}
-      <h1>Menu comprador minorista</h1>
-      <div class="container">
-        <div class="row row-cols-1 row-cols-md-2">
-          <div class="col mb-4">
-            <div class="card">
-              <img src="{% static 'core/img/solicitar.jpg' %}" class="card-img-top" alt="agregar">
-              <div class="card-body">
-                <h5 class="card-title">Ver ventas de saldo</h5>
-                <p class="card-text">Aqui podras realizar la compra de productos de saldo.</p>
-                <a href="" class="btn btn-primary">Ventas de saldo</a>
-              </div>
-            </div>
-          </div>
-          <!-- <div class="col mb-4">
-            <div class="card">
-              <img src="{% static 'core/img/check-list.jpg' %}" class="card-img-top" alt="ver subastas">
-              <div class="card-body">
-                <h5 class="card-title">Ver subastas activas</h5>
-                <p class="card-text">Aca podras ver las subastas activas y realizar ofertas.</p>
-                <a href="#" class="btn btn-primary">Ver subastas</a>
-              </div>
-            </div>
-          </div> -->
-        </div>
-      </div>
-    {% elif request.user|has_group:"Proveedor" %}
-      <h1>Menu Proveedor</h1>
-      <div class="container">
-        <div class="row row-cols-1 row-cols-md-2">
-          <div class="col mb-4">
-            <div class="card">
-              <img src="{% static 'core/img/solicitar.jpg' %}" class="card-img-top" alt="agregar">
-              <div class="card-body">
-                <h5 class="card-title">Administrar productos de bodega</h5>
-                <p class="card-text">Aqui podras agregar productos a la bodega de Maipo Grande para que puedan participar de las subastas.</p>
-                <a href="" class="btn btn-primary">Administrar productos</a>
-              </div>
-            </div>
-          </div>
-          <div class="col mb-4">
-            <div class="card">
-              <img src="{% static 'core/img/check-list.jpg' %}" class="card-img-top" alt="ver subastas">
-              <div class="card-body">
-                <h5 class="card-title">Ver subastas activas</h5>
-                <p class="card-text">Aca podras ver las subastas activas y realizar ofertas.</p>
-                <a href="{% url 'procesos_venta' %}" class="btn btn-primary">Ver subastas</a>
-              </div>
-            </div>
+  {% if request.user.is_authenticated %}
+  {% if request.user|has_group:"CompradorMayorista" %}
+  <div class="container">
+    <hr class="new1">
+    <h1 class="text-white">Menu comprador mayorista</h1>
+    <hr class="new1">
+    <div class="row row-cols-1 row-cols-md-2">
+      <div class="col mb-4">
+        <div class="card">
+          <img src="{% static 'core/img/solicitar.jpg' %}" class="card-img-top" alt="solicitar">
+          <div class="card-body">
+            <h5 class="card-title">Solicitar productos</h5>
+            <p class="card-text">Aqui podras realizar solicitudes de los productos que necesitas, la solicitud abrira un
+              proceso de venta para elegir el mejor precio.</p>
+            <a href="{% url 'formulario_solicitud' %}" class="btn btn-primary">Realizaar solicitud</a>
           </div>
         </div>
       </div>
-    {% elif request.user|has_group:"Transportista" %}
-      <h1>Menu Transportista</h1>
-      <div class="container">
-        <div class="row row-cols-1 row-cols-md-2">
-          <div class="col mb-4">
-            <div class="card">
-              <img src="{% static 'core/img/solicitar.jpg' %}" class="card-img-top" alt="agregar">
-              <div class="card-body">
-                <h5 class="card-title">Subastas transporte</h5>
-                <p class="card-text">Aqui podras ver las subastas de transporte y participar.</p>
-                <a href="" class="btn btn-primary">Ver subastas de transporte</a>
-              </div>
-            </div>
+      <div class="col mb-4">
+        <div class="card">
+          <img src="{% static 'core/img/check-list.jpg' %}" class="card-img-top" alt="ver solicitudes">
+          <div class="card-body">
+            <h5 class="card-title">Ver mis solicitudes</h5>
+            <p class="card-text">Aquí podras ver las solicitudes que hayas realizado, administrarlas, administrar sus
+              productos y hacer un seguimiento de su estado.</p>
+            <a href="{% url 'solicitud_compra' %}" class="btn btn-primary">Ver mis solicitudes</a>
           </div>
-          <!-- <div class="col mb-4">
-            <div class="card">
-              <img src="{% static 'core/img/check-list.jpg' %}" class="card-img-top" alt="ver subastas">
-              <div class="card-body">
-                <h5 class="card-title">Ver subastas activas</h5>
-                <p class="card-text">Aca podras ver las subastas activas y realizar ofertas.</p>
-                <a href="#" class="btn btn-primary">Ver subastas</a>
-              </div>
-            </div>
-          </div> -->
-        </div>
-      </div>
-    {% endif %}
-
-{% else %}
-
-<div class="mx-auto mt-4" style="max-width: 540px;">
-  <div class="card mb-3" style="max-width: 540px;">
-    <div class="row no-gutters">
-      <div class="col-md-4">
-        <img src="{% static 'core/img/logo_maipo.png' %}" class="card-img" alt="logo">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">Maipo Grande</h5>
-          <p class="card-text">La empresa Maipo Grande ofrece servicio de venta en grandes cantidades
-            para el extranjero y grandes oportunidades para la venta local.</p>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="card container">
-  <div class="card-header bg-white">
-    <h3 class="font-weight-bold">¿Necestitas una cuenta?</h3>
-  </div>
-  <div class="card-body">
-    <blockquote class="blockquote mb-0">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-    </blockquote>
-  </div>
-
-  <div class="row mx-md-n5 mb-3">
-    <div class="col px-md-5">
-      <div class="p-3  bg-white text-center mx-md-5">
-        <div class="d-flex justify-content-center mb-1">
-          <i class="far fa-user-circle fa-5x blue-text"></i>
+  {% elif request.user|has_group:"CompradorMinorista" %}
+  <hr class="new1">
+  <h1 class="text-white">Menu comprador minorista</h1>
+  <hr class="new1">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-md-2">
+      <div class="col mb-4">
+        <div class="card">
+          <img src="{% static 'core/img/solicitar.jpg' %}" class="card-img-top" alt="agregar">
+          <div class="card-body">
+            <h5 class="card-title">Ver ventas de saldo</h5>
+            <p class="card-text">Aqui podras realizar la compra de productos de saldo.</p>
+            <a href="" class="btn btn-primary">Ventas de saldo</a>
+          </div>
         </div>
-        <p class="font-weight-bold my-3">Cuenta usuario mayorista</p>
       </div>
-      <ul class="list-group text-muted mx-md-5">
-        <li class="list-group-item bg-primary text-white">Privilegios</li>
-        <li class="list-group-item">Realizar solicitudes de compra</li>
-        <li class="list-group-item">Estado de solicitud en vivo</li>
-        <li class="list-group-item">Pagos en linea</li>
-        <li class="list-group-item">Participar en subasta de transporte</li>
-        <li class="list-group-item">Ofercer productos en los procesos de venta</li>
-        <a class="btn btn-primary mx-md-5 mt-2" href="{% url 'codigo_activacion' %}" role="button">Ingresa tu código</a>
-      </ul>
-    </div>
-
-    <div class="col px-md-5">
-      <div class="p-3  bg-white text-center mx-md-5">
-        <div class="d-flex justify-content-center mb-1">
-          <i class="far fa-user-circle fa-5x blue-text"></i>
-        </div>
-        <p class="font-weight-bold my-3">Cuenta de usuario minorista</p>
-      </div>
-      <ul class="list-group text-muted mx-md-5">
-        <li class="list-group-item bg-success text-white">Privilegios</li>
-        <li class="list-group-item">Registro sin necesidad de solicitud</li>
-        <li class="list-group-item">Acceso a ventas de saldo</li>
-        <li class="list-group-item">Pagos en linea</li>
-        <li class="list-group-item">Estado de envio en vivo</li>
-        <li class="list-group-item">Productos a los mejores precios</li>
-        <a class="btn btn-success mx-md-5 mt-2" href="{% url 'registro_minorista' %}" role="button">Registrate</a>
-      </ul>
     </div>
   </div>
-</div>
-{% endif %}
+  {% elif request.user|has_group:"Proveedor" %}
+  <div class="container">
+    <hr class="new1">
+    <h1>Menu Proveedor</h1>
+    <hr class="new1"> 
+    <div class="row row-cols-1 row-cols-md-2">
+      <div class="col mb-4">
+        <div class="card">
+          <img src="{% static 'core/img/solicitar.jpg' %}" class="card-img-top" alt="agregar">
+          <div class="card-body">
+            <h5 class="card-title">Administrar productos de bodega</h5>
+            <p class="card-text">Aqui podras agregar productos a la bodega de Maipo Grande para que puedan participar de
+              las subastas.</p>
+            <a href="" class="btn btn-primary">Administrar productos</a>
+          </div>
+        </div>
+      </div>
+      <div class="col mb-4">
+        <div class="card">
+          <img src="{% static 'core/img/check-list.jpg' %}" class="card-img-top" alt="ver subastas">
+          <div class="card-body">
+            <h5 class="card-title">Ver subastas activas</h5>
+            <p class="card-text">Aca podras ver las subastas activas y realizar ofertas.</p>
+            <a href="{% url 'procesos_venta' %}" class="btn btn-primary">Ver subastas</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% elif request.user|has_group:"Transportista" %}
+  <div class="container">
+    <hr class="new1">
+    <h1 class="text-white">Menu Transportista</h1>
+    <hr class="new1">
+    <div class="row row-cols-1 row-cols-md-2">
+      <div class="col mb-4">
+        <div class="card">
+          <img src="{% static 'core/img/solicitar.jpg' %}" class="card-img-top" alt="agregar">
+          <div class="card-body">
+            <h5 class="card-title">Subastas transporte</h5>
+            <p class="card-text">Aqui podras ver las subastas de transporte y participar.</p>
+            <a href="" class="btn btn-primary">Ver subastas de transporte</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% else %}
+
+  <div class="mx-auto mt-4" style="max-width: 540px;">
+    <div class="card mb-3" style="max-width: 540px;">
+      <div class="row no-gutters">
+        <div class="col-md-4">
+          <img src="{% static 'core/img/logo_maipo.png' %}" class="card-img" alt="logo">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">Maipo Grande</h5>
+            <p class="card-text">La empresa Maipo Grande ofrece servicio de venta en grandes cantidades
+              para el extranjero y grandes oportunidades para la venta local.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card container">
+    <div class="card-header bg-white">
+      <h3 class="font-weight-bold">¿Necestitas una cuenta?</h3>
+    </div>
+    <div class="card-body">
+      <blockquote class="blockquote mb-0">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+      </blockquote>
+    </div>
+
+    <div class="row mx-md-n5 mb-3">
+      <div class="col px-md-5">
+        <div class="p-3  bg-white text-center mx-md-5">
+          <div class="d-flex justify-content-center mb-1">
+            <i class="far fa-user-circle fa-5x blue-text"></i>
+          </div>
+          <p class="font-weight-bold my-3">Cuenta usuario mayorista</p>
+        </div>
+        <ul class="list-group text-muted mx-md-5">
+          <li class="list-group-item bg-primary text-white">Privilegios</li>
+          <li class="list-group-item">Realizar solicitudes de compra</li>
+          <li class="list-group-item">Estado de solicitud en vivo</li>
+          <li class="list-group-item">Pagos en linea</li>
+          <li class="list-group-item">Participar en subasta de transporte</li>
+          <li class="list-group-item">Ofercer productos en los procesos de venta</li>
+          <a class="btn btn-primary mx-md-5 mt-2" href="{% url 'codigo_activacion' %}" role="button">Ingresa tu
+            código</a>
+        </ul>
+      </div>
+
+      <div class="col px-md-5">
+        <div class="p-3  bg-white text-center mx-md-5">
+          <div class="d-flex justify-content-center mb-1">
+            <i class="far fa-user-circle fa-5x blue-text"></i>
+          </div>
+          <p class="font-weight-bold my-3">Cuenta de usuario minorista</p>
+        </div>
+        <ul class="list-group text-muted mx-md-5">
+          <li class="list-group-item bg-success text-white">Privilegios</li>
+          <li class="list-group-item">Registro sin necesidad de solicitud</li>
+          <li class="list-group-item">Acceso a ventas de saldo</li>
+          <li class="list-group-item">Pagos en linea</li>
+          <li class="list-group-item">Estado de envio en vivo</li>
+          <li class="list-group-item">Productos a los mejores precios</li>
+          <a class="btn btn-success mx-md-5 mt-2" href="{% url 'registro_minorista' %}" role="button">Registrate</a>
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+
+
 
 
 

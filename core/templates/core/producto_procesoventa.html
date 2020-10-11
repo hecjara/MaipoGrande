@@ -5,6 +5,7 @@
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/centro.css' %}">
 {% endblock %}
 
 {% block javascript %}
@@ -24,7 +25,12 @@
         </div>
         <div class="row no-gutters">
             <div class="col-md-4">
-                <img src="{{ p.5 }}" class="card-img" alt="imagen-fruta">
+
+                <div class="vertical-center">
+                    <img src="{{ p.5 }}" class="card-img" alt="imagen-fruta">
+
+                </div>
+
             </div>
 
             <div class="col-md-8">
@@ -35,14 +41,33 @@
                         <li class="list-group-item">Inicio: {{ p.2 }}</li>
                         <li class="list-group-item">Termino: {{ p.3 }}</li>
                         <li class="list-group-item">
-                            <a href="#" class="btn btn-primary">Ofertar mi producto</a>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Realiza una oferta</h5>
+                                    <form action="" method="POST">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="">Cantidad</label>
+                                                <input type="number" name="" id="" class="form-control" placeholder="Cantidad en Kilos">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="">Precio Oferta</label>
+                                                <input type="number" name="" id="" class="form-control" placeholder="$">
+                                            </div>
+                                        </div>
+
+                                        <a href="#" class="btn btn-primary">Ofertar mi producto</a>
+                                    </form>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>
                 <div class="card w-50 container mb-2">
                     <div class="card-body">
                         <h5 class="card-title">Estado subasta:</h5>
-                        <input type="hidden" name="fechaT" id="fechaT" value="{{ p.3|date:"m/d/y" }} {{ p.3|time:"H:i" }}">
+                        <input type="hidden" name="fechaT" id="fechaT"
+                            value="{{ p.3|date:"m/d/y" }} {{ p.3|time:"H:i" }}">
                         <p class="card-text font-weight-bolder" id="cuentaAtras"></p>
                     </div>
                 </div>

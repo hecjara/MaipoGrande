@@ -3,9 +3,8 @@
     padding: 0;
 }
 
-thead{
-    background-color: rgb(40, 167, 69);
-    color: white;
+body {
+    background: white url("../img/fondo.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
-
-

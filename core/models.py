@@ -134,6 +134,7 @@ class POSTULACION_PRODUCTO(models.Model):
     id_postulacion = models.AutoField(primary_key=True)
     fecha_publicacion = models.DateTimeField(null=False, blank=False)
     id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    cantidad = models.IntegerField(null=True, blank=True)
     oferta = models.IntegerField(null=True, blank=True)
     fecha_oferta = models.DateTimeField(null=True, blank=True)
     

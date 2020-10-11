@@ -1,0 +1,28 @@
+
+/* COLORES HR */
+/* Red border */
+hr.new1 {
+    border-top: 1px solid white;
+  }
+  
+  /* Dashed red border */
+  hr.new2 {
+    border-top: 1px dashed red;
+  }
+  
+  /* Dotted red border */
+  hr.new3 {
+    border-top: 1px dotted red;
+  }
+  
+  /* Thick red border */
+  hr.new4 {
+    border: 1px solid white;
+  }
+  
+  /* Large rounded green border */
+  hr.new5 {
+    border: 10px solid green;
+    border-radius: 5px;
+  }
+/* FIN COLORES HR */
