@@ -16,7 +16,6 @@ from .models import (
     DETALLE_SOLICITUD,
     TIPO_PERSONA,
     PROCESO_VENTA,
-    POSTULACION_PRODUCTO
 )
 import cx_Oracle
 from django.contrib.auth.models import User, Group

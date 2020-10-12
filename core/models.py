@@ -145,24 +145,6 @@ class PRODUCTO_BODEGA(models.Model):
     fecha_vencimiento = models.DateField(null=False, blank=False)
     precio_estandar = models.IntegerField(null=False, blank=False)
 
-class POSTULACION_PRODUCTO(models.Model):
-    id_postulacion = models.AutoField(primary_key=True)
-    fecha_publicacion = models.DateTimeField(null=False, blank=False)
-    id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    cantidad = models.IntegerField(null=True, blank=True)
-    oferta = models.IntegerField(null=True, blank=True)
-    fecha_oferta = models.DateTimeField(null=True, blank=True)
-    id_prod_bod = models.ForeignKey(PRODUCTO_BODEGA, on_delete=models.CASCADE)
-    
-# class DETALLE_POSTULACION(models.Model):
-#     id_detalle = models.AutoField(primary_key=True)
-#     id_postulacion = models.ForeignKey(POSTULACION_PRODUCTO, on_delete=models.CASCADE)
-#     id_prod_bod = models.ForeignKey(PRODUCTO_BODEGA, on_delete=models.CASCADE, null=True, blank=True)
-
-class TIPO_PROCESO_VENTA(models.Model):
-    id_tipo = models.AutoField(primary_key=True)
-    nombre_tipo = models.CharField(max_length=50, null=False, blank=False)
-
 class ESTADO_PROCESO_VENTA(models.Model):
     id_estado = models.AutoField(primary_key=True)
     nombre_estado = models.CharField(max_length=50, null=False, blank=False)
@@ -172,8 +154,16 @@ class PROCESO_VENTA(models.Model):
     fecha_inicio = models.DateTimeField(null=False, blank=False)
     fecha_termino = models.DateTimeField(null=False, blank=False)
     id_solicitud = models.ForeignKey(SOLICITUD_COMPRA, on_delete=models.CASCADE, null=True, blank=True)
-    id_postulacion = models.ForeignKey(POSTULACION_PRODUCTO, on_delete=models.CASCADE)
     id_estado = models.ForeignKey(ESTADO_PROCESO_VENTA, on_delete=models.CASCADE)
+
+class HISTORIAL_MINORISTA(models.Model):
+    id_historial = models.AutoField(primary_key=True)
+    oferta = models.IntegerField(null=False, blank=False)
+    cantidad = models.IntegerField(null=False, blank=False)
+    fecha_oferta = models.DateTimeField(null=False, blank=False)
+    id_proceso = models.ForeignKey(PROCESO_VENTA, on_delete=models.CASCADE)
+    id_prod_bod = models.ForeignKey(PRODUCTO_BODEGA, on_delete=models.CASCADE)
+
 
 class SUBASTA_TRANSPORTE(models.Model):
     id_subasta = models.AutoField(primary_key=True)
