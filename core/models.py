@@ -156,7 +156,7 @@ class PROCESO_VENTA(models.Model):
     id_solicitud = models.ForeignKey(SOLICITUD_COMPRA, on_delete=models.CASCADE, null=True, blank=True)
     id_estado = models.ForeignKey(ESTADO_PROCESO_VENTA, on_delete=models.CASCADE)
 
-class HISTORIAL_MINORISTA(models.Model):
+class HISTORIAL_POSTULACION(models.Model):
     id_historial = models.AutoField(primary_key=True)
     oferta = models.IntegerField(null=False, blank=False)
     cantidad = models.IntegerField(null=False, blank=False)

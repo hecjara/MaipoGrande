@@ -45,6 +45,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Realiza una oferta</h5>
                                     <form action="" method="POST">
+                                        {% csrf_token %}
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="">Cantidad</label>
@@ -56,7 +57,9 @@
                                             </div>
                                         </div>
 
-                                        <a href="#" class="btn btn-primary">Ofertar mi producto</a>
+                                        <button type="submit" class="btn btn-primary" value="Ofertar mi producto"></button>
+                                        <input type="hidden" name="id_producto" id="id_producto" value="{{ p.8 }}">
+                                        <input type="hidden" name="id_proceso" id="id_proceso" value="{{ p.7 }}">
                                     </form>
                                 </div>
                             </div>
@@ -77,7 +80,7 @@
     </div>
 </div>
 
-<input type="hidden" name="id_producto" id="id_producto" value="{{ p.8 }}">
+
 
 {% endfor %}
 

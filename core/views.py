@@ -16,6 +16,8 @@ from .models import (
     DETALLE_SOLICITUD,
     TIPO_PERSONA,
     PROCESO_VENTA,
+    HISTORIAL_POSTULACION,
+    PRODUCTO_BODEGA,
 )
 import cx_Oracle
 from django.contrib.auth.models import User, Group
@@ -56,22 +58,47 @@ def listar_misproductos(id_usuario):
         lista.append(fila)
     return lista
 
+def get_idprodbod(id_usuario,id_producto):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_GET_IDPRODBOD',[id_usuario,id_producto,salida])
+    return salida.getvalue()
+
 @login_required
 def producto_procesoventa(request, id):
     data = {
         'producto':ver_productoProceso(id)
     }
     
-    # if request.POST:
-    #     usuario = User()
-    #     postprod = POSTULACION_PRODUCTO()
+    if request.POST:
+        id_usuario = request.user.id
+        id_producto = request.POST.get('id_producto')
 
-    #     now = datetime.now()
+        res = get_idprodbod(id_usuario, id_producto)
 
-    #     postprod.fecha_publicacion = now
-    #     postprod.fecha_oferta = now
-    #     postprod.id_usuario = request.user.id
 
+        if res > 0:
+            hp = HISTORIAL_POSTULACION()
+            hp.cantidad = request.POST.get('cantidadtxt')
+            hp.oferta = request.POST.get('ofertatxt')
+            
+            pv = PROCESO_VENTA()
+            pv.id_proceso = request.POST.get('id_proceso')
+            hp.id_proceso = pv
+
+            pb = PRODUCTO_BODEGA()
+            pb.id_prod_bod = res
+            hp.id_prod_bod = pb
+   
+            now = datetime.now()
+            hp.fecha_oferta = now
+
+            hp.save()
+        else:
+            messages.error(request,"Error ",
+                extra_tags="alert alert-danger"
+            )
     return render(request, "core/producto_procesoventa.html", data)
 
 def ver_productoProceso(id):
@@ -86,6 +113,10 @@ def ver_productoProceso(id):
     for fila in out_cur:
         lista.append(fila)
     return lista
+
+
+
+
 
 @login_required
 def procesos_venta(request):  # listar procesos de ventas activos
