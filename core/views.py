@@ -65,12 +65,27 @@ def get_idprodbod(id_usuario,id_producto):
     cursor.callproc('SP_GET_IDPRODBOD',[id_usuario,id_producto,salida])
     return salida.getvalue()
 
-@login_required
-def producto_procesoventa(request, id):
-    data = {
-        'producto':ver_productoProceso(id)
-    }
+def listar_historial_ofertas(id_proceso):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_HISTORIAL", [id_proceso, out_cur])
     
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+@login_required
+def producto_procesoventa(request, id, id_proceso):
+
+    data = {
+        'producto':ver_productoProceso(id),
+        'historial':listar_historial_ofertas(id_proceso)
+    }
+
     if request.POST:
         id_usuario = request.user.id
         id_producto = request.POST.get('id_producto')
@@ -113,10 +128,6 @@ def ver_productoProceso(id):
     for fila in out_cur:
         lista.append(fila)
     return lista
-
-
-
-
 
 @login_required
 def procesos_venta(request):  # listar procesos de ventas activos

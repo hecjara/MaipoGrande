@@ -33,6 +33,6 @@ urlpatterns = [
     path("eliminar_detalleproducto/<id>/", eliminar_detalleproducto, name="eliminar_detalleproducto"),
     path("modificar_detalleproducto/<id>/", modificar_detalleproducto, name="modificar_detalleproducto"),
     path("procesos_venta/", procesos_venta, name="procesos_venta"),
-    path("producto_procesoventa/<id>/", producto_procesoventa, name="producto_procesoventa"),
+    path("producto_procesoventa/<id>/<id_proceso>/", producto_procesoventa, name="producto_procesoventa"),
     path("mis_productos/", mis_productos, name="mis_productos"),
 ]

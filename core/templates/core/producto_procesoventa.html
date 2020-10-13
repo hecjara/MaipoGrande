@@ -49,15 +49,15 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="">Cantidad</label>
-                                                <input type="number" name="cantidadtxt" id="cantidadtxt" class="form-control" placeholder="Cantidad en Kilos">
+                                                <input type="number" name="cantidadtxt" id="cantidadtxt" class="form-control" placeholder="Cantidad en Kilos" required>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="">Precio Oferta</label>
-                                                <input type="number" name="ofertatxt" id="ofertatxt" class="form-control" placeholder="$">
+                                                <input type="number" name="ofertatxt" id="ofertatxt" class="form-control" placeholder="$" required>
                                             </div>
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary" value="Ofertar mi producto"></button>
+                                        <button type="submit" class="btn btn-primary">Ofertar mi producto</button>
                                         <input type="hidden" name="id_producto" id="id_producto" value="{{ p.8 }}">
                                         <input type="hidden" name="id_proceso" id="id_proceso" value="{{ p.7 }}">
                                     </form>
@@ -105,6 +105,7 @@
 
 <br>
 
+
 <div class="container table-responsive">
     <table class="table table-bordered table-hover table-condensed">
         <thead>
@@ -116,39 +117,19 @@
             </tr>
         </thead>
         <tbody>
+            {% for h in historial %}
             <tr>
-                <td>Proveedor1</td>
-                <td>11/10/20 a las 15:35</td>
-                <td>40 Kilos</td>
-                <td>$60.000</td>
+                <td>{{ h.7 }}</td>
+                <td>{{ h.3 }}</td>
+                <td>{{ h.2 }} Kilos</td>
+                <td>${{ h.1 }}</td>
             </tr>
-            <tr>
-                <td>Proveedor2</td>
-                <td>11/10/20 a las 15:48</td>
-                <td>30 Kilos</td>
-                <td>$45.000</td>
-            </tr>
-            <tr>
-                <td>Proveedor3</td>
-                <td>11/10/20 a las 15:52</td>
-                <td>25 Kilos</td>
-                <td>$25.000</td>
-            </tr>
-            <tr>
-                <td>Proveedor4</td>
-                <td>11/10/20 a las 16:22</td>
-                <td>40 Kilos</td>
-                <td>$55.000</td>
-            </tr>
-            <tr>
-                <td>Proveedor1</td>
-                <td>11/10/20 a las 17:04</td>
-                <td>40 Kilos</td>
-                <td>$50.000</td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
+
+
 
 <br>
 
