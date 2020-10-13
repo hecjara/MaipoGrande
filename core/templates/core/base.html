@@ -28,7 +28,7 @@
     <title>Maipo Grande</title>
 </head>
 
-<body>  
+<body>
     <header>
         <nav class="navbar navbar-expand-lg bg-success sticky-top">
             <a class="navbar-brand text-white" href="{% url 'home' %}">
@@ -67,8 +67,10 @@
                             Usuario: {{ request.user.username }} <i class="fas fa-user"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="{% url 'perfil_usuario' request.user.id %}">Perfil Usuaraio <i class="far fa-id-card"></i></a>
-                            <a class="dropdown-item" href="{% url 'perfil_usuario' request.user.id %}">Actualizar Datos <i class="fas fa-users-cog"></i></a>
+                            <a class="dropdown-item" href="{% url 'perfil_usuario' request.user.id %}">Perfil Usuaraio
+                                <i class="far fa-id-card"></i></a>
+                            <a class="dropdown-item" href="{% url 'perfil_usuario' request.user.id %}">Actualizar Datos
+                                <i class="fas fa-users-cog"></i></a>
                             <a class="dropdown-item" href="{% url 'logout' %}">Desconectarse <i
                                     class="fas fa-sign-out-alt"></i></a>
                         </div>
@@ -112,6 +114,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
+
+
 
 </body>
 

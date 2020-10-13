@@ -109,7 +109,13 @@ def producto_procesoventa(request, id, id_proceso):
             now = datetime.now()
             hp.fecha_oferta = now
 
-            hp.save()
+            try:
+                hp.save()
+                messages.success(request,"Su oferta ha sido ingresada correctamente.",extra_tags="alert alert-success",)
+            except Exception as e:
+                messages.error(request,"Error al intentar ingresar la oferta. " + str(e),extra_tags="alert alert-danger",)
+            return redirect("producto_procesoventa",id, id_proceso)
+            # hp.save()
         else:
             messages.error(request,"Error ",
                 extra_tags="alert alert-danger"
