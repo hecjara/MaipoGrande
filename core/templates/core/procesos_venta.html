@@ -15,22 +15,22 @@
       {{ p.4 }}
     </div>
     <div class="row no-gutters">
-      <div class="col-md-4">
+      <div class="col-md-4 d-flex justify-content-center">
         <img src="{{ p.5 }}" class="card-img" alt="imagen-fruta">
       </div>
 
-      <div class="col-md-8">
+      <div class="col-md-8 d-flex justify-content-center">
         <div class="card-body">
           <h5 class="card-title">Producto: {{ p.0 }}</h5>
           <p class="card-text">Cantidad Solicitada: {{ p.1 }} Kilos</p>
           <p class="card-text">Inicio: {{ p.2 }}</p>
           <p class="card-text">Termino: {{ p.3 }}</p>
-          <a href="{% url 'producto_procesoventa' p.6 p.7 %}" class="btn btn-primary">Ver subasta</a>
+          <a href="{% url 'producto_procesoventa' p.6 p.7 p.8 %}" class="btn btn-primary">Ver subasta</a>
         </div>
       </div>
     </div>
     <div class="card-footer bg-success text-white">
-      <input type="hidden" name="fechaT" id="fechaT" value="{{ p.3|date:"m/d/y H:00" }}">
+      <input type="hidden" name="fechaT" id="fechaT" value="{{ p.3|date:"m/d/y" }}  {{ p.3|time:"H:i" }}">
       <p class="card-text" id="cuentaAtras"></p>    
     </div>
   </div>

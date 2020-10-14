@@ -13,7 +13,7 @@
 <script src="{% static 'core/js/hora.js' %}"></script>
 <script src="{% static 'core/js/validacion_oferta.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script src="{% static 'core/js/guardado.js' %}"></script>
+<!-- <script src="{% static 'core/js/guardado.js' %}"></script> -->
 {% endblock %}
 
 {% block contenido %}
@@ -44,19 +44,37 @@
                         <li class="list-group-item">Inicio: {{ p.2 }}</li>
                         <li class="list-group-item">Termino: {{ p.3 }}</li>
                         <li class="list-group-item">
-                            <div class="card">
+                            <div class="card border-success">
                                 <div class="card-body">
                                     <h5 class="card-title">Realiza una oferta</h5>
-                                    <form action="" method="POST" onsubmit="return validacion();">
+                                    <form action="" method="POST" class="was-validated" onsubmit="return validacion();">
                                         {% csrf_token %}
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                              <label class="input-group-text bg-success text-white" for="cbolote">Seleccione lote para ofertar</label>
+                                            </div>
+                                            <select class="custom-select" name="cbolote" id="cbolote" required>
+                                              <option selected value="">Seleccione lote</option>
+                                                {% for l in lote %}
+                                                    {% if l.1 == p.8 and l.6 == request.user.id %}
+                                                        <option value="{{ l.0 }}">Lote Nro. {{ l.0 }}, {{ l.2 }}, {{ l.3 }} Kilos</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                            <div class="invalid-feedback">Seleccione un lote para realizar la oferta</div>
+                                        </div>
+
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="">Cantidad</label>
-                                                <input type="number" name="cantidadtxt" id="cantidadtxt" class="form-control" placeholder="Cantidad en Kilos">
+                                                <input type="number" name="cantidadtxt" id="cantidadtxt" class="form-control" placeholder="Cantidad en Kilos" required>
+                                                <div class="invalid-feedback">Ingrese una cantidad válida</div>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="">Precio Oferta</label>
-                                                <input type="number" name="ofertatxt" id="ofertatxt" class="form-control" placeholder="$">
+                                                <input type="number" name="ofertatxt" id="ofertatxt" class="form-control" placeholder="$" required>
+                                                <div class="invalid-feedback">Ingrese una oferta válida</div>
                                             </div>
                                         </div>
 
@@ -69,7 +87,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="card w-50 container mb-2">
+                <div class="card w-50 container border-success mb-3">
                     <div class="card-body">
                         <h5 class="card-title">Estado subasta:</h5>
                         <input type="hidden" name="fechaT" id="fechaT"
@@ -85,25 +103,30 @@
 
 {% endfor %}
 
+{% for mo in mejoroferta %}
 <div class="container text-center">
-    <div class="card text-white bg-info mb-3 ">
+    <div class="card text-white bg-success border-success mb-3 ">
         <div class="card-body ">
             <div class="row">
-                <div class="col">
+                <div class="col-md-6">
                     <h5 class="card-title">Mejor Oferta Hasta el momento:</h5>
-                    <p class="card-text">proveedor1</p>
-                    <p class="card-text">Cantidad: 10 kilos</p>
-                    <p class="card-text">Oferta: $50.000</p>
-                    <p class="card-text">Fecha y Hora: 11/10/20 a las 17:04</p>
+                    <p class="card-text">{{ mo.1 }}</p>
+                    <p class="card-text">{{ mo.2 }} kilos</p>
+                    <p class="card-text">Oferta: ${{ mo.3 }}</p>
+                    <p class="card-text">Fecha y Hora: {{ mo.4 }}</p>
                 </div>
-                <div class="col">
-                    <h5 class="card-title">Hora Actual:</h5>
-                    <h1 id="display-time"></h1>
+                <div class="col-md-6 d-flex justify-content-center">
+                    <div class="vertical-center">
+                        <h5 class="card-title">Hora Actual:</h5>
+                        <h1 id="display-time"></h1>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+{% endfor %}
 
 <br>
 
@@ -111,7 +134,7 @@
 <div class="d-flex justify-content-center">
     {% if messages %}
     <div class="messages">
-        <div class="guardado"></div>
+        <!-- <div class="guardado"></div> -->
         {% for message in messages %}
         <p{% if message.tags %} class="{{ message.tags }}"{% endif %} id="pm">{{ message }}</p>
         {% endfor %}
@@ -133,7 +156,7 @@
         <tbody>
             {% for h in historial %}
             <tr>
-                <td class="text-center">{{ h.7 }}</td>
+                <td class="text-center">{{ h.6 }}</td>
                 <td class="text-center">{{ h.3 }}</td>
                 <td class="text-center">{{ h.2 }} Kilos</td>
                 <td class="text-center">${{ h.1 }}</td>

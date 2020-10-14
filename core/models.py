@@ -122,7 +122,7 @@ class SOLICITUD_COMPRA(models.Model):
 class PRODUCTO(models.Model):
     id_producto = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50, null=False, blank=False)
-    imagen = models.ImageField(null=True, blank=True)
+    imagen = models.CharField(null=True, blank=True, max_length=300)
     
 class BODEGA(models.Model):
     id_bodega = models.AutoField(primary_key=True)
@@ -135,15 +135,24 @@ class DETALLE_SOLICITUD(models.Model):
     cantidad = models.IntegerField(null=False, blank=False)
     id_solicitud = models.ForeignKey(SOLICITUD_COMPRA, on_delete=models.CASCADE)
 
-class PRODUCTO_BODEGA(models.Model):
-    id_prod_bod = models.AutoField(primary_key=True)
+class ESTADO_LOTE(models.Model):
+    id_estado = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100)
+
+class LOTE(models.Model):
+    id_lote = models.AutoField(primary_key=True)
     id_producto = models.ForeignKey(PRODUCTO, on_delete=models.CASCADE)
-    id_bodega = models.ForeignKey(BODEGA, on_delete=models.CASCADE)
-    id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     cantidad = models.IntegerField(null=False, blank=False)
+    precio_kilo = models.IntegerField(null=False, blank=False)
     fecha_elaboracion = models.DateField(null=False, blank=False)
     fecha_vencimiento = models.DateField(null=False, blank=False)
-    precio_estandar = models.IntegerField(null=False, blank=False)
+    id_esetado = models.ForeignKey(ESTADO_LOTE, on_delete=models.CASCADE)
+
+class PRODUCTO_BODEGA(models.Model):
+    id_prod_bod = models.AutoField(primary_key=True)
+    id_lote = models.ForeignKey(LOTE, on_delete=models.CASCADE)
+    id_bodega = models.ForeignKey(BODEGA, on_delete=models.CASCADE)
+    id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class ESTADO_PROCESO_VENTA(models.Model):
     id_estado = models.AutoField(primary_key=True)

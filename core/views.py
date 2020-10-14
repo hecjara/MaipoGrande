@@ -30,7 +30,8 @@ import base64
 
 # Create your views here.
 
-def home(request):     
+
+def home(request):
     return render(request, "core/home.html")
 
 
@@ -39,11 +40,10 @@ def mis_productos(request):
 
     id_usuario = request.user.id
 
-    data = {
-        'procesos':listar_misproductos(id_usuario)
-    }
+    data = {"procesos": listar_misproductos(id_usuario)}
 
     return render(request, "core/mis_productos.html", data)
+
 
 def listar_misproductos(id_usuario):
     django_cursor = connection.cursor()
@@ -58,12 +58,14 @@ def listar_misproductos(id_usuario):
         lista.append(fila)
     return lista
 
-def get_idprodbod(id_usuario,id_producto):
+
+def get_idprodbod(id_lote):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('SP_GET_IDPRODBOD',[id_usuario,id_producto,salida])
+    cursor.callproc("SP_GET_IDPRODBOD", [id_lote, salida])
     return salida.getvalue()
+
 
 def listar_historial_ofertas(id_proceso):
     django_cursor = connection.cursor()
@@ -71,56 +73,92 @@ def listar_historial_ofertas(id_proceso):
     out_cur = django_cursor.connection.cursor()
 
     cursor.callproc("SP_LISTAR_HISTORIAL", [id_proceso, out_cur])
-    
+
     lista = []
 
     for fila in out_cur:
         lista.append(fila)
     return lista
 
+
 @login_required
-def producto_procesoventa(request, id, id_proceso):
+def producto_procesoventa(request, id_detalle, id_proceso, id_producto):
+
+    id_usuario = request.user.id
 
     data = {
-        'producto':ver_productoProceso(id),
-        'historial':listar_historial_ofertas(id_proceso)
+        "producto": ver_productoProceso(id_detalle),
+        "lote": listar_lotes(id_producto, id_usuario),
+        "historial":listar_historial_ofertas(id_proceso),
+        "mejoroferta":mejor_oferta()
     }
 
     if request.POST:
-        id_usuario = request.user.id
-        id_producto = request.POST.get('id_producto')
+        id_lote = request.POST.get("cbolote")
 
-        res = get_idprodbod(id_usuario, id_producto)
-
+        res = get_idprodbod(id_lote)
 
         if res > 0:
-            hp = HISTORIAL_POSTULACION()
-            hp.cantidad = request.POST.get('cantidadtxt')
-            hp.oferta = request.POST.get('ofertatxt')
-            
+            historial = HISTORIAL_POSTULACION()
+            historial.oferta = request.POST.get("ofertatxt")
+            historial.cantidad = request.POST.get("cantidadtxt")
+
+            now = datetime.now()
+            historial.fecha_oferta = now
+
             pv = PROCESO_VENTA()
-            pv.id_proceso = request.POST.get('id_proceso')
-            hp.id_proceso = pv
+            pv.id_proceso = request.POST.get("id_proceso")
+            historial.id_proceso = pv
 
             pb = PRODUCTO_BODEGA()
             pb.id_prod_bod = res
-            hp.id_prod_bod = pb
-   
-            now = datetime.now()
-            hp.fecha_oferta = now
+            historial.id_prod_bod = pb
 
             try:
-                hp.save()
-                messages.success(request,"Su oferta ha sido ingresada correctamente.",extra_tags="alert alert-success",)
+                historial.save()
+                messages.success(
+                    request,
+                    "Oferta realizada correctamente.",
+                    extra_tags="alert alert-success",
+                )
             except Exception as e:
-                messages.error(request,"Error al intentar ingresar la oferta. " + str(e),extra_tags="alert alert-danger",)
-            return redirect("producto_procesoventa",id, id_proceso)
-            # hp.save()
-        else:
-            messages.error(request,"Error ",
-                extra_tags="alert alert-danger"
-            )
+                messages.error(
+                    request,
+                    "Error al realizar la oferta " + str(e),
+                    extra_tags="alert alert-danger",
+                )
+            return redirect("producto_procesoventa", id_detalle, id_proceso, id_producto)
+
     return render(request, "core/producto_procesoventa.html", data)
+
+
+def mejor_oferta():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_MEJOR_OFERTA", [out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
+def listar_lotes(id_producto, id_usuario):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTARLOTES", [id_producto, id_usuario, out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
 
 def ver_productoProceso(id):
     django_cursor = connection.cursor()
@@ -128,25 +166,26 @@ def ver_productoProceso(id):
     out_cur = django_cursor.connection.cursor()
 
     cursor.callproc("SP_PRODUCTOPROCESO", [id, out_cur])
-    
+
     lista = []
 
     for fila in out_cur:
         lista.append(fila)
     return lista
 
+
 @login_required
 def procesos_venta(request):  # listar procesos de ventas activos
     id_usuario = request.user.id
 
-    data = {
-        'procesos':listar_procesoventaconproductoscoincidentes(id_usuario)
-    }
+    data = {"procesos": listar_procesoventaconproductoscoincidentes(id_usuario)}
 
     return render(request, "core/procesos_venta.html", data)
 
 
-def listar_procesoventaconproductoscoincidentes(id_usuario):  # listar procesos de venta que tengan un producto que el proveedor tenga en bodega
+def listar_procesoventaconproductoscoincidentes(
+    id_usuario,
+):  # listar procesos de venta que tengan un producto que el proveedor tenga en bodega
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -160,19 +199,19 @@ def listar_procesoventaconproductoscoincidentes(id_usuario):  # listar procesos 
     return lista
 
 
+# def listar_procesoventa():        # listar todos los procesos de venta activos
+#     django_cursor = connection.cursor()
+#     cursor = django_cursor.connection.cursor()
+#     out_cur = django_cursor.connection.cursor()
 
-def listar_procesoventa():        # listar todos los procesos de venta activos
-    django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor()
-    out_cur = django_cursor.connection.cursor()
+#     cursor.callproc("SP_LISTAR_PROCESOVENTA_ACTIVO", [out_cur])
 
-    cursor.callproc("SP_LISTAR_PROCESOVENTA_ACTIVO", [out_cur])
+#     lista = []
 
-    lista = []
+#     for fila in out_cur:
+#         lista.append(fila)
+#     return lista
 
-    for fila in out_cur:
-        lista.append(fila)
-    return lista
 
 @login_required
 def modificar_datos_personales(request, id):

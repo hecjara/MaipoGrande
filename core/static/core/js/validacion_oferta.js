@@ -1,6 +1,18 @@
 function validacion() {
+    lote = document.getElementById("cbolote").value;
     cantidad = document.getElementById("cantidadtxt").value;
     oferta = document.getElementById("ofertatxt").value;
+
+    if (lote == null || lote == 0) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Seleccione un lote para realizar la oferta',
+            // footer: '<a href>Why do I have this issue?</a>'
+        })
+
+        return false;
+    }
 
     if (cantidad == null || cantidad.length == 0 || /^\s+$/.test(cantidad)) {
         Swal.fire({
@@ -19,7 +31,6 @@ function validacion() {
             text: 'Ingrece una cantidad válida!',
             // footer: '<a href>Why do I have this issue?</a>'
         })
-
 
         return false;
     }
