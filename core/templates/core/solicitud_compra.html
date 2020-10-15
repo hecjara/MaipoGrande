@@ -4,6 +4,8 @@
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
 {% endblock %}
 
 {% block contenido %}
@@ -12,14 +14,15 @@
 
 <div class="container">
 
-    <h1 class="text-center">Mis solicitudes <i class="fas fa-shopping-basket"></i></h1>
+    <hr class="new4">
+    <h1 class="text-center text-white">Mis solicitudes <i class="fas fa-shopping-basket"></i></h1>
+    <hr class="new4">
 
-    
     <a href="{% url 'formulario_solicitud' %}" class="btn btn-success btn-rounded">
         <i class="fas fa-plus-circle" aria-hidden="true"></i>
         Nueva Solicitud
     </a>
-    
+
     <br>
     <br>
 
@@ -32,8 +35,6 @@
                     <th scope="col" class="text-center">Nro. Solicitud</th>
                     <th scope="col" class="text-center">Fecha ingreso</th>
                     <th scope="col" class="text-center">Estado</th>
-                    <!-- <th scope="col">Productos</th> -->
-                    <!-- <th scope="col">Oferta??</th> -->
                     <th scope="col" class="text-center">Envio</th>
                     <th scope="col" class="text-center">Opciones Solicitud</th>
                     <th scope="col" class="text-center">Opciones Productos</th>
@@ -49,13 +50,15 @@
                     <td class="text-center">{{ s.id_estado.nombre_estado }}</td>
                     <td class="text-center">Entre {{ s.fecha_min|date:"d M" }} y {{ s.fecha_max|date:"d M Y" }} </td>
 
-                    {% if s.id_estado.nombre_estado == 'Anulado' %}
+                    {% if s.id_estado.nombre_estado == 'Anulado' or s.id_estado.nombre_estado == 'Recibido' %}
 
                     <td class="text-center">
-                        <!-- <a class="btn btn-primary btn-sm" href=""><i class="fas fa-cogs mr-1"></i>Modificar</a> -->
                         <a class="btn btn-danger btn-rounded btn-sm disabled"
                             href="{% url 'anular_solicitud' s.id_solicitud %}" aria-disabled="true" role="button"><i
                                 class="fas fa-minus-circle mr-1" aria-hidden="true"></i>Anular</a>
+                        <a class="btn btn-info btn-rounded btn-sm disabled"
+                            href="{% url 'actualizar_pedidorecibido' s.id_solicitud %}"><i
+                                class="fas fa-hand-receiving mr-1" aria-hidden="true"></i>Recibido</a>
                     </td>
                     <td class="text-center">
                         <a class="btn btn-primary btn-sm disabled" href="{% url 'agregar_producto' s.id_solicitud %}"
@@ -67,10 +70,12 @@
                     {% else %}
 
                     <td class="text-center">
-                        <!-- <a class="btn btn-primary btn-sm" href=""><i class="fas fa-cogs mr-1"></i>Modificar</a> -->
                         <a class="btn btn-danger btn-rounded btn-sm"
                             href="{% url 'anular_solicitud' s.id_solicitud %}"><i class="fas fa-minus-circle mr-1"
                                 aria-hidden="true"></i>Anular</a>
+                        <a class="btn btn-info btn-rounded btn-sm"
+                            href="{% url 'actualizar_pedidorecibido' s.id_solicitud %}"><i
+                                class="fas fa-hand-receiving mr-1" aria-hidden="true"></i>Recibido</a>
                     </td>
                     <td class="text-center">
                         <a class="btn btn-primary btn-sm" href="{% url 'agregar_producto' s.id_solicitud %}"><i
@@ -99,8 +104,8 @@
     {% if messages %}
     <div class="messages">
         {% for message in messages %}
-        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-        {% endfor %}
+        <p{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</p>
+            {% endfor %}
     </div>
     {% endif %}
 </div>

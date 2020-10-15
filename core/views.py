@@ -45,6 +45,28 @@ def mis_productos(request):
     return render(request, "core/mis_productos.html", data)
 
 
+def actualizar_pedidorecibido(request, id_solicitud):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc("SP_PEDIDO_RECIBIDO", [id_solicitud, salida])
+    res = salida.getvalue()
+
+    if res == 1:
+        messages.success(
+            request,
+            "Estado actualizado correctamente.",
+            extra_tags="alert alert-success",
+        )
+    else:
+        messages.error(
+            request,
+            "Error al intentar actualizar el estado.",
+            extra_tags="alert alert-danger",
+        )
+    return redirect("solicitud_compra")
+
+
 def listar_misproductos(id_usuario):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -89,8 +111,8 @@ def producto_procesoventa(request, id_detalle, id_proceso, id_producto):
     data = {
         "producto": ver_productoProceso(id_detalle),
         "lote": listar_lotes(id_producto, id_usuario),
-        "historial":listar_historial_ofertas(id_proceso),
-        "mejoroferta":mejor_oferta()
+        "historial": listar_historial_ofertas(id_proceso),
+        "mejoroferta": mejor_oferta(),
     }
 
     if request.POST:
@@ -127,7 +149,9 @@ def producto_procesoventa(request, id_detalle, id_proceso, id_producto):
                     "Error al realizar la oferta " + str(e),
                     extra_tags="alert alert-danger",
                 )
-            return redirect("producto_procesoventa", id_detalle, id_proceso, id_producto)
+            return redirect(
+                "producto_procesoventa", id_detalle, id_proceso, id_producto
+            )
 
     return render(request, "core/producto_procesoventa.html", data)
 
@@ -197,20 +221,6 @@ def listar_procesoventaconproductoscoincidentes(
     for fila in out_cur:
         lista.append(fila)
     return lista
-
-
-# def listar_procesoventa():        # listar todos los procesos de venta activos
-#     django_cursor = connection.cursor()
-#     cursor = django_cursor.connection.cursor()
-#     out_cur = django_cursor.connection.cursor()
-
-#     cursor.callproc("SP_LISTAR_PROCESOVENTA_ACTIVO", [out_cur])
-
-#     lista = []
-
-#     for fila in out_cur:
-#         lista.append(fila)
-#     return lista
 
 
 @login_required
