@@ -67,6 +67,28 @@ def actualizar_pedidorecibido(request, id_solicitud):
     return redirect("solicitud_compra")
 
 
+def actualizar_pedidoanulado(request, id_solicitud):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc("SP_PEDIDO_ANULADO", [id_solicitud, salida])
+    res = salida.getvalue()
+
+    if res == 1:
+        messages.success(
+            request,
+            "La solicitud ha sido anulada correctamente.",
+            extra_tags="alert alert-success",
+        )
+    else:
+        messages.error(
+            request,
+            "Error al intentar anular la solicitud.",
+            extra_tags="alert alert-danger",
+        )
+    return redirect("solicitud_compra")
+
+
 def listar_misproductos(id_usuario):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()

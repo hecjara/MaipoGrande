@@ -17,6 +17,7 @@ from .views import (
     producto_procesoventa,
     mis_productos,
     actualizar_pedidorecibido,
+    actualizar_pedidoanulado,
 )
 
 urlpatterns = [
@@ -37,4 +38,5 @@ urlpatterns = [
     path("producto_procesoventa/<id_detalle>/<id_proceso>/<id_producto>/", producto_procesoventa, name="producto_procesoventa"),
     path("mis_productos/", mis_productos, name="mis_productos"),
     path("actualizar_pedidorecibido/<id_solicitud>/", actualizar_pedidorecibido, name="actualizar_pedidorecibido"),
+    path("actualizar_pedidoanulado/<id_solicitud>/", actualizar_pedidoanulado, name="actualizar_pedidoanulado"),
 ]

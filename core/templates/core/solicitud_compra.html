@@ -8,6 +8,11 @@
 <link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
 {% endblock %}
 
+{% block javascript %}
+<script src="{% static 'core/js/confirmacion_solicitud.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+{% endblock %}
+
 {% block contenido %}
 
 <br>
@@ -53,12 +58,11 @@
                     {% if s.id_estado.nombre_estado == 'Anulado' or s.id_estado.nombre_estado == 'Recibido' %}
 
                     <td class="text-center">
-                        <a class="btn btn-danger btn-rounded btn-sm disabled"
-                            href="{% url 'anular_solicitud' s.id_solicitud %}" aria-disabled="true" role="button"><i
-                                class="fas fa-minus-circle mr-1" aria-hidden="true"></i>Anular</a>
-                        <a class="btn btn-info btn-rounded btn-sm disabled"
-                            href="{% url 'actualizar_pedidorecibido' s.id_solicitud %}"><i
-                                class="fas fa-hand-receiving mr-1" aria-hidden="true"></i>Recibido</a>
+                        <a class="btn btn-danger btn-rounded btn-sm disabled" href="" aria-disabled="true"
+                            role="button"><i class="fas fa-minus-circle mr-1" aria-hidden="true"></i>Anular</a>
+
+                        <a class="btn btn-info btn-rounded btn-sm disabled" href="" aria-disabled="true"
+                            role="button"><i class="fas fa-hand-receiving mr-1" aria-hidden="true"></i>Recibido</a>
                     </td>
                     <td class="text-center">
                         <a class="btn btn-primary btn-sm disabled" href="{% url 'agregar_producto' s.id_solicitud %}"
@@ -71,10 +75,10 @@
 
                     <td class="text-center">
                         <a class="btn btn-danger btn-rounded btn-sm"
-                            href="{% url 'anular_solicitud' s.id_solicitud %}"><i class="fas fa-minus-circle mr-1"
+                            onclick="confirmarAnularSolicitud({{s.id_solicitud}})"><i class="fas fa-minus-circle mr-1"
                                 aria-hidden="true"></i>Anular</a>
                         <a class="btn btn-info btn-rounded btn-sm"
-                            href="{% url 'actualizar_pedidorecibido' s.id_solicitud %}"><i
+                            onclick="confirmarActualizarSolicitud({{s.id_solicitud}})"><i
                                 class="fas fa-hand-receiving mr-1" aria-hidden="true"></i>Recibido</a>
                     </td>
                     <td class="text-center">
