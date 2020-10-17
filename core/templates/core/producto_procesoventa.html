@@ -54,11 +54,11 @@
                                             <div class="input-group-prepend">
                                               <label class="input-group-text bg-success text-white" for="cbolote">Seleccione lote para ofertar</label>
                                             </div>
-                                            <select class="custom-select" name="cbolote" id="cbolote" required>
+                                            <select class="custom-select" name="cboprodbod" id="cboprodbod" required>
                                               <option selected value="">Seleccione lote</option>
-                                                {% for l in lote %}
-                                                    {% if l.1 == p.8 and l.6 == request.user.id %}
-                                                        <option value="{{ l.0 }}">Lote Nro. {{ l.0 }}, {{ l.2 }}, {{ l.3 }} Kilos</option>
+                                                {% for pb in prod_bod %}
+                                                    {% if pb.1 == p.8 and pb.6 == request.user.id %}
+                                                        <option value="{{ pb.0 }}">Lote Nro. {{ pb.0 }}, {{ pb.2 }}, {{ pb.3 }} Kilos</option>
                                                     {% endif %}
                                                 {% endfor %}
                                             </select>
@@ -79,8 +79,8 @@
                                         </div>
 
                                         <button type="submit" class="btn btn-primary">Ofertar mi producto</button>
-                                        <input type="hidden" name="id_producto" id="id_producto" value="{{ p.8 }}">
-                                        <input type="hidden" name="id_proceso" id="id_proceso" value="{{ p.7 }}">
+                                        <input type="text" name="id_producto" id="id_producto" value="{{ p.8 }}">
+                                        <input type="text" name="id_proceso" id="id_proceso" value="{{ p.7 }}">
                                     </form>
                                 </div>
                             </div>
@@ -110,10 +110,10 @@
             <div class="row">
                 <div class="col-md-6">
                     <h5 class="card-title">Mejor Oferta Hasta el momento:</h5>
-                    <p class="card-text">{{ mo.1 }}</p>
-                    <p class="card-text">{{ mo.2 }} kilos</p>
-                    <p class="card-text">Oferta: ${{ mo.3 }}</p>
-                    <p class="card-text">Fecha y Hora: {{ mo.4 }}</p>
+                    <p class="card-text">{{ mo.0 }}</p>
+                    <p class="card-text">{{ mo.1 }} kilos</p>
+                    <p class="card-text">Oferta: ${{ mo.2 }}</p>
+                    <p class="card-text">Fecha y Hora: {{ mo.3 }}</p>
                 </div>
                 <div class="col-md-6 d-flex justify-content-center">
                     <div class="vertical-center">
@@ -156,10 +156,10 @@
         <tbody>
             {% for h in historial %}
             <tr>
-                <td class="text-center">{{ h.6 }}</td>
-                <td class="text-center">{{ h.3 }}</td>
-                <td class="text-center">{{ h.2 }} Kilos</td>
-                <td class="text-center">${{ h.1 }}</td>
+                <td class="text-center">{{ h.1 }}</td>
+                <td class="text-center">{{ h.2 }}</td>
+                <td class="text-center">{{ h.4 }} Kilos</td>
+                <td class="text-center">${{ h.3 }}</td>
             </tr>
             {% endfor %}
         </tbody>

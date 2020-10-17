@@ -33,7 +33,7 @@
 
     <div class="table-responsive">
         <!--Table-->
-        <table id="tablePreview" class="table table-hover table-fixed table-bordered ">
+        <table id="tablePreview" class="table table-condensed table-hover table-fixed table-bordered">
             <!--Table head-->
             <thead class="green white-text">
                 <tr>
@@ -43,6 +43,8 @@
                     <th scope="col" class="text-center">Envio</th>
                     <th scope="col" class="text-center">Opciones Solicitud</th>
                     <th scope="col" class="text-center">Opciones Productos</th>
+                    <th scope="col" class="text-center">Oferta</th>
+                    <th scope="col" class="text-center">Envio</th>
                 </tr>
             </thead>
             <!--Table head-->
@@ -51,9 +53,9 @@
                 {% for s in soli %}
                 <tr>
                     <td class="text-center">{{ s.id_solicitud }}</td>
-                    <td class="text-center">{{ s.fecha_pedido }}</td>
+                    <td class="text-center">{{ s.fecha_pedido|date:"d/m/y" }}</td>
                     <td class="text-center">{{ s.id_estado.nombre_estado }}</td>
-                    <td class="text-center">Entre {{ s.fecha_min|date:"d M" }} y {{ s.fecha_max|date:"d M Y" }} </td>
+                    <td class="text-center">Entre {{ s.fecha_min|date:"d/m/y" }} y {{ s.fecha_max|date:"d/m/y" }} </td>
 
                     {% if s.id_estado.nombre_estado == 'Anulado' or s.id_estado.nombre_estado == 'Recibido' %}
 
@@ -90,6 +92,12 @@
 
                     {% endif %}
 
+                    <td>
+                        <a href="#" role="button" class="btn btn-primary btn-sm">Ver</a>
+                    </td>
+                    <td>
+                        <a href="" role="button" class="btn btn-primary btn-sm">Ver</a>
+                    </td>
                 </tr>
 
                 {% endfor %}
