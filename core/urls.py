@@ -15,10 +15,11 @@ from .views import (
     modificar_detalleproducto,
     procesos_venta,
     producto_procesoventa,
+    actualizar_pedidorecibido,
+    actualizar_pedidoanulado,
+    resultado_solicitud,
     # mis_productos,
-    # actualizar_pedidorecibido,
-    # actualizar_pedidoanulado,
-    # ofertas_ganadoras,
+
 )
 
 urlpatterns = [
@@ -37,8 +38,9 @@ urlpatterns = [
     path("modificar_detalleproducto/<id>/", modificar_detalleproducto, name="modificar_detalleproducto"),
     path("procesos_venta/", procesos_venta, name="procesos_venta"),
     path("producto_procesoventa/<id_detalle>/<id_proceso>/<id_producto>/", producto_procesoventa, name="producto_procesoventa"),
+    path("actualizar_pedidorecibido/<id_solicitud>/", actualizar_pedidorecibido, name="actualizar_pedidorecibido"),
+    path("actualizar_pedidoanulado/<id_solicitud>/", actualizar_pedidoanulado, name="actualizar_pedidoanulado"),
+    path("resultado_solicitud/<id_solicitud>/", resultado_solicitud, name="resultado_solicitud"),
     # path("mis_productos/", mis_productos, name="mis_productos"),
-    # path("actualizar_pedidorecibido/<id_solicitud>/", actualizar_pedidorecibido, name="actualizar_pedidorecibido"),
-    # path("actualizar_pedidoanulado/<id_solicitud>/", actualizar_pedidoanulado, name="actualizar_pedidoanulado"),
-    # path("ofertas_ganadoras/<id_solicitud>/", ofertas_ganadoras, name="ofertas_ganadoras"),
+
 ]

@@ -28,6 +28,7 @@ from datetime import datetime
 from django.db import connection
 from django.core.files.base import ContentFile
 import base64
+from django.utils import timezone
 
 # Create your views here.
 
@@ -35,13 +36,54 @@ import base64
 def home(request):
     return render(request, "core/home.html")
 
+def resultado_solicitud(request, id_solicitud):
+
+    data = {
+        'ganadores': listar_ganadores(id_solicitud),
+        'total': obtener_valor_total(id_solicitud),
+    }
+
+    return render(request, "core/resultado_solicitud.html", data)
+
+
+def obtener_valor_total(id_solicitud):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_VALOR_TOTAL", [id_solicitud, out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def listar_ganadores(id_solicitud):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_GANADORES", [id_solicitud, out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
+
 @login_required
 def procesos_venta(request):  # listar procesos de ventas activos
     id_usuario = request.user.id
 
-    data = {"procesos": listar_procesoventaconproductoscoincidentes(id_usuario)}
+    data = {
+        "procesos": listar_procesoventaconproductoscoincidentes(id_usuario),
+    }
 
     return render(request, "core/procesos_venta.html", data)
+
 
 
 def listar_procesoventaconproductoscoincidentes(id_usuario):  # listar procesos de venta que tengan un producto que el proveedor tenga en bodega
@@ -74,7 +116,9 @@ def producto_procesoventa(request, id_detalle, id_proceso, id_producto):
         historial = HISTORIAL_POSTULACION()
         historial.oferta = request.POST.get("ofertatxt")
         historial.cantidad = request.POST.get("cantidadtxt")
-        now = datetime.now()
+
+        now = timezone.now()
+        # now = datetime.now()
         historial.fecha_oferta = now
 
         pv = PROCESO_VENTA()
@@ -168,52 +212,6 @@ def listar_mejor_oferta(id_proceso, id_producto):
         lista.append(fila)
     return lista
 
-
-# def ofertas_ganadoras(request, id_solicitud):
-
-#     # data = {
-#     #     "ganadores":ver_ofertas_ganadoras(id_solicitud)
-#     # }
-
-#     return render(request, "core/ofertas_ganadoras.html")
-
-# def ver_ofertas_ganadoras(id_solicitud):
-#     django_cursor = connection.cursor()
-#     cursor = django_cursor.connection.cursor()
-#     out_cur = django_cursor.connection.cursor()
-
-#     cursor.callproc("SP_LISTAR_GANADORES", [id_solicitud, out_cur])
-
-#     lista = []
-
-#     for fila in out_cur:
-#         lista.append(fila)
-#     return lista
-
-# def listar_mejorOfertaYproceso(id_proceso, id_detalle):
-#     django_cursor = connection.cursor()
-#     cursor = django_cursor.connection.cursor()
-#     out_cur = django_cursor.connection.cursor()
-
-#     cursor.callproc("SP_LISTAR_MEJOR_OFERTAYPROCESO", [id_proceso, id_detalle, out_cur])
-
-#     lista = []
-
-#     for fila in out_cur:
-#         lista.append(fila)
-#     return lista
-
-
-# @login_required
-# def mis_productos(request):
-
-#     id_usuario = request.user.id
-
-#     data = {"procesos": listar_misproductos(id_usuario)}
-
-#     return render(request, "core/mis_productos.html", data)
-
-
 def actualizar_pedidorecibido(request, id_solicitud):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -258,6 +256,16 @@ def actualizar_pedidoanulado(request, id_solicitud):
     return redirect("solicitud_compra")
 
 
+# @login_required
+# def mis_productos(request):
+
+#     id_usuario = request.user.id
+
+#     data = {"procesos": listar_misproductos(id_usuario)}
+
+#     return render(request, "core/mis_productos.html", data)
+
+
 # def listar_misproductos(id_usuario):
 #     django_cursor = connection.cursor()
 #     cursor = django_cursor.connection.cursor()
@@ -270,15 +278,6 @@ def actualizar_pedidoanulado(request, id_solicitud):
 #     for fila in out_cur:
 #         lista.append(fila)
 #     return lista
-
-
-# def get_idprodbod(id_lote):
-#     django_cursor = connection.cursor()
-#     cursor = django_cursor.connection.cursor()
-#     salida = cursor.var(cx_Oracle.NUMBER)
-#     cursor.callproc("SP_GET_IDPRODBOD", [id_lote, salida])
-#     return salida.getvalue()
-
 
 @login_required
 def modificar_datos_personales(request, id):

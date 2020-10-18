@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% load auth_extras %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/centro.css' %}">
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'core/js/countdown.js' %}"></script>
+<script src="{% static 'core/js/hora.js' %}"></script>
+<script src="{% static 'core/js/validacion_oferta.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<!-- <script src="{% static 'core/js/guardado.js' %}"></script> -->
+{% endblock %}
+
+{% block contenido %}
+
+<br>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            Resultados proceso venta Nro. {{ ganadores.0.0 }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Productos ofrecidos</h5>
+
+            {% for g in ganadores %}
+
+            <div class="card">
+                <div class="row mt-2">
+                    <img src="{{ g.3 }}" alt="fruta" class="mr-2 ml-5" width="150" height="150">
+                    <div class="col">
+                        <p>Producto ofrecido: {{ g.2 }}</p>
+                        <p>Cantidad ofrecida: {{ g.4 }} Kilos</p>
+                        <p>Oferta: ${{ g.5 }}</p>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            {% endfor %}
+
+            {% for t in total %}
+            <p>Total a pagar por productos: ${{ t.0 }}</p>
+            {% endfor %}
+
+            <a href="#" class="btn btn-primary"><i class="fas fa-check-circle mr-2"></i>Aceptar oferta</a>
+            <a href="" class="btn btn-danger"><i class="fas fa-ban mr-2"></i>Rechazar oferta</a>
+        </div>
+        <div class="card-footer text-muted bg-success">
+        </div>
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}
