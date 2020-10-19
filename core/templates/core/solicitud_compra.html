@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
 <link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
 <link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/parpadeo.css' %}">
 {% endblock %}
 
 {% block javascript %}
@@ -17,7 +18,7 @@
 
 <br>
 
-<div class="">
+<div class="mr-5 ml-5">
 
     <hr class="new4">
     <h1 class="text-center text-white">Mis solicitudes <i class="fas fa-shopping-basket"></i></h1>
@@ -52,56 +53,114 @@
             <tbody>
                 {% for s in soli %}
                 <tr>
-                    <td class="text-center">{{ s.id_solicitud }}</td>
-                    <td class="text-center">{{ s.fecha_pedido|date:"d/m/y" }}</td>
-                    <td class="text-center">{{ s.id_estado.nombre_estado }}</td>
-                    <td class="text-center">Entre {{ s.fecha_min|date:"d/m/y" }} y {{ s.fecha_max|date:"d/m/y" }} </td>
+                    <td class="text-center">{{ s.0 }}</td>
+                    <td class="text-center">{{ s.1|date:"d/m/y" }}</td>
+                    <td class="text-center">{{ s.3 }}</td>
+                    <td class="text-center">Entre {{ s.4|date:"d/m/y" }} y {{ s.5|date:"d/m/y" }} </td>
 
-                    {% if s.id_estado.nombre_estado == 'Anulado' or s.id_estado.nombre_estado == 'Recibido' %}
-
+                    {% if s.3 == 'Anulado' or s.3 == 'Recibido' %}
                     <td class="text-center">
-                        <a class="btn btn-danger btn-rounded btn-sm disabled" href="" aria-disabled="true"
-                            role="button"><i class="fas fa-minus-circle mr-1" aria-hidden="true"></i>Anular</a>
-
-                        <a class="btn btn-info btn-rounded btn-sm disabled" href="" aria-disabled="true"
-                            role="button"><i class="fas fa-hand-receiving mr-1" aria-hidden="true"></i>Recibido</a>
+                        <a class="btn btn-danger btn-rounded btn-sm disabled"
+                            onclick="confirmarAnularSolicitud({{s.0}})"><i class="fas fa-minus-circle mr-1"
+                                aria-hidden="true"></i>Anular</a>
+                        <a class="btn btn-info btn-rounded btn-sm disabled"
+                            onclick="confirmarActualizarSolicitud({{s.0}})"><i
+                                class="fas fa-hand-receiving mr-1" aria-hidden="true"></i>Recibido</a>
                     </td>
+                    {% else %}
                     <td class="text-center">
-                        <a class="btn btn-primary btn-sm disabled" href="{% url 'agregar_producto' s.id_solicitud %}"
-                            aria-disabled="true" role="button"><i class="fas fa-cart-plus mr-1"></i>Agregar</a>
-                        <a class="btn btn-primary btn-sm disabled" href="{% url 'listar_productos' s.id_solicitud %}"
-                            aria-disabled="true" role="button"><i class="fas fa-cog mr-1"></i>Administrar</a>
+                        <a class="btn btn-danger btn-rounded btn-sm"
+                            onclick="confirmarAnularSolicitud({{s.0}})"><i class="fas fa-minus-circle mr-1"
+                                aria-hidden="true"></i>Anular</a>
+                        <a class="btn btn-info btn-rounded btn-sm"
+                            onclick="confirmarActualizarSolicitud({{s.0}})"><i
+                                class="fas fa-hand-receiving mr-1" aria-hidden="true"></i>Recibido</a>
+                    </td>
+                    {% endif %}
+    
+                    {% if s.3 == 'Pendiente' %}
+
+                    <td class="text-center">
+                        <a class="btn btn-primary btn-sm" href="{% url 'agregar_producto' s.0 %}"><i
+                                class="fas fa-cart-plus mr-1"></i>Agregar</a>
+                        <a class="btn btn-primary btn-sm" href="{% url 'listar_productos' s.0 %}"><i
+                                class="fas fa-cog mr-1"></i>Administrar</a>
                     </td>
 
                     {% else %}
 
                     <td class="text-center">
-                        <a class="btn btn-danger btn-rounded btn-sm"
-                            onclick="confirmarAnularSolicitud({{s.id_solicitud}})"><i class="fas fa-minus-circle mr-1"
-                                aria-hidden="true"></i>Anular</a>
-                        <a class="btn btn-info btn-rounded btn-sm"
-                            onclick="confirmarActualizarSolicitud({{s.id_solicitud}})"><i
-                                class="fas fa-hand-receiving mr-1" aria-hidden="true"></i>Recibido</a>
-                    </td>
-                    <td class="text-center">
-                        <a class="btn btn-primary btn-sm" href="{% url 'agregar_producto' s.id_solicitud %}"><i
+                        <a class="btn btn-primary btn-sm disabled" href="{% url 'agregar_producto' s.0 %}"><i
                                 class="fas fa-cart-plus mr-1"></i>Agregar</a>
-                        <a class="btn btn-primary btn-sm" href="{% url 'listar_productos' s.id_solicitud %}"><i
-                                class="fas fa-cog mr-1"></i>Administrar</a>
+                        <a class="btn btn-primary btn-sm" href="{% url 'listar_productos' s.0 %}"><i
+                                class="far fa-eye mr-1"></i>Productos</a>
                     </td>
 
                     {% endif %}
 
-                    <td>
-                        <a href="{% url 'resultado_solicitud' s.id_solicitud %}" role="button" class="btn btn-primary btn-sm">Resultado</a>
+
+                    {% if s.3 == 'Pendiente' or s.3 == 'En proceso' %}
+
+                    <td class="text-center">
+                        <a href="{% url 'resultado_solicitud' s.0 %}" role="button" 
+                        class="btn btn-info btn-sm disabled" data-toggle="tooltip" data-placement="top" title="No disponible">
+                        <i class="far fa-eye"></i>
+                        </a>
                     </td>
-                    <td>
-                        <a href="" role="button" class="btn btn-primary btn-sm">Ver</a>
+
+                    {% elif s.3 == 'Terminado' %}
+
+                    <td class="text-center">
+                        <a href="{% url 'resultado_solicitud' s.0 %}" role="button" 
+                        class="btn btn-warning btn-sm parpadea" data-toggle="tooltip" data-placement="top" title="Resultado solicitud disponible">
+                        <i class="far fa-eye"></i>
+                        </a>
                     </td>
+
+                    {% else %}
+
+                    <td class="text-center">
+                        <a href="{% url 'resultado_solicitud' s.0 %}" role="button" 
+                        class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver resultado solicitud">
+                        <i class="far fa-eye"></i>
+                        </a>
+                    </td>
+
+                    {% endif %}
+
+
+                    {% if s.3 == 'Pendiente' or s.3 == 'En proceso' or s.3 == 'Terminado' or s.3 == 'Eligiendo transporte' %}
+
+                    <td class="text-center">
+                        <a href="" role="button" 
+                        class="btn btn-info btn-sm disabled" data-toggle="tooltip" data-placement="top" title="No disponible">
+                        <i class="far fa-eye"></i>
+                        </a>
+                    </td>
+
+                    {% elif s.3 == 'En bodega' %}
+                    
+                    <td class="text-center">
+                        <a href="" role="button" 
+                        class="btn btn-warning btn-sm parpadea" data-toggle="tooltip" data-placement="top" title="Resultado transporte disponible">
+                        <i class="far fa-eye"></i>
+                        </a>
+                    </td>
+
+                    {% else %}
+
+                    <td class="text-center">
+                        <a href="" role="button" 
+                        class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver envio">
+                        <i class="far fa-eye"></i>
+                        </a>
+                    </td>
+
+                    {% endif %}
+
                 </tr>
 
                 {% endfor %}
-
 
             </tbody>
             <!--Table body-->

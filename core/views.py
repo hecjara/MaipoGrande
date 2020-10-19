@@ -36,6 +36,29 @@ from django.utils import timezone
 def home(request):
     return render(request, "core/home.html")
 
+
+def aceptar_oferta(request, id_solicitud):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc("SP_ACEPTAR_OFERTA", [id_solicitud, salida])
+    res = salida.getvalue()
+
+    if res == 1:
+        messages.success(
+            request,
+            "La oferta ha sido aceptada, ahora pasara a la fase de subasta de transporte.",
+            extra_tags="alert alert-success",
+        )
+    else:
+        messages.error(
+            request,
+            "Error al intentar aceptar la oferta.",
+            extra_tags="alert alert-danger",
+        )
+    return redirect("solicitud_compra")
+
+
 def resultado_solicitud(request, id_solicitud):
 
     data = {
@@ -72,8 +95,6 @@ def listar_ganadores(id_solicitud):
         lista.append(fila)
     return lista
 
-
-
 @login_required
 def procesos_venta(request):  # listar procesos de ventas activos
     id_usuario = request.user.id
@@ -83,8 +104,6 @@ def procesos_venta(request):  # listar procesos de ventas activos
     }
 
     return render(request, "core/procesos_venta.html", data)
-
-
 
 def listar_procesoventaconproductoscoincidentes(id_usuario):  # listar procesos de venta que tengan un producto que el proveedor tenga en bodega
     django_cursor = connection.cursor()
@@ -170,8 +189,6 @@ def listar_prod_bod(id_producto, id_usuario):
         lista.append(fila)
     return lista
 
-
-
 def ver_productoProceso(id):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -191,20 +208,6 @@ def listar_historial_ofertas(id_proceso, id_producto):
     out_cur = django_cursor.connection.cursor()
 
     cursor.callproc("SP_LISTAR_HISTORIAL", [id_proceso, id_producto, out_cur])
-
-    lista = []
-
-    for fila in out_cur:
-        lista.append(fila)
-    return lista
-
-
-def listar_mejor_oferta(id_proceso, id_producto):
-    django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor()
-    out_cur = django_cursor.connection.cursor()
-
-    cursor.callproc("SP_LISTAR_MEJOR_OFERTA", [id_proceso, id_producto, out_cur])
 
     lista = []
 
@@ -343,9 +346,27 @@ def perfil_usuario(request, id):
 @login_required
 def solicitud_compra(request):
 
-    soli = SOLICITUD_COMPRA.objects.filter(id_usuario=request.user)
+    id_usuario = request.user.id
 
-    return render(request, "core/solicitud_compra.html", {"soli": soli})
+    data = {
+        'soli': listar_solicitudes(id_usuario)
+    }
+
+    return render(request, "core/solicitud_compra.html", data)
+
+
+def listar_solicitudes(id_usuario):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_SOLICITUDES", [id_usuario, out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
 
 
 @login_required
