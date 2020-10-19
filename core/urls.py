@@ -20,6 +20,8 @@ from .views import (
     resultado_solicitud,
     aceptar_oferta,
     rechazar_oferta,
+    subastas_transporte_activas,
+    subasta_transporte,
     # mis_productos,
 
 )
@@ -45,6 +47,8 @@ urlpatterns = [
     path("resultado_solicitud/<id_solicitud>/", resultado_solicitud, name="resultado_solicitud"),
     path("aceptar_oferta/<id_solicitud>/", aceptar_oferta, name="aceptar_oferta"),
     path("rechazar_oferta/<id_solicitud>/", rechazar_oferta, name="rechazar_oferta"),
+    path("subasta_transporte/<id_subasta>/", subasta_transporte, name="subasta_transporte"),
+    path("subastas_transporte_activas/", subastas_transporte_activas, name="subastas_transporte_activas"),
     # path("mis_productos/", mis_productos, name="mis_productos"),
 
 ]

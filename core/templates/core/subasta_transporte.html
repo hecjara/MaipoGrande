@@ -1,0 +1,76 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/parpadeo.css' %}">
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'core/js/confirmacion_solicitud.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="{% static 'core/js/countdown.js' %}"></script>
+<script src="{% static 'core/js/hora.js' %}"></script>
+{% endblock %}
+
+{% block contenido %}
+<br>
+
+{% for s in subasta %}
+
+<div class="container">
+    <div class="card text-center">
+        <div class="card-header bg-success text-white">
+            Subasta Transporte Nro. {{ s.0 }} - Solicitud Nro. {{ s.4 }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Se requiere un transporte con las siguientes características:</h5>
+            <p class="card-text">Capacidad: {{ s.10 }}</p>
+            <p class="card-text">Destino: {{ s.11 }}</p>
+            <p class="card-text">Requiere refrigeración: {{ s.8 }}</p>
+            <p class="card-text">Fecha entrega: {{ s.12|date:"d/m/y" }}</p>
+
+            <hr class="new6">
+
+            <p class="card-text">Hora inicio subasta: {{ s.1 }}</p>
+            <p class="card-text">Hora termino subasta: {{ s.2 }}</p>
+
+            <div class="card border-success">
+                <form action="" method="POST" class="was-validated" onsubmit="">
+                    {% csrf_token %}
+
+                    <div class="col-md-3 container mt-2 mb-2">
+                        <div class="form-group">
+                            <label for="ofertatxt">Precio Oferta: </label>
+                            <input type="number" name="ofertatxt" id="ofertatxt" class="form-control" placeholder="$"
+                                required>
+                            <div class="invalid-feedback">Ingrese una oferta válida</div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Realizar oferta</button>
+                    </div>
+
+                    <input type="hidden" name="id_producto" id="id_subasta" value="{{ s.0 }}">
+                    <input type="hidden" name="id_proceso" id="id_proceso" value="{{ p.3 }}">
+                </form>
+            </div>
+
+            <br>
+
+            <h5 class="card-title">Estado subasta:</h5>
+            <input type="hidden" name="fechaT" id="fechaT"
+                value="{{ s.2|date:"m/d/y" }} {{ s.2|time:"H:i" }}">
+            <p class="card-text font-weight-bolder" id="cuentaAtras"></p>
+
+
+        </div>
+        <div class="card-footer bg-success text-white"></div>
+    </div>
+</div>
+
+{% endfor %}
+
+<br>
+{% endblock %}

@@ -37,6 +37,53 @@ def home(request):
     return render(request, "core/home.html")
 
 
+def subastas_transporte_activas(request):
+
+    data = {
+        'subastas': listar_subastas_transporte_activas()
+    }
+
+    return render(request, "core/subastas_transporte_activas.html", data)
+
+
+def listar_subastas_transporte_activas():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_SUBASTAS_TRANSPORTE_ACTIVAS", [out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
+def subasta_transporte(request, id_subasta):
+
+    data = {
+        'subasta': buscar_subasta_transporte(id_subasta)
+    }
+
+    return render(request, "core/subasta_transporte.html", data)
+
+
+
+def buscar_subasta_transporte(id_subasta):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_BUSCAR_SUBASTA_TRANSPORTE", [id_subasta, out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
 def rechazar_oferta(request, id_solicitud):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()

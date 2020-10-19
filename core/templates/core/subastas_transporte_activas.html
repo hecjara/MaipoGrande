@@ -1,0 +1,44 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/parpadeo.css' %}">
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'core/js/confirmacion_solicitud.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+{% endblock %}
+
+{% block contenido %}
+
+<hr class="new4">
+<h1 class="text-center text-white">Subastas de transporte activas <i class="fas fa-truck"></i></h1>
+<hr class="new4">
+
+{% for s in subastas %}
+
+<div class="container">
+    <div class="card text-center">
+        <div class="card-header bg-success text-white">
+            Subasta Transporte Nro. {{ s.0 }} - Solicitud Nro. {{ s.4 }} 
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Se requiere un transporte con las siguientes características:</h5>
+            <p class="card-text">Capacidad: {{ s.10 }}</p>
+            <p class="card-text">Destino: {{ s.11 }}</p>
+            <p class="card-text">Requiere refrigeración: {{ s.8 }}</p>
+            <p class="card-text">Fecha entrega: {{ s.12|date:"d/m/y" }}</p>
+            <a href="{% url 'subasta_transporte' s.0 %}" class="btn btn-success">Ir a subasta</a>
+        </div>
+        <div class="card-footer bg-success text-white"></div>
+    </div>
+</div>
+
+{% endfor %}
+
+{% endblock %}
