@@ -49,7 +49,7 @@
             {% endfor %}
 
             <a href="{% url 'aceptar_oferta' ganadores.0.0 %}" class="btn btn-primary"><i class="fas fa-check-circle mr-2"></i>Aceptar oferta</a>
-            <a href="" class="btn btn-danger"><i class="fas fa-ban mr-2"></i>Rechazar oferta</a>
+            <a href="{% url 'rechazar_oferta' ganadores.0.0 %}" class="btn btn-danger"><i class="fas fa-ban mr-2"></i>Rechazar oferta</a>
         </div>
         <div class="card-footer text-muted bg-success">
         </div>

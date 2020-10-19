@@ -2,3 +2,12 @@ thead{
     background-color: rgb(40, 167, 69);
     color: white;
 }
+
+table.table-bordered > thead > tr > th{
+    border:1px solid black;
+  }
+
+  table.table-bordered > tbody > tr > td{
+    border:1px solid black;
+  }
+

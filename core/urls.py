@@ -19,6 +19,7 @@ from .views import (
     actualizar_pedidoanulado,
     resultado_solicitud,
     aceptar_oferta,
+    rechazar_oferta,
     # mis_productos,
 
 )
@@ -43,6 +44,7 @@ urlpatterns = [
     path("actualizar_pedidoanulado/<id_solicitud>/", actualizar_pedidoanulado, name="actualizar_pedidoanulado"),
     path("resultado_solicitud/<id_solicitud>/", resultado_solicitud, name="resultado_solicitud"),
     path("aceptar_oferta/<id_solicitud>/", aceptar_oferta, name="aceptar_oferta"),
+    path("rechazar_oferta/<id_solicitud>/", rechazar_oferta, name="rechazar_oferta"),
     # path("mis_productos/", mis_productos, name="mis_productos"),
 
 ]

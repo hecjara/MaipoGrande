@@ -37,6 +37,27 @@ def home(request):
     return render(request, "core/home.html")
 
 
+def rechazar_oferta(request, id_solicitud):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc("SP_RECHAZAR_OFERTA", [id_solicitud, salida])
+    res = salida.getvalue()
+
+    if res == 1:
+        messages.success(
+            request,
+            "La oferta ha sido rechazada.",
+            extra_tags="alert alert-success",
+        )
+    else:
+        messages.error(
+            request,
+            "Error al intentar rechazar la oferta.",
+            extra_tags="alert alert-danger",
+        )
+    return redirect("solicitud_compra")
+
 def aceptar_oferta(request, id_solicitud):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
