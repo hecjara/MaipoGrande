@@ -24,7 +24,7 @@
     <h1 class="text-center text-white">Mis solicitudes <i class="fas fa-shopping-basket"></i></h1>
     <hr class="new4">
 
-    <a href="{% url 'formulario_solicitud' %}" class="btn btn-success btn-rounded">
+    <a href="{% url 'formulario_solicitud' %}" class="btn btn-primary btn-rounded">
         <i class="fas fa-plus-circle" aria-hidden="true"></i>
         Nueva Solicitud
     </a>
@@ -107,8 +107,9 @@
                     {% if s.3 == 'Pendiente' or s.3 == 'En proceso' or s.3 == 'Oferta rechazada' %}
 
                     <td class="text-center">
-                        <a href="{% url 'resultado_solicitud' s.0 %}" role="button" class="btn btn-secondary btn-sm disabled"
-                            data-toggle="tooltip" data-placement="top" title="No disponible">
+                        <a href="{% url 'resultado_solicitud' s.0 %}" role="button"
+                            class="btn btn-secondary btn-sm disabled" data-toggle="tooltip" data-placement="top"
+                            title="No disponible">
                             <i class="far fa-eye"></i>
                         </a>
                     </td>
@@ -156,8 +157,8 @@
                     {% else %}
 
                     <td class="text-center">
-                        <a href="" role="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top"
-                            title="Ver envio">
+                        <a href="" role="button" class="btn btn-secondary btn-sm" data-toggle="tooltip"
+                            data-placement="top" title="Ver envio">
                             <i class="far fa-eye"></i>
                         </a>
                     </td>
