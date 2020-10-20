@@ -61,6 +61,45 @@ def listar_subastas_transporte_activas():
     return lista
 
 
+# def subasta_transporte(request, id_subasta):
+
+#     data = {
+#         "subasta": buscar_subasta_transporte(id_subasta),
+#     }
+
+#     if request.POST:
+#         hs = HISTORIAL_SUBASTA()
+#         hs.oferta = request.POST.get("ofertatxt")
+
+#         now = timezone.now()
+#         # now = datetime.now()
+#         hs.fecha_oferta = now
+
+#         user = User()
+#         user.id = request.user.id
+#         hs.id_usuario = user
+
+#         st = SUBASTA_TRANSPORTE()
+#         st.id_subasta = request.POST.get("subasta")
+#         hs.id_subasta = st
+
+#         try:
+#             hs.save()
+#             messages.success(
+#                 request,
+#                 "Oferta realizada correctamente.",
+#                 extra_tags="alert alert-success",
+#             )
+#         except Exception as e:
+#             messages.error(
+#                 request,
+#                 "Error al realizar la oferta " + str(e),
+#                 extra_tags="alert alert-danger",
+#             )
+
+#     return render(request, "core/subasta_transporte.html", data)
+
+
 def subasta_transporte(request, id_subasta):
 
     data = {
@@ -68,34 +107,30 @@ def subasta_transporte(request, id_subasta):
     }
 
     if request.POST:
-        hs = HISTORIAL_SUBASTA()
-        hs.oferta = request.POST.get("ofertatxt")
+
+        oferta = request.POST.get("ofertatxt")
 
         now = timezone.now()
-        # now = datetime.now()
-        hs.fecha_oferta = now
+        fecha_oferta = now
 
-        user = User()
-        user.id = request.user.id
-        hs.id_usuario = user
+        id_usuario = request.user.id
 
-        st = SUBASTA_TRANSPORTE()
-        st.id_subasta = request.POST.get("subasta")
-        hs.id_subasta = st
+        id_subasta = request.POST.get("subasta")
 
-        try:
-            hs.save()
-            messages.success(
-                request,
-                "Oferta realizada correctamente.",
-                extra_tags="alert alert-success",
-            )
-        except Exception as e:
-            messages.error(
-                request,
-                "Error al realizar la oferta " + str(e),
-                extra_tags="alert alert-danger",
-            )
+        salida = agregar_oferta_transporte(oferta, fecha_oferta, id_subasta, id_usuario)
+  
+        # hasta aqui nomas porque no quiere funcionar el if salida == 1
+        # if res == 1:
+        #     messages.success(
+        #     request, "Oferta ingresada.", extra_tags="alert alert-success",
+        # )
+        # else:
+        #     messages.error(
+        #     request,
+        #     "Error al intentar ingresar la oferta.",
+        #     extra_tags="alert alert-danger",
+        # )
+
 
     return render(request, "core/subasta_transporte.html", data)
 
@@ -109,6 +144,7 @@ def agregar_oferta_transporte(oferta, fecha_oferta, id_sub_trans, id_usuario):
         [oferta, fecha_oferta, id_sub_trans, id_usuario, salida],
     )
     return salida.getvalue()
+
 
 
 def buscar_subasta_transporte(id_subasta):
