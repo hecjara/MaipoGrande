@@ -19,12 +19,15 @@ from .models import (
     HISTORIAL_POSTULACION,
     PRODUCTO_BODEGA,
     CONCLUSION,
+    HISTORIAL_SUBASTA,
+    SUBASTA_TRANSPORTE,
 )
 import cx_Oracle
 from django.contrib.auth.models import User, Group
 from django.contrib import messages
 from datetime import date
 from datetime import datetime
+import datetime
 from django.db import connection
 from django.core.files.base import ContentFile
 import base64
@@ -39,9 +42,7 @@ def home(request):
 
 def subastas_transporte_activas(request):
 
-    data = {
-        'subastas': listar_subastas_transporte_activas()
-    }
+    data = {"subastas": listar_subastas_transporte_activas()}
 
     return render(request, "core/subastas_transporte_activas.html", data)
 
@@ -63,11 +64,51 @@ def listar_subastas_transporte_activas():
 def subasta_transporte(request, id_subasta):
 
     data = {
-        'subasta': buscar_subasta_transporte(id_subasta)
+        "subasta": buscar_subasta_transporte(id_subasta),
     }
+
+    if request.POST:
+        hs = HISTORIAL_SUBASTA()
+        hs.oferta = request.POST.get("ofertatxt")
+
+        now = timezone.now()
+        # now = datetime.now()
+        hs.fecha_oferta = now
+
+        user = User()
+        user.id = request.user.id
+        hs.id_usuario = user
+
+        st = SUBASTA_TRANSPORTE()
+        st.id_subasta = request.POST.get("subasta")
+        hs.id_subasta = st
+
+        try:
+            hs.save()
+            messages.success(
+                request,
+                "Oferta realizada correctamente.",
+                extra_tags="alert alert-success",
+            )
+        except Exception as e:
+            messages.error(
+                request,
+                "Error al realizar la oferta " + str(e),
+                extra_tags="alert alert-danger",
+            )
 
     return render(request, "core/subasta_transporte.html", data)
 
+
+def agregar_oferta_transporte(oferta, fecha_oferta, id_sub_trans, id_usuario):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc(
+        "SP_AGREGAR_OFERTA_TRANSPORTE",
+        [oferta, fecha_oferta, id_sub_trans, id_usuario, salida],
+    )
+    return salida.getvalue()
 
 
 def buscar_subasta_transporte(id_subasta):
@@ -93,9 +134,7 @@ def rechazar_oferta(request, id_solicitud):
 
     if res == 1:
         messages.success(
-            request,
-            "La oferta ha sido rechazada.",
-            extra_tags="alert alert-success",
+            request, "La oferta ha sido rechazada.", extra_tags="alert alert-success",
         )
     else:
         messages.error(
@@ -104,6 +143,7 @@ def rechazar_oferta(request, id_solicitud):
             extra_tags="alert alert-danger",
         )
     return redirect("solicitud_compra")
+
 
 def aceptar_oferta(request, id_solicitud):
     django_cursor = connection.cursor()
@@ -130,8 +170,8 @@ def aceptar_oferta(request, id_solicitud):
 def resultado_solicitud(request, id_solicitud):
 
     data = {
-        'ganadores': listar_ganadores(id_solicitud),
-        'total': obtener_valor_total(id_solicitud),
+        "ganadores": listar_ganadores(id_solicitud),
+        "total": obtener_valor_total(id_solicitud),
     }
 
     return render(request, "core/resultado_solicitud.html", data)
@@ -150,6 +190,7 @@ def obtener_valor_total(id_solicitud):
         lista.append(fila)
     return lista
 
+
 def listar_ganadores(id_solicitud):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -163,6 +204,7 @@ def listar_ganadores(id_solicitud):
         lista.append(fila)
     return lista
 
+
 @login_required
 def procesos_venta(request):  # listar procesos de ventas activos
     id_usuario = request.user.id
@@ -173,7 +215,10 @@ def procesos_venta(request):  # listar procesos de ventas activos
 
     return render(request, "core/procesos_venta.html", data)
 
-def listar_procesoventaconproductoscoincidentes(id_usuario):  # listar procesos de venta que tengan un producto que el proveedor tenga en bodega
+
+def listar_procesoventaconproductoscoincidentes(
+    id_usuario,
+):  # listar procesos de venta que tengan un producto que el proveedor tenga en bodega
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -186,6 +231,7 @@ def listar_procesoventaconproductoscoincidentes(id_usuario):  # listar procesos 
         lista.append(fila)
     return lista
 
+
 @login_required
 def producto_procesoventa(request, id_detalle, id_proceso, id_producto):
 
@@ -195,7 +241,6 @@ def producto_procesoventa(request, id_detalle, id_proceso, id_producto):
         "producto": ver_productoProceso(id_detalle),
         "prod_bod": listar_prod_bod(id_producto, id_usuario),
         "historial": listar_historial_ofertas(id_proceso, id_producto),
-        "mejoroferta": listar_mejor_oferta(id_proceso, id_producto),
     }
 
     if request.POST:
@@ -222,7 +267,7 @@ def producto_procesoventa(request, id_detalle, id_proceso, id_producto):
 
         conclusion = CONCLUSION()
         conclusion.id_conclusion = 0
-        historial.id_conclusion  = conclusion
+        historial.id_conclusion = conclusion
 
         try:
             historial.save()
@@ -237,9 +282,7 @@ def producto_procesoventa(request, id_detalle, id_proceso, id_producto):
                 "Error al realizar la oferta " + str(e),
                 extra_tags="alert alert-danger",
             )
-        return redirect(
-            "producto_procesoventa", id_detalle, id_proceso, id_producto
-        )
+        return redirect("producto_procesoventa", id_detalle, id_proceso, id_producto)
 
     return render(request, "core/producto_procesoventa.html", data)
 
@@ -257,6 +300,7 @@ def listar_prod_bod(id_producto, id_usuario):
         lista.append(fila)
     return lista
 
+
 def ver_productoProceso(id):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -270,6 +314,7 @@ def ver_productoProceso(id):
         lista.append(fila)
     return lista
 
+
 def listar_historial_ofertas(id_proceso, id_producto):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -282,6 +327,7 @@ def listar_historial_ofertas(id_proceso, id_producto):
     for fila in out_cur:
         lista.append(fila)
     return lista
+
 
 def actualizar_pedidorecibido(request, id_solicitud):
     django_cursor = connection.cursor()
@@ -350,6 +396,7 @@ def actualizar_pedidoanulado(request, id_solicitud):
 #         lista.append(fila)
 #     return lista
 
+
 @login_required
 def modificar_datos_personales(request, id):
 
@@ -416,9 +463,7 @@ def solicitud_compra(request):
 
     id_usuario = request.user.id
 
-    data = {
-        'soli': listar_solicitudes(id_usuario)
-    }
+    data = {"soli": listar_solicitudes(id_usuario)}
 
     return render(request, "core/solicitud_compra.html", data)
 

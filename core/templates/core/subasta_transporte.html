@@ -39,7 +39,7 @@
             <p class="card-text">Hora termino subasta: {{ s.2 }}</p>
 
             <div class="card border-success">
-                <form action="" method="POST" class="was-validated" onsubmit="">
+                <form action="" method="POST" class="was-validated">
                     {% csrf_token %}
 
                     <div class="col-md-3 container mt-2 mb-2">
@@ -52,8 +52,10 @@
                         <button type="submit" class="btn btn-primary">Realizar oferta</button>
                     </div>
 
-                    <input type="hidden" name="id_producto" id="id_subasta" value="{{ s.0 }}">
-                    <input type="hidden" name="id_proceso" id="id_proceso" value="{{ p.3 }}">
+                    <input type="hidden" name="subasta" id="subasta" value="{{ s.0 }}">
+                    <input type="hidden" name="id_proceso" id="id_procesotxt" value="{{ s.3 }}">
+                    <input type="hidden" name="usertxt" id="usertxt" value="{{ request.user.id }}">
+
                 </form>
             </div>
 
@@ -73,4 +75,18 @@
 {% endfor %}
 
 <br>
+
+
+<div class="d-flex justify-content-center">
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+
+
 {% endblock %}
