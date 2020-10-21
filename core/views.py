@@ -560,13 +560,13 @@ def datos_producto_bodega(id_prod_bod): # METODO PARA LISTAR LOS DATOS DEL PRODU
 
 ##################################################################################################
 ####                                                                                          ####
-####                   FIN MODULO DE SUBASTAS DE PRODUCTOS                                   ####
+####                   FIN MODULO DE SUBASTAS DE PRODUCTOS                                    ####
 ####                                                                                          ####
 ##################################################################################################
 
 ##################################################################################################
 ####                                                                                          ####
-####                       MODULO DE DE SOLICITUDES DE PROCESOS DE VENTA                      ####
+####                       MODULO DE SOLICITUDES DE PROCESOS DE VENTA                         ####
 ####                                                                                          ####
 ##################################################################################################
 
@@ -762,7 +762,19 @@ def formulario_solicitud(request):  # METODO PARA REALIZAR UNA SOLICITUD DE COMP
 
     return render(request, "core/formulario_solicitud.html")
 
+##################################################################################################
+####                                                                                          ####
+####                     FIN MODULO DE SOLICITUDES DE PROCESOS DE VENTA                       ####
+####                                                                                          ####
+##################################################################################################
 
+
+
+##################################################################################################
+####                                                                                          ####
+####                       MODULO USUARIOS                                                    ####
+####                                                                                          ####
+##################################################################################################
 
 @login_required
 def modificar_datos_personales(request, id): # METODO PARA MODIFICAR LOS DATOS PERSONALES DEL USUARIO
@@ -824,7 +836,7 @@ def perfil_usuario(request, id):    # METODO PARA MOSTRAR EL PERFIL DEL USUARIO
     )
 
 
-def registro_minorista(request):
+def registro_minorista(request): # METODO DE REGISTRO DE USUARIO DE TIPO MINORISTA
 
     data = {"form": CustomUserForm()}
     tp = 3
@@ -869,7 +881,7 @@ def registro_minorista(request):
     return render(request, "registration/registro_minorista.html", data)
 
 
-def registro_usuario(request, cod):
+def registro_usuario(request, cod): # METODO DE REGISTRO DE USUARIO MAYORISTA, PROVEEDOR Y TRANSPORTISTA
 
     data = {"form2": CustomUserForm2()}
 
@@ -905,7 +917,7 @@ def registro_usuario(request, cod):
     return render(request, "registration/registro_usuario.html", data)
 
 
-def buscar_persona(cod, rut, dni):
+def buscar_persona(cod, rut, dni):  # METODO PARA VER SI EXISTE LA PERSONA Y VERIFICAR EL CODIGO DE ACTIVACION
 
     persona = PERSONA()
     persona = (
@@ -914,7 +926,7 @@ def buscar_persona(cod, rut, dni):
     return persona
 
 
-def codigo_activacion(request):
+def codigo_activacion(request):  # METODO PARA BUSCAR LA PERSONA POR SU CODIGO DE ACTIVACION
     if request.POST:
         cod = request.POST.get("codigo")
         rut = request.POST.get("rut")
@@ -938,3 +950,8 @@ def codigo_activacion(request):
             return render(request, "registration/codigo_activacion.html")
     return render(request, "registration/codigo_activacion.html")
 
+##################################################################################################
+####                                                                                          ####
+####                       FIN MODULO DE USUARIO                                              ####
+####                                                                                          ####
+##################################################################################################
