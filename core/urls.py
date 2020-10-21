@@ -22,7 +22,10 @@ from .views import (
     rechazar_oferta,
     subastas_transporte_activas,
     subasta_transporte,
-    # mis_productos,
+    mis_productos,
+    agregar_producto_bodega,
+    actualizar_mi_producto,
+    eliminar_producto_bodega,
 
 )
 
@@ -49,6 +52,10 @@ urlpatterns = [
     path("rechazar_oferta/<id_solicitud>/", rechazar_oferta, name="rechazar_oferta"),
     path("subasta_transporte/<id_subasta>/", subasta_transporte, name="subasta_transporte"),
     path("subastas_transporte_activas/", subastas_transporte_activas, name="subastas_transporte_activas"),
-    # path("mis_productos/", mis_productos, name="mis_productos"),
+    path("mis_productos/", mis_productos, name="mis_productos"),
+    path("agregar_producto_bodega/", agregar_producto_bodega, name="agregar_producto_bodega"),
+    path("actualizar_mi_producto/<id_prod_bod>/", actualizar_mi_producto, name="actualizar_mi_producto"),
+    path("eliminar_producto_bodega/<id_prod_bod>/", eliminar_producto_bodega, name="eliminar_producto_bodega"),
+
 
 ]

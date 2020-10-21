@@ -4,46 +4,83 @@
 {% load auth_extras %}
 
 {% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
 <link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/parpadeo.css' %}">
 {% endblock %}
 
 {% block javascript %}
+<script src="{% static 'core/js/confirmacion_solicitud.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 {% endblock %}
 
 {% block contenido %}
 
 <br>
-<h2 class="d-flex justify-content-around text-white">Mis Productos:</h2>
+<div class="container">
+    <hr class="new4">
+    <h2 class="text-center text-white">Mis Productos en bodega <i class="fas fa-warehouse"></i></h2>
+    <hr class="new4">
+    <br>
+
+    <a href="{% url 'agregar_producto_bodega' %}" class="btn btn-primary"><i class="fas fa-plus-circle mr-2"></i>Agregar
+        nuevo producto</a>
+</div>
+
+
+{% if misproductos %}
 <br>
 <div class="container table-responsive">
     <table class="table table-bordered table-hover table-condensed table-light">
         <tr>
             <thead>
-                <th class="text-center">ID</th>
-                <th class="text-center">ID Producto</th>
+                <th class="text-center">ID PRODBOD</th>
                 <th class="text-center">Producto</th>
                 <th class="text-center">Cantidad</th>
-                <th class="text-center">Precio</th>
+                <th class="text-center">Precio Kilo</th>
                 <th class="text-center">Elaboración</th>
                 <th class="text-center">Vencimiento</th>
+                <th class="text-center">Opciones</th>
             </thead>
         </tr>
 
         <tbody>
-            {% for p in procesos %}
+            {% for mp in misproductos %}
             <tr>
-                <td class="text-center">{{ p.0 }}</td>
-                <td class="text-center">{{ p.7 }}</td>
-                <td class="text-center">{{ p.8 }}</td>
-                <td class="text-center">{{ p.1 }}</td>
-                <td class="text-center">{{ p.4 }}</td>
-                <td class="text-center">{{ p.2|date:"d/m/y" }}</td>
-                <td class="text-center">{{ p.3|date:"d/m/y" }}</td>
+                <td class="text-center">{{ mp.0 }}</td>
+                <td class="text-center">{{ mp.4 }}</td>
+                <td class="text-center">{{ mp.6 }} Kilos</td>
+                <td class="text-center">${{ mp.7 }}</td>
+                <td class="text-center">{{ mp.8|date:"d/m/y" }}</td>
+                <td class="text-center">{{ mp.9|date:"d/m/y" }}</td>
+                <td class="text-center">
+                    <a href="{% url 'actualizar_mi_producto' mp.0 %}" class="btn btn-info btn-sm"><i class="fas fa-coins"></i> Actualizar precio</a>
+                    <a href="{% url 'eliminar_producto_bodega' mp.0 %}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar producto</a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
 <br>
+{% else %}
+<p>Usted no tiene productos agregados</p>
+{% endif %}
+
+<div class="d-flex justify-content-center">
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <p{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</p>
+            {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<br>
+
+
+
 
 {% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/parpadeo.css' %}">
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'core/js/confirmacion_solicitud.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+{% endblock %}
+
+{% block contenido %}
+
+<br>
+
+<div class="container">
+
+    <hr class="new4">
+    <h1 class="text-center text-white">Formulario de ingreso de productos a bodega</h1>
+    <hr class="new4">
+    
+    <br>
+
+    <form method="POST" class="was-validated">
+        {% csrf_token %}
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text bg-success text-white" for="cboproducto">Producto</label>
+            </div>
+            <select class="custom-select" name="cboproducto" id="cboproducto" required>
+                <option selected value="">Seleccione un producto</option>
+                {% for p in productos %}
+                <option value="{{ p.0 }}">{{ p.1 }}</option>
+                {% endfor %}
+            </select>
+            <div class="invalid-feedback">Seleccione un producto de la lista</div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="cantidadtxt">Cantidad</label>
+                <input type="number" name="cantidadtxt" id="cantidadtxt" class="form-control"
+                    placeholder="Cantidad en Kilos" required>
+                <div class="invalid-feedback">Ingrese una cantidad válida</div>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="preciotxt">Precio Kilo</label>
+                <input type="number" name="preciotxt" id="preciotxt" class="form-control" placeholder="$" required>
+                <div class="invalid-feedback">Ingrese un precio válido</div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="">Fecha elaboración</label>
+                <input type="date" name="fecelab" id="fecelab" class="form-control" required>
+                <div class="invalid-feedback">Seleccione una fecha válida</div>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="fecven">Fecha vencimiento</label>
+                <input type="date" name="fecven" id="fecven" class="form-control" required>
+                <div class="invalid-feedback">Seleccione una fecha válida</div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Ingresar Producto</button>
+    </form>
+
+</div>
+
+
+
+
+
+<br>
+{% endblock %}
