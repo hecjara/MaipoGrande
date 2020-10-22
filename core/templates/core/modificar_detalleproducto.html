@@ -2,13 +2,28 @@
 
 {% load static %}
 
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/parpadeo.css' %}">
+{% endblock %}
+
+{% block javascript %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+{% endblock %}
+
 {% block contenido %}
 
-<br>
 
-<h2 class="text-center">Modificar Producto Seleccionado</h2>
+<div class="container">
+    <br>
+    <hr class="new4">
+    <h1 class="text-center text-white">Modificar Producto Seleccionado</h1>
+    <hr class="new4">
+    <br>
+</div>
 
-<br>
 
 <div class="container col-md-3">
     <form action="" method="POST">
@@ -19,7 +34,7 @@
      
             <div class="form-group">
                 <label for="cboproducto">Producto:</label>
-                <select name="cboproducto" id="cboproducto" class="form-control" required>
+                <select name="cboproducto" id="cboproducto" class="form-control">
                     <option value="">Seleccionar</option>
                     {% for p in productos %}
                     <option {% if p.id_producto == detalle.id_producto.id_producto %} {{'selected'}} {% endif %}
@@ -29,12 +44,12 @@
             </div>
     
             <div class="form-group">
-                <label for="cant">Cantidad:</label>
-                <input type="number" name="cant" id="cant" class="form-control" placeholder="Ingrese la cantidad en kilos" value="{{ detalle.cantidad }}" required>
+                <label for="cant">Cantidad (kilos):</label>
+                <input type="number" name="cant" id="cant" class="form-control" placeholder="Ingrese la cantidad en kilos" value="{{ detalle.cantidad }}">
             </div>
 
     
-            <input type="submit" value="Ingresar Producto" class="btn btn-primary">
+            <input type="submit" value="Modificar Producto" class="btn btn-primary">
     
     </form>
 </div>

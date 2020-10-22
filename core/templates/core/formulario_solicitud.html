@@ -3,31 +3,39 @@
 {% load static %}
 
 {% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/parpadeo.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/cards.css' %}">
 {% endblock %}
 
 {% block javascript %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="{% static 'core/js/validacion_solicitud.js' %}"></script>
+<script src="{% static 'core/js/confirmacion_ingresarsolicitud.js' %}"></script>
 {% endblock %}
 
 
 {% block contenido %}
 <br>
-
+<div class="container">
+    <hr class="new4">
+    <h1 class="text-center text-white">Solicitud de productos <i class="fas fa-shopping-basket"></i></h1>
+    <hr class="new4">
+    <br>
+</div>
+<br>
 <div class="col-md-5 container">
-    <p class="h4 mb-4">Solicitud de productos</p>
-
-    <form action="" method="POST">
-
+    <form action="" method="POST" onsubmit="return validacion();">
         {% csrf_token %}
-
-
         <div class="card" style="width: auto;">
             <div class="card-body">
                 <label for="direccion">Dirección de entrega:</label>
-                <input type="text" name="direccion" id="direccion" class="form-control w-50 p-3" required>
+                <input type="text" name="direccion" id="direccion" class="form-control w-50 p-3">
+                <div class="invalid-feedback">Ingrese una dirección válida</div>
             </div>
         </div>
-
-
         <div class="card" style="width: auto;">
             <div class="card-body">
                 <label for="min">Rango fecha de entrega:</label>
@@ -36,14 +44,16 @@
                     <div class="form-row mb-4">
                         <div class="col mr-2">
                             <label for="min">Desde:</label>
-                            <input type="date" name="min" id="min" class="form-control" required>
+                            <input type="date" name="min" id="min" class="form-control">
+                            <div class="invalid-feedback">Ingrese una fecha válida</div>
                         </div>
                     </div>
 
                     <div class="form-row mb-4">
                         <div class="col">
                             <label for="max">Hasta:</label>
-                            <input type="date" name="max" id="max" class="form-control" required>
+                            <input type="date" name="max" id="max" class="form-control">
+                            <div class="invalid-feedback">Ingrese una fecha válida</div>
                         </div>
                     </div>
                 </div>
@@ -51,15 +61,14 @@
         </div>
 
         <div class="col-md-12 text-center">
-            <input class="btn btn-primary btn-lg mt-2" type="submit" value="Ingresar Solicitud">
+            <div class="btn-group mt-3">
+                <input type="submit" class="btn btn-success btn-lg" value="Ingresar"> 
+                <input type="reset" class="btn btn-light btn-lg mr-3 ml-3 btn-lg" value="Limpiar"> 
+                <a href="{% url 'solicitud_compra' %}" class="btn btn-info btn-lg">Volver</a>
+              </div>
         </div>
-
-
-
     </form>
-
     <input type="hidden" name="contador" id="contador" value="1">
-
 </div>
 
 <div class="d-flex justify-content-center">

@@ -682,36 +682,36 @@ def modificar_detalleproducto(request, id):  # METODO PARA MODIFICAR UN PRODUCTO
     variables = {"detalle": detalle, "productos": productos}
 
     if request.POST:
-        detalle = DETALLE_SOLICITUD()
 
-        detalle.id_detalle = request.POST.get("iddetalle")
-        detalle.cantidad = request.POST.get("cant")
+        id_detalle = request.POST.get("iddetalle")
+        id_solicitud = request.POST.get("idsolicitud")
+        id_producto = request.POST.get("cboproducto")
+        cantidad = request.POST.get("cant")
 
-        solicitud = SOLICITUD_COMPRA()
-        solicitud.id_solicitud = request.POST.get("idsolicitud")
-        detalle.id_solicitud = solicitud
+        salida = actualizar_detalle_solicitud(id_detalle, id_solicitud, cantidad, id_producto)
 
-        producto = PRODUCTO()
-        producto.id_producto = request.POST.get("cboproducto")
-        detalle.id_producto = producto
-
-        try:
-            detalle.save()
+        if salida == 1:
             messages.success(
                 request,
-                "Producto modificado correctamente.",
+                "Solicitud ingresada correctamente.",
                 extra_tags="alert alert-success",
             )
-
-        except Exception as e:
+        else:
             messages.error(
                 request,
-                "Error al intentar modificar el producto" + str(e),
+                "Error al intentar ingresar la solicitud.",
                 extra_tags="alert alert-danger",
             )
         return redirect("listar_productos", detalle.id_solicitud.id_solicitud)
 
     return render(request, "core/modificar_detalleproducto.html", variables)
+
+def actualizar_detalle_solicitud(id_detalle, id_solicitud, cantidad, id_producto):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc("SP_ACTUALIZAR_DETALLE_SOLICITUD",[id_detalle, id_solicitud, cantidad, id_producto, salida])
+    return salida.getvalue()
 
 
 @login_required
@@ -767,36 +767,38 @@ def agregar_producto(request, id):  # METODO PARA AGREGAR UN PRODUCTO A LA SOLIC
 def formulario_solicitud(request):  # METODO PARA REALIZAR UNA SOLICITUD DE COMPRA
 
     if request.POST:
-        est = 1
 
-        soli = SOLICITUD_COMPRA()
-        soli.fecha_pedido = datetime.datetime.now()
-        soli.direccion_destino = request.POST.get("direccion")
-        soli.fecha_min = request.POST.get("min")
-        soli.fecha_max = request.POST.get("max")
-        soli.id_usuario = request.user
+        fecha_pedido = datetime.datetime.now()
+        direccion_destino =request.POST.get("direccion")
+        fecha_min = request.POST.get("min")
+        fecha_max = request.POST.get("max")
+        id_usuario = request.user.id
+        id_estado = 1
 
-        estado = ESTADO_SOLICITUD()
-        estado.id_estado = est
-        soli.id_estado = estado
+        salida = agregar_solicitud_compra(fecha_pedido, direccion_destino, id_estado, id_usuario, fecha_max, fecha_min)
 
-        try:
-            soli.save()
+        if salida == 1:
             messages.success(
                 request,
-                "Lista agregada correctamente",
+                "Solicitud ingresada correctamente.",
                 extra_tags="alert alert-success",
             )
-
-        except Exception as e:
+        else:
             messages.error(
                 request,
-                "No se ha podido agregar la lista" + str(e),
+                "Error al intentar ingresar la solicitud.",
                 extra_tags="alert alert-danger",
             )
         return redirect("solicitud_compra")
 
     return render(request, "core/formulario_solicitud.html")
+
+def agregar_solicitud_compra(fecha_pedido, direccion_destino, id_estado, id_usuario, fecha_max, fecha_min):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc("SP_AGREGAR_SOLICITUD_COMPRA",[fecha_pedido, direccion_destino, id_estado, id_usuario, fecha_max, fecha_min, salida])
+    return salida.getvalue()
 
 ##################################################################################################
 ####                                                                                          ####
