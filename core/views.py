@@ -39,9 +39,45 @@ from django.utils import timezone
 def home(request):
     return render(request, "core/home.html")
 
+
 ##################################################################################################
 ####                                                                                          ####
-####                       MODULO DE SUBASTAS DE TRANSPORTE                                  ####
+####                       MODULO DE VENTA LOCAL                                              ####
+####                                                                                          ####
+##################################################################################################
+
+def venta_local(request):
+
+    # data = {
+    #     'ventalocal': listar_productos_venta_local()
+    # }
+
+    return render(request, "core/venta_local.html")
+
+
+# def listar_productos_venta_local():
+#     django_cursor = connection.cursor()
+#     cursor = django_cursor.connection.cursor()
+#     out_cur = django_cursor.connection.cursor()
+
+#     cursor.callproc("SP_LISTAR_PRODUCTOS_VENTA_LOCAL", [out_cur])
+
+#     lista = []
+
+#     for fila in out_cur:
+#         lista.append(fila)
+#     return lista
+
+
+##################################################################################################
+####                                                                                          ####
+####                       FIN MODULO VENTA LOCAL                                             ####
+####                                                                                          ####
+##################################################################################################
+
+##################################################################################################
+####                                                                                          ####
+####                       MODULO DE SUBASTAS DE TRANSPORTE                                   ####
 ####                                                                                          ####
 ##################################################################################################
 
