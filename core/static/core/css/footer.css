@@ -1,5 +1,5 @@
 .footer {
-    background-color: #414141;
+    background-color: #5cb85c;
     width: 100%;
     text-align: left;
     font-family: sans-serif;
@@ -7,6 +7,9 @@
     font-size: 16px;
     padding: 50px;
     margin-top: 50px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
   }
   
   .footer .footer-left,
@@ -49,7 +52,7 @@
     width: 35px;
     height: 35px;
     cursor: pointer;
-    background-color: #33383b;
+    background-color: #5cb85c;
     border-radius: 2px;
     font-size: 20px;
     color: #ffffff;
@@ -67,7 +70,7 @@
   }
   
   .footer .footer-center i {
-    background-color: #33383b;
+    background-color: #5cb85c;
     color: #ffffff;
     font-size: 25px;
     width: 38px;

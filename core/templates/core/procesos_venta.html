@@ -2,12 +2,27 @@
 
 {% load static %}
 {% load auth_extras %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/parpadeo.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/cards.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/child.css' %}">
+
+{% endblock %}
+
 {% block javascript %}
 {% endblock %}
 
 {% block contenido %}
 
 <br>
+
+{% if procesos %}
+
 {% for p in procesos %}
 <div class="container">
   <div class="card text-center mb-3">
@@ -31,11 +46,25 @@
     </div>
     <div class="card-footer bg-success text-white">
       <input type="hidden" name="fechaT" id="fechaT" value="{{ p.3|date:"m/d/y" }}  {{ p.3|time:"H:i" }}">
-      <p class="card-text" id="cuentaAtras"></p>    
+      <p class="card-text" id="cuentaAtras"></p>
     </div>
   </div>
 </div>
 {% endfor %}
+
+{% else %}
+
+<div class="container mt-5 mb-5">
+  <h3 class="text-center text-white">No existen procesos de venta activos.</h3>
+  <h4 class="text-center text-white">Por favor, vuelva a intentarlo en otro momento.</h4>
+  <hr class="new4">
+  <h4 class="text-center text-white">Maipo Grande
+    <img src="{% static '/core/img/logo_maipo.png' %}" alt="logo" width="30" height="30" class="mb-2">
+  </h4>
+</div>
+
+{% endif %}
+
 <br>
 
 {% endblock %}

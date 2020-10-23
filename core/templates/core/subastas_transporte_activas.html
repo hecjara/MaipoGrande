@@ -20,12 +20,14 @@
 <h1 class="text-center text-white">Subastas de transporte activas <i class="fas fa-truck"></i></h1>
 <hr class="new4">
 
+{% if subastas %}
+
 {% for s in subastas %}
 
 <div class="container">
     <div class="card text-center">
         <div class="card-header bg-success text-white">
-            Subasta Transporte Nro. {{ s.0 }} - Solicitud Nro. {{ s.4 }} 
+            Subasta Transporte Nro. {{ s.0 }} - Solicitud Nro. {{ s.4 }}
         </div>
         <div class="card-body">
             <h5 class="card-title">Se requiere un transporte con las siguientes características:</h5>
@@ -40,5 +42,19 @@
 </div>
 
 {% endfor %}
+
+
+{% else %}
+
+<div class="container mt-5 mb-5">
+    <h3 class="text-center text-white">No existen subastas de transporte activas.</h3>
+    <h4 class="text-center text-white">Por favor, vuelva a intentarlo en otro momento.</h4>
+    <hr class="new4">
+    <h4 class="text-center text-white">Maipo Grande
+        <img src="{% static '/core/img/logo_maipo.png' %}" alt="logo" width="30" height="30" class="mb-2">
+    </h4>
+</div>
+
+{% endif %}
 
 {% endblock %}

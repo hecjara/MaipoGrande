@@ -563,9 +563,7 @@ def agregar_producto_bodega(request):  # METODO PARA INGRESAR UN PRODUCTO A BODE
     return render(request, "core/agregar_producto_bodega.html", data)
 
 
-def ingresar_producto_bodega(
-    id_usuario, cantidad, fecha_elaboracion, fecha_vencimiento, id_producto, precio_kilo
-):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA INGRESAR PRODUCTOS A BODEGA
+def ingresar_producto_bodega(id_usuario, cantidad, fecha_elaboracion, fecha_vencimiento, id_producto, precio_kilo):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA INGRESAR PRODUCTOS A BODEGA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
@@ -584,13 +582,10 @@ def ingresar_producto_bodega(
     return salida.getvalue()
 
 
-def actualizar_mi_producto(
-    request, id_prod_bod
-):  # METODO PARA ACTUALIZAR LOS DATOS DEL PRODUCTO EN BODEGA
-
+def actualizar_mi_producto(request, id_prod_bod):  # METODO PARA ACTUALIZAR LOS DATOS DEL PRODUCTO EN BODEGA
     data = {
-        "miproducto": PRODUCTO_BODEGA.objects.get(pk=id_prod_bod),
-        "productos": PRODUCTO.objects.all(),
+        "miproducto": datos_producto_bodega(id_prod_bod),
+        "productos": listar_productos_select(),
     }
 
     if request.POST:
@@ -617,9 +612,7 @@ def actualizar_mi_producto(
     return render(request, "core/actualizar_mi_producto.html", data)
 
 
-def update_producto(
-    id_prod_bod, cantidad, precio
-):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA ACTUALIZAR LOS DATOS EN BODEGA
+def update_producto(id_prod_bod, cantidad, precio):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA ACTUALIZAR LOS DATOS EN BODEGA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
@@ -627,9 +620,14 @@ def update_producto(
     return salida.getvalue()
 
 
-def eliminar_producto_bodega(
-    request, id_prod_bod
-):  # METODO PARA ELIMINAR UN PRODUCTO DE BODEGA
+def revisar_producto_subasta(id_prod_bod): # REVISAR PREVIAMENTE SI EL PRODUCTO ESTA EN UNA SUBASTA
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc("SP_REVISAR_PRODUCTO_EN_SUBASTA", [id_prod_bod, salida])
+    return salida.getvalue()
+
+def eliminar_producto_bodega(request, id_prod_bod):  # METODO PARA ELIMINAR UN PRODUCTO DE BODEGA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
@@ -652,9 +650,7 @@ def eliminar_producto_bodega(
 
 
 ######################################## PENDIENTE PENDIENTE PENDIENTE PENDIENTE PENDIENTE PENDIENTE PENDIENTE
-def datos_producto_bodega(
-    id_prod_bod,
-):  # METODO PARA LISTAR LOS DATOS DEL PRODUCTO SELECCIONADO PARA MODIFICAR
+def datos_producto_bodega(id_prod_bod):  # METODO PARA LISTAR LOS DATOS DEL PRODUCTO SELECCIONADO PARA MODIFICAR
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -688,9 +684,7 @@ def solicitud_compra(request):  # METODO PARA MOSTRAR MENU DE LAS SOLICITUDES
 
     id_usuario = request.user.id
 
-    data = {
-        "soli": listar_solicitudes(id_usuario)
-    }
+    data = {"soli": listar_solicitudes(id_usuario)}
 
     return render(request, "core/solicitud_compra.html", data)
 
@@ -734,7 +728,9 @@ def anular_solicitud(request, id):  # METODO PARA ANULAR UNA SOLICITUD
 
 
 @login_required
-def eliminar_detalleproducto(request, id_detalle):  # METODO PARA ELIMINAR UN PRODUCTO DE LA SOLICITUD
+def eliminar_detalleproducto(
+    request, id_detalle
+):  # METODO PARA ELIMINAR UN PRODUCTO DE LA SOLICITUD
 
     salida = eliminar_detalle_producto(id_detalle)
 
@@ -762,7 +758,9 @@ def eliminar_detalle_producto(id_detalle):
 
 
 @login_required
-def modificar_detalleproducto(request, id):  # METODO PARA MODIFICAR UN PRODUCTO DE LA SOLICITUD
+def modificar_detalleproducto(
+    request, id
+):  # METODO PARA MODIFICAR UN PRODUCTO DE LA SOLICITUD
     detalle = DETALLE_SOLICITUD.objects.get(pk=id)
     productos = PRODUCTO.objects.all()
 
@@ -775,7 +773,9 @@ def modificar_detalleproducto(request, id):  # METODO PARA MODIFICAR UN PRODUCTO
         id_producto = request.POST.get("cboproducto")
         cantidad = request.POST.get("cant")
 
-        salida = actualizar_detalle_solicitud(id_detalle, id_solicitud, cantidad, id_producto)
+        salida = actualizar_detalle_solicitud(
+            id_detalle, id_solicitud, cantidad, id_producto
+        )
 
         if salida == 1:
             messages.success(
@@ -806,11 +806,11 @@ def actualizar_detalle_solicitud(id_detalle, id_solicitud, cantidad, id_producto
 
 
 @login_required
-def listar_productos(request, id_solicitud):  # METODO PARA LISTAR LOS PRODUCTOS DE LA SOLICITUD
+def listar_productos(
+    request, id_solicitud
+):  # METODO PARA LISTAR LOS PRODUCTOS DE LA SOLICITUD
 
-    data = {
-        "det": listar_productos_solicitud(id_solicitud)
-    }
+    data = {"det": listar_productos_solicitud(id_solicitud)}
 
     return render(request, "core/listar_productos.html", data)
 
@@ -844,12 +844,13 @@ def buscar_solicitud(id_solicitud):
 
 
 @login_required
-def agregar_producto(request, id_solicitud):  # METODO PARA AGREGAR UN PRODUCTO A LA SOLICITUD
+def agregar_producto(
+    request, id_solicitud
+):  # METODO PARA AGREGAR UN PRODUCTO A LA SOLICITUD
 
     data = {
-        'productos': listar_productos_select(),
-        # 'solicitud': SOLICITUD_COMPRA.objects.get(pk=id_solicitud)
-        'solicitud': buscar_solicitud(id_solicitud)
+        "productos": listar_productos_select(),
+        "solicitud": buscar_solicitud(id_solicitud),
     }
 
     if request.POST:
@@ -873,7 +874,6 @@ def agregar_producto(request, id_solicitud):  # METODO PARA AGREGAR UN PRODUCTO 
                 extra_tags="alert alert-danger",
             )
         return redirect("listar_productos", id_solicitud)
-
 
     return render(request, "core/agregar_producto.html", data)
 
@@ -921,7 +921,9 @@ def formulario_solicitud(request):  # METODO PARA REALIZAR UNA SOLICITUD DE COMP
     return render(request, "core/formulario_solicitud.html")
 
 
-def agregar_solicitud_compra(fecha_pedido, direccion_destino, id_estado, id_usuario, fecha_max, fecha_min):
+def agregar_solicitud_compra(
+    fecha_pedido, direccion_destino, id_estado, id_usuario, fecha_max, fecha_min
+):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)

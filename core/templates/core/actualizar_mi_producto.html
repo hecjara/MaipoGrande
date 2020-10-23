@@ -29,20 +29,20 @@
     <form method="POST" class="was-validated">
         {% csrf_token %}
 
-        <input type="hidden" name="id_prod_bodtxt" id="id_prod_bodtxt" value="{{ miproducto.id_prod_bod}} ">
+        <input type="hidden" name="id_prod_bodtxt" id="id_prod_bodtxt" value="{{ miproducto.0.0}} ">
 
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label class="input-group-text bg-success text-white" for="cboproducto">Producto</label>
             </div>
-            <select class="custom-select" name="cboproducto" id="cboproducto" disabled>
+            <select class="custom-select" name="cboproducto" id="cboproducto" disabled required>
                 <option selected value="">Seleccione un producto</option>
                 {% for p in productos %}
                 <option 
-                {% if p.id_producto == miproducto.id_producto_id %}
+                {% if p.0 == miproducto.0.3 %}
                 {{'selected'}}
                 {% endif %}
-                value="{{ p.id_producto }}">{{ p.nombre }}</option>
+                value="{{ p.0 }}">{{ p.1 }}</option>
                 {% endfor %}
             </select>
             <div class="invalid-feedback">Seleccione un producto de la lista</div>
@@ -52,17 +52,18 @@
             <div class="form-group col-md-6">
                 <label for="cantidadtxt">Cantidad</label>
                 <input type="number" name="cantidadtxt" id="cantidadtxt" class="form-control"
-                    placeholder="Cantidad en Kilos" value="{{ miproducto.cantidad }}" required>
+                    placeholder="Cantidad en Kilos" value="{{ miproducto.0.6 }}" required>
                 <div class="invalid-feedback">Ingrese una cantidad válida</div>
             </div>
             <div class="form-group col-md-6">
                 <label for="preciotxt">Precio Kilo</label>
-                <input type="number" name="preciotxt" id="preciotxt" class="form-control" placeholder="$" value="{{ miproducto.precio_kilo }}" required>
+                <input type="number" name="preciotxt" id="preciotxt" class="form-control" placeholder="$" value="{{ miproducto.0.7 }}" required>
                 <div class="invalid-feedback">Ingrese un precio válido</div>
             </div>
         </div>
 
         <button type="submit" class="btn btn-primary">Actualizar Producto</button>
+        <a role="button" class="btn btn-info" href="{% url 'mis_productos' %}">Volver</a>
     </form>
 
 </div>

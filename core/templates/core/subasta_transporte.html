@@ -62,8 +62,7 @@
             <br>
 
             <h5 class="card-title">Estado subasta:</h5>
-            <input type="hidden" name="fechaT" id="fechaT"
-                value="{{ s.2|date:"m/d/y" }} {{ s.2|time:"H:i" }}">
+            <input type="hidden" name="fechaT" id="fechaT" value="{{ s.2|date:"m/d/y" }} {{ s.2|time:"H:i" }}">
             <p class="card-text font-weight-bolder" id="cuentaAtras"></p>
 
 
@@ -81,8 +80,8 @@
     {% if messages %}
     <div class="messages">
         {% for message in messages %}
-        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-        {% endfor %}
+        <p{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</p>
+            {% endfor %}
     </div>
     {% endif %}
 </div>
@@ -113,9 +112,16 @@
 
 {% else %}
 
-<p>No existen ofertas actualmente.</p>
+<div class="container mt-5 mb-5">
+    <h3 class="text-center text-white">No existen ofertas actualmente.</h3>
+    <hr class="new4">
+    <h4 class="text-center text-white">Maipo Grande
+        <img src="{% static '/core/img/logo_maipo.png' %}" alt="logo" width="30" height="30" class="mb-2">
+    </h4>
+</div>
 
 {% endif %}
 
+<br>
 
 {% endblock %}

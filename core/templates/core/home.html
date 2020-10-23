@@ -4,7 +4,10 @@
 {% load auth_extras %}
 
 {% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
 <link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/parpadeo.css' %}">
 {% endblock %}
 
 {% block javascript %}
@@ -18,9 +21,9 @@
   {% if request.user.is_authenticated %}
   {% if request.user|has_group:"CompradorMayorista" %}
   <div class="container">
-    <hr class="new1">
-    <h1 class="text-white">Menu comprador mayorista</h1>
-    <hr class="new1">
+    <hr class="new4">
+    <h1 class="text-center text-white">Menu comprador Mayorista</h1>
+    <hr class="new4">
     <div class="row row-cols-1 row-cols-md-2">
       <div class="col mb-4">
         <div class="card">
@@ -48,9 +51,9 @@
   </div>
 
   {% elif request.user|has_group:"CompradorMinorista" %}
-  <hr class="new1">
-  <h1 class="text-white">Menu comprador minorista</h1>
-  <hr class="new1">
+  <hr class="new4">
+  <h1 class="text-center text-white">Menu comprador Minorista</h1>
+  <hr class="new4">
   <div class="container">
     <div class="row row-cols-1 row-cols-md-2">
       <div class="col mb-4">
@@ -58,7 +61,7 @@
           <img src="{% static 'core/img/solicitar.jpg' %}" class="card-img-top" alt="agregar">
           <div class="card-body">
             <h5 class="card-title">Ver ventas de saldo</h5>
-            <p class="card-text">Aqui podras realizar la compra de productos de saldo.</p>
+            <p class="card-text">Aquí podras realizar la compra de productos de saldo.</p>
             <a href="{% url 'venta_local' %}" class="btn btn-primary">Ventas de saldo</a>
           </div>
         </div>
@@ -67,13 +70,13 @@
   </div>
   {% elif request.user|has_group:"Proveedor" %}
   <div class="container">
-    <hr class="new1">
-    <h1>Menu Proveedor</h1>
-    <hr class="new1"> 
+    <hr class="new4">
+    <h1 class="text-center text-white">Menu Proveedor</h1>
+    <hr class="new4"> 
     <div class="row row-cols-1 row-cols-md-2">
       <div class="col mb-4">
         <div class="card">
-          <img src="{% static 'core/img/solicitar.jpg' %}" class="card-img-top" alt="agregar">
+          <img src="{% static 'core/img/img_bodega_frutas.jpg' %}" class="card-img-top" alt="agregar">
           <div class="card-body">
             <h5 class="card-title">Administrar productos de bodega</h5>
             <p class="card-text">Aqui podras agregar productos a la bodega de Maipo Grande para que puedan participar de
@@ -84,10 +87,10 @@
       </div>
       <div class="col mb-4">
         <div class="card">
-          <img src="{% static 'core/img/check-list.jpg' %}" class="card-img-top" alt="ver subastas">
+          <img src="{% static 'core/img/img_subasta.png' %}" class="card-img-top" alt="ver subastas">
           <div class="card-body">
             <h5 class="card-title">Ver subastas activas</h5>
-            <p class="card-text">Aca podras ver las subastas activas y realizar ofertas.</p>
+            <p class="card-text">Aquí podrás ver las subastas activas, y participar de ellas realizando ofertas.</p>
             <a href="{% url 'procesos_venta' %}" class="btn btn-primary">Ver subastas</a>
           </div>
         </div>
@@ -96,9 +99,9 @@
   </div>
   {% elif request.user|has_group:"Transportista" %}
   <div class="container">
-    <hr class="new1">
-    <h1 class="text-white">Menu Transportista</h1>
-    <hr class="new1">
+    <hr class="new4">
+    <h1 class="text-center text-white">Menu Transportista</h1>
+    <hr class="new4">
     <div class="row row-cols-1 row-cols-md-2">
       <div class="col mb-4">
         <div class="card">

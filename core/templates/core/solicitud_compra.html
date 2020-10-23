@@ -32,6 +32,9 @@
     <br>
     <br>
 
+{% if soli %}
+
+
     <div class="table-responsive">
         <!--Table-->
         <table id="tablePreview" class="table table-condensed table-hover table-fixed table-bordered table-light">
@@ -177,6 +180,22 @@
     </div>
 
 </div>
+
+{% else %}
+
+<div class="container mt-5 mb-5">
+    <h3 class="text-center text-white">Aún no ha realizado ninguna solicitud.</h3>
+    <h4 class="text-center text-white">Por favor, realice su solicitud en 
+    <a href="">aquí.</a>    
+    </h4>
+    <hr class="new4">
+    <h4 class="text-center text-white">Maipo Grande
+      <img src="{% static '/core/img/logo_maipo.png' %}" alt="logo" width="30" height="30" class="mb-2">
+    </h4>
+  </div>
+
+{% endif %}
+
 
 <div class="d-flex justify-content-center">
     {% if messages %}

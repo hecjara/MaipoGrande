@@ -223,14 +223,6 @@ class SUBASTA_TRANSPORTE(models.Model):
     id_estado = models.ForeignKey(ESTADO_SUBASTA, on_delete=models.CASCADE)
     id_transporte = models.ForeignKey(TRANSPORTE, on_delete=models.CASCADE)
 
-
-# class HISTORiAL_SUBASTA(models.Model):
-#     id_historial = models.AutoField(primary_key=True)
-#     oferta = models.IntegerField(null=False, blank=False)
-#     fecha_oferta = models.DateTimeField(null=False, blank=False)
-#     id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-#     id_subasta = models.ForeignKey(SUBASTA_TRANSPORTE, on_delete=models.CASCADE)
-
 class HISTORIAL_SUBASTA(models.Model):
     id_historial = models.AutoField(primary_key=True)
     oferta = models.IntegerField(null=False, blank=False)

@@ -19,6 +19,9 @@
 
 {% block contenido %}
 <br>
+
+{% if ventalocal %}
+
 <div class="container">
     <hr class="new4">
     <h1 class="text-center text-white">Subastas de transporte activas <i class="fas fa-shopping-basket"></i></h1>
@@ -45,29 +48,22 @@
         </div>
         {% endfor %}
     </div>
-
-
-
-
 </div>
 
 
+{% else %}
 
+<div class="container mt-5 mb-5">
+    <h3 class="text-center text-white">No existen procesos de venta local actualmente.</h3>
+    <h3 class="text-center text-white">Por favor intente en otro momento.</h3>
+    <hr class="new4">
+    <h4 class="text-center text-white">Maipo Grande
+        <img src="{% static '/core/img/logo_maipo.png' %}" alt="logo" width="30" height="30" class="mb-2">
+    </h4>
+</div>
 
-
-
-
-
-
-
-
-
+{% endif %}
 
 <br>
-
-
-
-
-
 
 {% endblock %}

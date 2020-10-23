@@ -43,10 +43,10 @@
         <tbody>
             {% for d in det %}
             <tr>
-                <td>{{ d.0 }}</td>
-                <td>{{ d.4 }}</td>
-                <!-- <td class="text-center">{{ d.2 }}</td> -->
-                <!-- <td class="text-center">{{ d.3 }} Kilos</td> -->
+                <!-- <td>{{ d.0 }}</td> -->
+                <!-- <td>{{ d.4 }}</td> -->
+                <td class="text-center">{{ d.2 }}</td>
+                <td class="text-center">{{ d.3 }} Kilos</td>
                 <td class="text-center">
                     <a href="{% url 'modificar_detalleproducto' d.0 %}" role="button"
                         class="btn btn-primary">Modificar</a>
@@ -61,10 +61,23 @@
     </table>
 </div>
 {% else %}
-<div class="continare">
-    <h3 class="text-center text-white">No existen productos en la solicitud.</h3>
-    <h4 class="text-center text-white">Para agregar productos ingrese aquí.</h4>
+<div class="container">
+    <h3 class="text-center text-white"></h3>
+    <h4 class="text-center text-white"></h4>
 </div>
+
+<div class="container mt-5 mb-5">
+    <h3 class="text-center text-white">No existen productos en la solicitud.</h3>
+    <h3 class="text-center text-white">Para agregar productos ingrese 
+        <a href="#">aquí</a>.
+    </h3>
+    <hr class="new4">
+    <h4 class="text-center text-white">Maipo Grande
+        <img src="{% static '/core/img/logo_maipo.png' %}" alt="logo" width="30" height="30" class="mb-2">
+    </h4>
+</div>
+
+
 {% endif %}
 
 
