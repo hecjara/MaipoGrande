@@ -29,15 +29,16 @@
 
         <form action="" method="POST" onsubmit="return validacion();">
 
-            <input type="hidden" name="idsoli" id="idsoli" value="{{ solicitud.id_solicitud }}">
+            <input type="text" name="idsoli" id="idsoli" value="{{ solicitud.id_solicitud }}">
+
             {% csrf_token %}
 
             <div class="form-group">
                 <label for="cboproducto">Producto:</label>
                 <select name="cboproducto" id="cboproducto" class="form-control">
                     <option value="">Seleccionar</option>
-                    {% for p in prod %}
-                    <option value="{{ p.id_producto }}">{{ p.nombre }}</option>
+                    {% for p in productos %}
+                    <option value="{{ p.0 }}">{{ p.1 }}</option>
                     {% endfor %}
                 </select>
             </div>

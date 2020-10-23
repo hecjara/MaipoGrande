@@ -46,6 +46,7 @@ def home(request):
 ####                                                                                          ####
 ##################################################################################################
 
+
 def venta_local(request):
 
     # data = {
@@ -81,7 +82,10 @@ def venta_local(request):
 ####                                                                                          ####
 ##################################################################################################
 
-def subastas_transporte_activas(request):  # METODO QUE LISTA SOLO LAS SUBASTAS QUE ESTAN ACTIVAS
+
+def subastas_transporte_activas(
+    request,
+):  # METODO QUE LISTA SOLO LAS SUBASTAS QUE ESTAN ACTIVAS
 
     data = {"subastas": listar_subastas_transporte_activas()}
 
@@ -102,8 +106,10 @@ def listar_subastas_transporte_activas():  # METODO PARA LLAMAR AL PROCEDIMIENTO
     return lista
 
 
-def subasta_transporte(request, id_subasta): # METODO PARA LISTAR LOS DATOS DE LA SUBASTA SELECCIONADA
-                                             # Y REALIZAR OFERTAS EN DICHA SUBASTA
+def subasta_transporte(
+    request, id_subasta
+):  # METODO PARA LISTAR LOS DATOS DE LA SUBASTA SELECCIONADA
+    # Y REALIZAR OFERTAS EN DICHA SUBASTA
     data = {
         "subasta": buscar_subasta_transporte(id_subasta),
         "historial": listar_historial_ofertas_transporte(id_subasta),
@@ -121,7 +127,7 @@ def subasta_transporte(request, id_subasta): # METODO PARA LISTAR LOS DATOS DE L
         id_subasta = request.POST.get("subasta")
 
         salida = agregar_oferta_transporte(oferta, fecha_oferta, id_subasta, id_usuario)
-  
+
         if salida == 1:
             messages.success(
                 request,
@@ -138,7 +144,10 @@ def subasta_transporte(request, id_subasta): # METODO PARA LISTAR LOS DATOS DE L
 
     return render(request, "core/subasta_transporte.html", data)
 
-def listar_historial_ofertas_transporte(id_subasta):  # METODO PARA LISTAR TODAS LAS OFERTAS QUE SE HAN REALIZADO EN LA SUBASTA DE TRANSPORTE
+
+def listar_historial_ofertas_transporte(
+    id_subasta,
+):  # METODO PARA LISTAR TODAS LAS OFERTAS QUE SE HAN REALIZADO EN LA SUBASTA DE TRANSPORTE
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -151,7 +160,10 @@ def listar_historial_ofertas_transporte(id_subasta):  # METODO PARA LISTAR TODAS
         lista.append(fila)
     return lista
 
-def agregar_oferta_transporte(oferta, fecha_oferta, id_sub_trans, id_usuario):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA REALIZAR UNA OFERTA EN LA SUBASTA DE TRANSPORTE
+
+def agregar_oferta_transporte(
+    oferta, fecha_oferta, id_sub_trans, id_usuario
+):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA REALIZAR UNA OFERTA EN LA SUBASTA DE TRANSPORTE
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
@@ -161,7 +173,10 @@ def agregar_oferta_transporte(oferta, fecha_oferta, id_sub_trans, id_usuario):  
     )
     return salida.getvalue()
 
-def buscar_subasta_transporte(id_subasta): # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA BUSCAR UNA SUBASTA EN ESPECIFICO
+
+def buscar_subasta_transporte(
+    id_subasta,
+):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA BUSCAR UNA SUBASTA EN ESPECIFICO
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -173,6 +188,7 @@ def buscar_subasta_transporte(id_subasta): # METODO PARA LLAMAR AL PROCEDIMIENTO
     for fila in out_cur:
         lista.append(fila)
     return lista
+
 
 ##################################################################################################
 ####                                                                                          ####
@@ -188,7 +204,9 @@ def buscar_subasta_transporte(id_subasta): # METODO PARA LLAMAR AL PROCEDIMIENTO
 ##################################################################################################
 
 
-def rechazar_oferta(request, id_solicitud):  # METODO PARA QUE EL CLIENTE RECHAZE LAS OFERTAS
+def rechazar_oferta(
+    request, id_solicitud
+):  # METODO PARA QUE EL CLIENTE RECHAZE LAS OFERTAS
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
@@ -208,7 +226,9 @@ def rechazar_oferta(request, id_solicitud):  # METODO PARA QUE EL CLIENTE RECHAZ
     return redirect("solicitud_compra")
 
 
-def aceptar_oferta(request, id_solicitud): # METODO PARA QUE EL CLIENTE ACEPTE LAS OFERTAS
+def aceptar_oferta(
+    request, id_solicitud
+):  # METODO PARA QUE EL CLIENTE ACEPTE LAS OFERTAS
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
@@ -230,7 +250,9 @@ def aceptar_oferta(request, id_solicitud): # METODO PARA QUE EL CLIENTE ACEPTE L
     return redirect("solicitud_compra")
 
 
-def resultado_solicitud(request, id_solicitud):  # METODO PARA VER LOS PRODUCTOS GANADORES DE LA SUBASTA DE PRODUCTOS
+def resultado_solicitud(
+    request, id_solicitud
+):  # METODO PARA VER LOS PRODUCTOS GANADORES DE LA SUBASTA DE PRODUCTOS
 
     data = {
         "ganadores": listar_ganadores(id_solicitud),
@@ -240,7 +262,9 @@ def resultado_solicitud(request, id_solicitud):  # METODO PARA VER LOS PRODUCTOS
     return render(request, "core/resultado_solicitud.html", data)
 
 
-def obtener_valor_total(id_solicitud):  # METODO PARA OBTENER EL VALOR DE LA SUMA DE LOS PRODUCTOS OFRECIDOS
+def obtener_valor_total(
+    id_solicitud,
+):  # METODO PARA OBTENER EL VALOR DE LA SUMA DE LOS PRODUCTOS OFRECIDOS
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -254,7 +278,9 @@ def obtener_valor_total(id_solicitud):  # METODO PARA OBTENER EL VALOR DE LA SUM
     return lista
 
 
-def listar_ganadores(id_solicitud):   # METODO PARA LISTAR A LOS PRODUCTOS GANADORES DE LA OFERTA
+def listar_ganadores(
+    id_solicitud,
+):  # METODO PARA LISTAR A LOS PRODUCTOS GANADORES DE LA OFERTA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -269,7 +295,9 @@ def listar_ganadores(id_solicitud):   # METODO PARA LISTAR A LOS PRODUCTOS GANAD
 
 
 @login_required
-def procesos_venta(request):  # METODO QUE LISTA SOLAMENTE LOS PROCESOS DE VENTA (SUBASTAS DE PRODUCTOS) ACTIVAS
+def procesos_venta(
+    request,
+):  # METODO QUE LISTA SOLAMENTE LOS PROCESOS DE VENTA (SUBASTAS DE PRODUCTOS) ACTIVAS
     id_usuario = request.user.id
 
     data = {
@@ -279,7 +307,9 @@ def procesos_venta(request):  # METODO QUE LISTA SOLAMENTE LOS PROCESOS DE VENTA
     return render(request, "core/procesos_venta.html", data)
 
 
-def listar_procesoventaconproductoscoincidentes(id_usuario): # METODO QUE LISTA SOLO LAS SUBASTAS QUE TENGAN UN PRODUCTO QUE EL PROVEEDOR TENGA EN BODEGA
+def listar_procesoventaconproductoscoincidentes(
+    id_usuario,
+):  # METODO QUE LISTA SOLO LAS SUBASTAS QUE TENGAN UN PRODUCTO QUE EL PROVEEDOR TENGA EN BODEGA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -294,7 +324,9 @@ def listar_procesoventaconproductoscoincidentes(id_usuario): # METODO QUE LISTA 
 
 
 @login_required
-def producto_procesoventa(request, id_detalle, id_proceso, id_producto): # METODO PARA LISTAR LOS DATOS DE LA SUBASTA SELECCIONADA
+def producto_procesoventa(
+    request, id_detalle, id_proceso, id_producto
+):  # METODO PARA LISTAR LOS DATOS DE LA SUBASTA SELECCIONADA
 
     id_usuario = request.user.id
 
@@ -348,7 +380,9 @@ def producto_procesoventa(request, id_detalle, id_proceso, id_producto): # METOD
     return render(request, "core/producto_procesoventa.html", data)
 
 
-def listar_prod_bod(id_producto, id_usuario): ## METODO PARA LISTAR LOS DATOS DEL PRODUCTO SELECCIONADO
+def listar_prod_bod(
+    id_producto, id_usuario
+):  ## METODO PARA LISTAR LOS DATOS DEL PRODUCTO SELECCIONADO
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -362,7 +396,9 @@ def listar_prod_bod(id_producto, id_usuario): ## METODO PARA LISTAR LOS DATOS DE
     return lista
 
 
-def ver_productoProceso(id):  # METODO PARA LISTAR LOS DATOS DEL PRODUCTO DEL PROCESO DE VENTA
+def ver_productoProceso(
+    id,
+):  # METODO PARA LISTAR LOS DATOS DEL PRODUCTO DEL PROCESO DE VENTA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -376,7 +412,9 @@ def ver_productoProceso(id):  # METODO PARA LISTAR LOS DATOS DEL PRODUCTO DEL PR
     return lista
 
 
-def listar_historial_ofertas(id_proceso, id_producto):  # METODO PARA LISTAR LAS OFERTAS REALIZADAS EN EL PROCESO DE VENTA 
+def listar_historial_ofertas(
+    id_proceso, id_producto
+):  # METODO PARA LISTAR LAS OFERTAS REALIZADAS EN EL PROCESO DE VENTA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -390,7 +428,9 @@ def listar_historial_ofertas(id_proceso, id_producto):  # METODO PARA LISTAR LAS
     return lista
 
 
-def actualizar_pedidorecibido(request, id_solicitud): # METODO PARA QUE EL CLIENTE CAMBIE EL ESTADO A RECIBIDO
+def actualizar_pedidorecibido(
+    request, id_solicitud
+):  # METODO PARA QUE EL CLIENTE CAMBIE EL ESTADO A RECIBIDO
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
@@ -412,7 +452,9 @@ def actualizar_pedidorecibido(request, id_solicitud): # METODO PARA QUE EL CLIEN
     return redirect("solicitud_compra")
 
 
-def actualizar_pedidoanulado(request, id_solicitud):  # METODO PARA ANULAR UNA SOLICITUD DE PROCESO DE VENTA
+def actualizar_pedidoanulado(
+    request, id_solicitud
+):  # METODO PARA ANULAR UNA SOLICITUD DE PROCESO DE VENTA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
@@ -442,15 +484,18 @@ def actualizar_pedidoanulado(request, id_solicitud):  # METODO PARA ANULAR UNA S
 
 
 @login_required
-def mis_productos(request): # METODO PARA LISTAR LOS PRODUCTOS QUE TIENE EL PROVEEDOR EN BODEGA
+def mis_productos(
+    request,
+):  # METODO PARA LISTAR LOS PRODUCTOS QUE TIENE EL PROVEEDOR EN BODEGA
 
-    data = {
-        'misproductos': listar_misproductos(request.user.id)
-    }
+    data = {"misproductos": listar_misproductos(request.user.id)}
 
     return render(request, "core/mis_productos.html", data)
 
-def listar_misproductos(id_usuario):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA LISTAR LOS PRODUCTOS DE BODEGA
+
+def listar_misproductos(
+    id_usuario,
+):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA LISTAR LOS PRODUCTOS DE BODEGA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -463,7 +508,8 @@ def listar_misproductos(id_usuario):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMA
         lista.append(fila)
     return lista
 
-def listar_productos_select():    # METODO PARA LLENAR UN SELECT CON LOS PRODUCTOS
+
+def listar_productos_select():  # METODO PARA LLENAR UN SELECT CON LOS PRODUCTOS
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -478,14 +524,12 @@ def listar_productos_select():    # METODO PARA LLENAR UN SELECT CON LOS PRODUCT
 
 
 @login_required
-def agregar_producto_bodega(request):   # METODO PARA INGRESAR UN PRODUCTO A BODEGA
+def agregar_producto_bodega(request):  # METODO PARA INGRESAR UN PRODUCTO A BODEGA
 
-    data = {
-        'productos': listar_productos_select()
-    }
+    data = {"productos": listar_productos_select()}
 
     if request.POST:
-        
+
         id_usuario = request.user.id
         cantidad = request.POST.get("cantidadtxt")
         fecha_elaboracion = request.POST.get("fecelab")
@@ -493,7 +537,14 @@ def agregar_producto_bodega(request):   # METODO PARA INGRESAR UN PRODUCTO A BOD
         id_producto = request.POST.get("cboproducto")
         precio_kilo = request.POST.get("preciotxt")
 
-        salida = ingresar_producto_bodega(id_usuario, cantidad, fecha_elaboracion, fecha_vencimiento, id_producto, precio_kilo)
+        salida = ingresar_producto_bodega(
+            id_usuario,
+            cantidad,
+            fecha_elaboracion,
+            fecha_vencimiento,
+            id_producto,
+            precio_kilo,
+        )
 
         if salida == 1:
             messages.success(
@@ -511,21 +562,37 @@ def agregar_producto_bodega(request):   # METODO PARA INGRESAR UN PRODUCTO A BOD
 
     return render(request, "core/agregar_producto_bodega.html", data)
 
-def ingresar_producto_bodega(id_usuario, cantidad, fecha_elaboracion, fecha_vencimiento, id_producto, precio_kilo):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA INGRESAR PRODUCTOS A BODEGA
+
+def ingresar_producto_bodega(
+    id_usuario, cantidad, fecha_elaboracion, fecha_vencimiento, id_producto, precio_kilo
+):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA INGRESAR PRODUCTOS A BODEGA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc("SP_AGREGAR_PRODUCTO_BODEGA",[id_usuario, cantidad, fecha_elaboracion, fecha_vencimiento, id_producto, precio_kilo, salida])
+    cursor.callproc(
+        "SP_AGREGAR_PRODUCTO_BODEGA",
+        [
+            id_usuario,
+            cantidad,
+            fecha_elaboracion,
+            fecha_vencimiento,
+            id_producto,
+            precio_kilo,
+            salida,
+        ],
+    )
     return salida.getvalue()
 
 
-def actualizar_mi_producto(request, id_prod_bod):   # METODO PARA ACTUALIZAR LOS DATOS DEL PRODUCTO EN BODEGA 
+def actualizar_mi_producto(
+    request, id_prod_bod
+):  # METODO PARA ACTUALIZAR LOS DATOS DEL PRODUCTO EN BODEGA
 
     data = {
-        'miproducto': PRODUCTO_BODEGA.objects.get(pk=id_prod_bod),
-        'productos': PRODUCTO.objects.all(),
+        "miproducto": PRODUCTO_BODEGA.objects.get(pk=id_prod_bod),
+        "productos": PRODUCTO.objects.all(),
     }
-    
+
     if request.POST:
         id_prod_bod = request.POST.get("id_prod_bodtxt")
         cantidad = request.POST.get("cantidadtxt")
@@ -549,7 +616,10 @@ def actualizar_mi_producto(request, id_prod_bod):   # METODO PARA ACTUALIZAR LOS
 
     return render(request, "core/actualizar_mi_producto.html", data)
 
-def update_producto(id_prod_bod, cantidad, precio): # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA ACTUALIZAR LOS DATOS EN BODEGA
+
+def update_producto(
+    id_prod_bod, cantidad, precio
+):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA ACTUALIZAR LOS DATOS EN BODEGA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
@@ -557,7 +627,9 @@ def update_producto(id_prod_bod, cantidad, precio): # METODO PARA LLAMAR AL PROC
     return salida.getvalue()
 
 
-def eliminar_producto_bodega(request, id_prod_bod): # METODO PARA ELIMINAR UN PRODUCTO DE BODEGA
+def eliminar_producto_bodega(
+    request, id_prod_bod
+):  # METODO PARA ELIMINAR UN PRODUCTO DE BODEGA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
@@ -580,7 +652,9 @@ def eliminar_producto_bodega(request, id_prod_bod): # METODO PARA ELIMINAR UN PR
 
 
 ######################################## PENDIENTE PENDIENTE PENDIENTE PENDIENTE PENDIENTE PENDIENTE PENDIENTE
-def datos_producto_bodega(id_prod_bod): # METODO PARA LISTAR LOS DATOS DEL PRODUCTO SELECCIONADO PARA MODIFICAR
+def datos_producto_bodega(
+    id_prod_bod,
+):  # METODO PARA LISTAR LOS DATOS DEL PRODUCTO SELECCIONADO PARA MODIFICAR
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -592,6 +666,8 @@ def datos_producto_bodega(id_prod_bod): # METODO PARA LISTAR LOS DATOS DEL PRODU
     for fila in out_cur:
         lista.append(fila)
     return lista
+
+
 ######################################## PENDIENTE PENDIENTE PENDIENTE PENDIENTE PENDIENTE PENDIENTE PENDIENTE
 
 ##################################################################################################
@@ -606,17 +682,20 @@ def datos_producto_bodega(id_prod_bod): # METODO PARA LISTAR LOS DATOS DEL PRODU
 ####                                                                                          ####
 ##################################################################################################
 
+
 @login_required
-def solicitud_compra(request):   # METODO PARA MOSTRAR MENU DE LAS SOLICITUDES
+def solicitud_compra(request):  # METODO PARA MOSTRAR MENU DE LAS SOLICITUDES
 
     id_usuario = request.user.id
 
-    data = {"soli": listar_solicitudes(id_usuario)}
+    data = {
+        "soli": listar_solicitudes(id_usuario)
+    }
 
     return render(request, "core/solicitud_compra.html", data)
 
 
-def listar_solicitudes(id_usuario):   # METODO PARA LISTAR LAS SOLICITUDES DEL USUARIO
+def listar_solicitudes(id_usuario):  # METODO PARA LISTAR LAS SOLICITUDES DEL USUARIO
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -631,7 +710,7 @@ def listar_solicitudes(id_usuario):   # METODO PARA LISTAR LAS SOLICITUDES DEL U
 
 
 @login_required
-def anular_solicitud(request, id):   # METODO PARA ANULAR UNA SOLICITUD
+def anular_solicitud(request, id):  # METODO PARA ANULAR UNA SOLICITUD
     solicitud = SOLICITUD_COMPRA.objects.get(pk=id)
 
     estado = ESTADO_SOLICITUD()
@@ -655,23 +734,31 @@ def anular_solicitud(request, id):   # METODO PARA ANULAR UNA SOLICITUD
 
 
 @login_required
-def eliminar_detalleproducto(request, id):  # METODO PARA ELIMINAR UN PRODUCTO DE LA SOLICITUD
-    detalle = DETALLE_SOLICITUD.objects.get(pk=id)
+def eliminar_detalleproducto(request, id_detalle):  # METODO PARA ELIMINAR UN PRODUCTO DE LA SOLICITUD
 
-    try:
-        detalle.delete()
+    salida = eliminar_detalle_producto(id_detalle)
+
+    if salida == 1:
         messages.success(
             request,
-            "Producto eliminado correctamente.",
+            "La producto ha sido eliminado correctamente.",
             extra_tags="alert alert-success",
         )
-    except Exception as e:
+    else:
         messages.error(
             request,
-            "Error al intentar eliminar el producto" + str(e),
+            "Error al intentar eliminar el producto.",
             extra_tags="alert alert-danger",
         )
-    return redirect("listar_productos", detalle.id_solicitud.id_solicitud)
+    return redirect("listar_productos", id_detalle)
+
+
+def eliminar_detalle_producto(id_detalle):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc("SP_ELIMINAR_DETALLE_PRODUCTO", [id_detalle, salida])
+    return salida.getvalue()
 
 
 @login_required
@@ -706,61 +793,84 @@ def modificar_detalleproducto(request, id):  # METODO PARA MODIFICAR UN PRODUCTO
 
     return render(request, "core/modificar_detalleproducto.html", variables)
 
+
 def actualizar_detalle_solicitud(id_detalle, id_solicitud, cantidad, id_producto):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc("SP_ACTUALIZAR_DETALLE_SOLICITUD",[id_detalle, id_solicitud, cantidad, id_producto, salida])
+    cursor.callproc(
+        "SP_ACTUALIZAR_DETALLE_SOLICITUD",
+        [id_detalle, id_solicitud, cantidad, id_producto, salida],
+    )
     return salida.getvalue()
 
 
 @login_required
-def listar_productos(request, id):  # METODO PARA LISTAR LOS PRODUCTOS DE LA SOLICITUD
+def listar_productos(request, id_solicitud):  # METODO PARA LISTAR LOS PRODUCTOS DE LA SOLICITUD
 
-    det = DETALLE_SOLICITUD.objects.filter(id_solicitud=id)
-    variables = {"det": det}
+    data = {
+        "det": listar_productos_solicitud(id_solicitud)
+    }
 
-    return render(request, "core/listar_productos.html", variables)
+    return render(request, "core/listar_productos.html", data)
+
+
+def listar_productos_solicitud(id_solicitud):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_DETALLE_SOLICITUD", [id_solicitud, out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
 
 
 @login_required
-def agregar_producto(request, id):  # METODO PARA AGREGAR UN PRODUCTO A LA SOLICITUD
+def agregar_producto(request, id_solicitud):  # METODO PARA AGREGAR UN PRODUCTO A LA SOLICITUD
 
-    solicitud = SOLICITUD_COMPRA.objects.get(id_solicitud=id)
-    prod = PRODUCTO.objects.all()
-
-    variables = {"prod": prod, "solicitud": solicitud}
+    data = {
+        'productos': listar_productos_select(),
+        'solicitud': SOLICITUD_COMPRA.objects.get(pk=id_solicitud)
+    }
 
     if request.POST:
 
-        detalle = DETALLE_SOLICITUD()
-        producto = PRODUCTO()
-        soli = SOLICITUD_COMPRA()
-        detalle.cantidad = request.POST.get("cant")
+        cantidad = request.POST.get("cant")
+        id_solicitud = request.POST.get("idsoli")
+        id_producto = request.POST.get("cboproducto")
 
-        soli.id_solicitud = request.POST.get("idsoli")
-        detalle.id_solicitud = soli
+        salida = agregar_producto_detalle(cantidad, id_producto, id_solicitud)
 
-        producto.id_producto = request.POST.get("cboproducto")
-        detalle.id_producto = producto
-
-        try:
-            detalle.save()
+        if salida == 1:
             messages.success(
                 request,
-                "Producto agregado a la solicitud correctamente",
+                "La producto ha sido agregado correctamente.",
                 extra_tags="alert alert-success",
             )
-
-        except Exception as e:
+        else:
             messages.error(
                 request,
-                "Error al intentar agregar el producto a la solicitud" + str(e),
+                "Error al intentar agregar el producto.",
                 extra_tags="alert alert-danger",
             )
-        return redirect("listar_productos", solicitud.id_solicitud)
+        return redirect("listar_productos", id_solicitud)
 
-    return render(request, "core/agregar_producto.html", variables)
+
+    return render(request, "core/agregar_producto.html", data)
+
+
+def agregar_producto_detalle(cantidad, id_producto, id_solicitud):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc(
+        "SP_AGREGAR_PRODUCTO_DETALLE", [cantidad, id_producto, id_solicitud, salida]
+    )
+    return salida.getvalue()
 
 
 @login_required
@@ -769,13 +879,15 @@ def formulario_solicitud(request):  # METODO PARA REALIZAR UNA SOLICITUD DE COMP
     if request.POST:
 
         fecha_pedido = datetime.datetime.now()
-        direccion_destino =request.POST.get("direccion")
+        direccion_destino = request.POST.get("direccion")
         fecha_min = request.POST.get("min")
         fecha_max = request.POST.get("max")
         id_usuario = request.user.id
         id_estado = 1
 
-        salida = agregar_solicitud_compra(fecha_pedido, direccion_destino, id_estado, id_usuario, fecha_max, fecha_min)
+        salida = agregar_solicitud_compra(
+            fecha_pedido, direccion_destino, id_estado, id_usuario, fecha_max, fecha_min
+        )
 
         if salida == 1:
             messages.success(
@@ -793,12 +905,25 @@ def formulario_solicitud(request):  # METODO PARA REALIZAR UNA SOLICITUD DE COMP
 
     return render(request, "core/formulario_solicitud.html")
 
+
 def agregar_solicitud_compra(fecha_pedido, direccion_destino, id_estado, id_usuario, fecha_max, fecha_min):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc("SP_AGREGAR_SOLICITUD_COMPRA",[fecha_pedido, direccion_destino, id_estado, id_usuario, fecha_max, fecha_min, salida])
+    cursor.callproc(
+        "SP_AGREGAR_SOLICITUD_COMPRA",
+        [
+            fecha_pedido,
+            direccion_destino,
+            id_estado,
+            id_usuario,
+            fecha_max,
+            fecha_min,
+            salida,
+        ],
+    )
     return salida.getvalue()
+
 
 ##################################################################################################
 ####                                                                                          ####
@@ -807,15 +932,17 @@ def agregar_solicitud_compra(fecha_pedido, direccion_destino, id_estado, id_usua
 ##################################################################################################
 
 
-
 ##################################################################################################
 ####                                                                                          ####
 ####                       MODULO USUARIOS                                                    ####
 ####                                                                                          ####
 ##################################################################################################
 
+
 @login_required
-def modificar_datos_personales(request, id): # METODO PARA MODIFICAR LOS DATOS PERSONALES DEL USUARIO
+def modificar_datos_personales(
+    request, id
+):  # METODO PARA MODIFICAR LOS DATOS PERSONALES DEL USUARIO
 
     persona = PERSONA.objects.get(id_usuario=id)
     pais = PAIS.objects.all()
@@ -864,8 +991,9 @@ def modificar_datos_personales(request, id): # METODO PARA MODIFICAR LOS DATOS P
 
     return render(request, "core/modificar_datos_personales.html", variables)
 
+
 @login_required
-def perfil_usuario(request, id):    # METODO PARA MOSTRAR EL PERFIL DEL USUARIO
+def perfil_usuario(request, id):  # METODO PARA MOSTRAR EL PERFIL DEL USUARIO
     persona = PERSONA.objects.get(id_usuario=id)
     pais = PAIS.objects.all()
 
@@ -874,7 +1002,7 @@ def perfil_usuario(request, id):    # METODO PARA MOSTRAR EL PERFIL DEL USUARIO
     )
 
 
-def registro_minorista(request): # METODO DE REGISTRO DE USUARIO DE TIPO MINORISTA
+def registro_minorista(request):  # METODO DE REGISTRO DE USUARIO DE TIPO MINORISTA
 
     data = {"form": CustomUserForm()}
     tp = 3
@@ -919,7 +1047,9 @@ def registro_minorista(request): # METODO DE REGISTRO DE USUARIO DE TIPO MINORIS
     return render(request, "registration/registro_minorista.html", data)
 
 
-def registro_usuario(request, cod): # METODO DE REGISTRO DE USUARIO MAYORISTA, PROVEEDOR Y TRANSPORTISTA
+def registro_usuario(
+    request, cod
+):  # METODO DE REGISTRO DE USUARIO MAYORISTA, PROVEEDOR Y TRANSPORTISTA
 
     data = {"form2": CustomUserForm2()}
 
@@ -955,7 +1085,9 @@ def registro_usuario(request, cod): # METODO DE REGISTRO DE USUARIO MAYORISTA, P
     return render(request, "registration/registro_usuario.html", data)
 
 
-def buscar_persona(cod, rut, dni):  # METODO PARA VER SI EXISTE LA PERSONA Y VERIFICAR EL CODIGO DE ACTIVACION
+def buscar_persona(
+    cod, rut, dni
+):  # METODO PARA VER SI EXISTE LA PERSONA Y VERIFICAR EL CODIGO DE ACTIVACION
 
     persona = PERSONA()
     persona = (
@@ -964,7 +1096,9 @@ def buscar_persona(cod, rut, dni):  # METODO PARA VER SI EXISTE LA PERSONA Y VER
     return persona
 
 
-def codigo_activacion(request):  # METODO PARA BUSCAR LA PERSONA POR SU CODIGO DE ACTIVACION
+def codigo_activacion(
+    request,
+):  # METODO PARA BUSCAR LA PERSONA POR SU CODIGO DE ACTIVACION
     if request.POST:
         cod = request.POST.get("codigo")
         rut = request.POST.get("rut")
@@ -987,6 +1121,7 @@ def codigo_activacion(request):  # METODO PARA BUSCAR LA PERSONA POR SU CODIGO D
             )
             return render(request, "registration/codigo_activacion.html")
     return render(request, "registration/codigo_activacion.html")
+
 
 ##################################################################################################
 ####                                                                                          ####
