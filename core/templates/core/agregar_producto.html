@@ -49,8 +49,13 @@
                     placeholder="Ingrese la cantidad en kilos">
             </div>
 
-
-            <input type="submit" value="Ingresar Producto" class="btn btn-primary">
+            <div class="col-md-12 text-center">
+                <div class="btn-group mt-3">
+                    <button type="submit" class="btn btn-primary">Ingresar Producto</button>
+                    <input type="reset" class="btn btn-secondary btn-lg mr-3 ml-3 btn-lg" value="Limpiar"> 
+                    <a href="{% url 'solicitud_compra' %}" class="btn btn-info btn-lg">Volver</a>
+                  </div>
+            </div>
 
         </form>
 

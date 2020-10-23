@@ -844,9 +844,7 @@ def buscar_solicitud(id_solicitud):
 
 
 @login_required
-def agregar_producto(
-    request, id_solicitud
-):  # METODO PARA AGREGAR UN PRODUCTO A LA SOLICITUD
+def agregar_producto(request, id_solicitud):  # METODO PARA AGREGAR UN PRODUCTO A LA SOLICITUD
 
     data = {
         "productos": listar_productos_select(),

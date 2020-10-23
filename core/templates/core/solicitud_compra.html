@@ -28,6 +28,10 @@
         <i class="fas fa-plus-circle" aria-hidden="true"></i>
         Nueva Solicitud
     </a>
+    <a href="{% url 'home' %}" class="btn btn-primary btn-rounded">
+        <i class="fas fa-step-backward"></i> 
+        Volver
+    </a>
 
     <br>
     <br>
@@ -186,7 +190,7 @@
 <div class="container mt-5 mb-5">
     <h3 class="text-center text-white">Aún no ha realizado ninguna solicitud.</h3>
     <h4 class="text-center text-white">Por favor, realice su solicitud en 
-    <a href="">aquí.</a>    
+    <a href="{% url 'formulario_solicitud' %}">aquí.</a>    
     </h4>
     <hr class="new4">
     <h4 class="text-center text-white">Maipo Grande

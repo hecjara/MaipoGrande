@@ -26,7 +26,7 @@
 
     <a href="{% url 'agregar_producto_bodega' %}" class="btn btn-primary"><i class="fas fa-plus-circle mr-2"></i>Agregar
         nuevo producto</a>
-    <a href="{% url 'home' %}" class="btn btn-info"><i class="fas fa-long-arrow-alt-left"></i> Volver al inicio</a>
+    <a href="{% url 'home' %}" class="btn btn-info"><i class="fas fa-step-backward"></i> Volver al inicio</a>
 </div>
 
 
@@ -66,7 +66,18 @@
 </div>
 <br>
 {% else %}
-<p>Usted no tiene productos agregados</p>
+<div class="container mt-5 mb-5">
+    <h3 class="text-center text-white">Usted aún no tiene productos agregados a la bodega.</h3>
+    <h3 class="text-center text-white">Para comenzar a agregar productos, haga click 
+        <a href="{% url 'agregar_producto_bodega' %}">
+            aquí
+        </a>
+    </h3>
+    <hr class="new4">
+    <h4 class="text-center text-white">Maipo Grande
+      <img src="{% static '/core/img/logo_maipo.png' %}" alt="logo" width="30" height="30" class="mb-2">
+    </h4>
+  </div>
 {% endif %}
 
 <div class="d-flex justify-content-center">
@@ -74,14 +85,11 @@
     <div class="messages">
         {% for message in messages %}
         <p{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</p>
-            {% endfor %}
+        {% endfor %}
     </div>
     {% endif %}
 </div>
 
 <br>
-
-
-
 
 {% endblock %}

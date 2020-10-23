@@ -27,6 +27,10 @@
     <br>
 </div>
 
+<div class="container">
+    <a href="{% url 'solicitud_compra' %}" class="btn btn-primary mb-3"><i class="fas fa-step-backward"></i> Volver</a>
+</div>
+
 {% if det %}
 <div class="container table-responsive">
     <table class="table table-bordered table-hover table-condensed  table-light">
@@ -61,20 +65,18 @@
     </table>
 </div>
 {% else %}
-<div class="container">
-    <h3 class="text-center text-white"></h3>
-    <h4 class="text-center text-white"></h4>
-</div>
-
 <div class="container mt-5 mb-5">
     <h3 class="text-center text-white">No existen productos en la solicitud.</h3>
-    <h3 class="text-center text-white">Para agregar productos ingrese 
-        <a href="#">aquí</a>.
     </h3>
     <hr class="new4">
     <h4 class="text-center text-white">Maipo Grande
         <img src="{% static '/core/img/logo_maipo.png' %}" alt="logo" width="30" height="30" class="mb-2">
     </h4>
+    <!-- <div class="text-center">
+        <a href="{% url 'solicitud_compra' %}" class="btn btn-primary">
+            <i class="fas fa-step-backward"></i> Volver
+        </a>
+    </div> -->
 </div>
 
 
