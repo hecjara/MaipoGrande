@@ -829,12 +829,27 @@ def listar_productos_solicitud(id_solicitud):
     return lista
 
 
+def buscar_solicitud(id_solicitud):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_BUSCAR_SOLICITUD", [id_solicitud, out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
 @login_required
 def agregar_producto(request, id_solicitud):  # METODO PARA AGREGAR UN PRODUCTO A LA SOLICITUD
 
     data = {
         'productos': listar_productos_select(),
-        'solicitud': SOLICITUD_COMPRA.objects.get(pk=id_solicitud)
+        # 'solicitud': SOLICITUD_COMPRA.objects.get(pk=id_solicitud)
+        'solicitud': buscar_solicitud(id_solicitud)
     }
 
     if request.POST:

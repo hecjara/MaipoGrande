@@ -29,7 +29,7 @@
 
         <form action="" method="POST" onsubmit="return validacion();">
 
-            <input type="text" name="idsoli" id="idsoli" value="{{ solicitud.id_solicitud }}">
+            <input type="hidden" name="idsoli" id="idsoli" value="{{ solicitud.0.0 }}">
 
             {% csrf_token %}
 
@@ -54,20 +54,11 @@
 
         </form>
 
-
-
-
-
     </div>
-
 
     <br>
 
-
-
 </div>
-
-
 
 <br>
 
