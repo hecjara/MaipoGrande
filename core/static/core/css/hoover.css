@@ -1,0 +1,80 @@
+#Hover_con .hover_content_block {
+    text-align: center;
+    font-size: 16px;
+    min-height: 300px;
+    vertical-align: middle;
+    padding: 40px;
+    background: #fff;
+    -webkit-box-shadow: 7px 14px 42px 3px rgba(163, 174, 184, 0.4);
+    -moz-box-shadow: 7px 14px 42px 3px rgba(163, 174, 184, 0.4);
+    -ms-box-shadow: 7px 14px 42px 3px rgba(163, 174, 184, 0.4);
+    -o-box-shadow: 7px 14px 42px 3px rgba(163, 174, 184, 0.4);
+    box-shadow: 7px 14px 42px 3px rgba(163, 174, 184, 0.4);
+    z-index: 7;
+    flex-grow: 1;
+    background-size: cover;
+    position: relative;
+    background-repeat: no-repeat;
+}
+#Hover_con .hover_content_block > .overlay-darker {
+    z-index: 8;
+    opacity: .8;
+    background: #474747;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+#Hover_con .hover_content_block > .overlay {
+    background: #fff;
+    opacity: 1;
+    z-index: 9;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+}
+#Hover_con .hover_content_block > .Hover_con_text {
+    position: relative;
+    z-index: 10;
+}
+#Hover_con .hover_content_block > .Hover_con_text .Hover_con_icon {
+    font-size: 50px;
+    color: #52d3aa;
+    margin-bottom: 30px;
+    display: block;
+}
+#Hover_con .hover_content_block h2 {
+    font-size: 24px;
+    font-weight: 400;
+}
+.btn.btn-primary {
+    background: #52d3aa;
+    color: #fff;
+    border: none !important;
+    border: 2px solid transparent !important;
+    margin-top:15px;
+}
+#Hover_con .hover_content_block:hover > .overlay, #Hover_con .hover_content_block:focus > .overlay {
+    opacity: 0;
+    z-index: 9;
+}
+#Hover_con .hover_content_block:hover > .Hover_con_text .Hover_con_icon, #Hover_con .hover_content_block:focus > .Hover_con_text .Hover_con_icon {
+    color: #fff;
+}
+#Hover_con .hover_content_block:hover h2, #Hover_con .hover_content_block:focus h2, #Hover_con .hover_content_block:hover > .Hover_con_text, #Hover_con .hover_content_block:focus > .Hover_con_text {
+    color: #fff;
+}
+#Hover_con .hover_content_block:hover .btn, #Hover_con .hover_content_block:focus .btn {
+    border: 2px solid #fff !important;
+    background: transparent;
+}
+#Hover_con .hover_content_block:hover .btn:hover, #Hover_con .hover_content_block:focus .btn:hover {
+    background: #52d3aa !important;
+    border: 2px solid #52d3aa !important;
+}
