@@ -24,9 +24,7 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
-    <style>
-
-    </style>
+    <link rel="shortcut icon" type="image/png" href="{% static 'core/img/favicon.ico' %}"/>
 
     <title>Maipo Grande</title>
 </head>
@@ -35,7 +33,6 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-success sticky-top">
             <a class="navbar-brand text-white" href="{% url 'home' %}">
-                <!-- <img src="{% static 'core/img/logo_maipo.png' %}" width="30" height="30"class="d-inline-block align-top" alt="logo"> -->
                 <i class="fab fa-apple fa-lg"></i>
                 Maipo Grande
             </a>
@@ -96,23 +93,16 @@
 
     {% endblock %}
 
-
-    <!-- Footer -->
-    <!-- <footer class="blue mt-4">
-
-        <p class="text-center py-3 p-3 mb-0 bg-success text-white">© 2020 Copyright: Maipo Grande</p>
-
-    </footer> -->
-    <!-- Footer -->
-
-
     <footer class="footer bg-success">
         <div class="footer-left col-md-4 col-sm-6">
-          <p class="about">
-            <span> Acerca de Maipo Grande</span> Ut congue augue non tellus bibendum, in varius tellus condimentum. In scelerisque nibh tortor, sed rhoncus odio condimentum in. Sed sed est ut sapien ultrices eleifend. Integer tellus est, vehicula eu lectus tincidunt,
-            ultricies feugiat leo. Suspendisse tellus elit, pharetra in hendrerit ut, aliquam quis augue. Nam ut nibh mollis, tristique ante sed, viverra massa.
-          </p>
-          <!-- <div class="icons">
+            <p class="about">
+                <span> Acerca de Maipo Grande</span> Ut congue augue non tellus bibendum, in varius tellus condimentum.
+                In scelerisque nibh tortor, sed rhoncus odio condimentum in. Sed sed est ut sapien ultrices eleifend.
+                Integer tellus est, vehicula eu lectus tincidunt,
+                ultricies feugiat leo. Suspendisse tellus elit, pharetra in hendrerit ut, aliquam quis augue. Nam ut
+                nibh mollis, tristique ante sed, viverra massa.
+            </p>
+            <!-- <div class="icons">
             <a href="#"><i class="fab fa-facebook-square"></i></a>
             <a href="#"><i class="fab fa-twitter"></i></a>
             <a href="#"><i class="fab fa-linkedin"></i></a>
@@ -121,36 +111,33 @@
           </div> -->
         </div>
         <div class="footer-center col-md-4 col-sm-6">
-          <div>
-            <i class="fa fa-map-marker"></i>
-            <p><span> 347 Uriel Stravenue</span> Santiago, Chile</p>
-          </div>
-          <div>
-            <i class="fa fa-phone"></i>
-            <p> (+56) 9780-45-571</p>
-          </div>
-          <div>
-            <i class="fa fa-envelope"></i>
-            <p><a href="#" class="text-white"> maipogrande@company.com</a></p>
-          </div>
+            <div>
+                <i class="fa fa-map-marker"></i>
+                <p><span> 347 Uriel Stravenue</span> Santiago, Chile</p>
+            </div>
+            <div>
+                <i class="fa fa-phone"></i>
+                <p> (+56) 9780-45-571</p>
+            </div>
+            <div>
+                <i class="fa fa-envelope"></i>
+                <p><a href="#" class="text-white"> maipogrande@company.com</a></p>
+            </div>
         </div>
         <div class="footer-right col-md-4 col-sm-6">
-            <h2> 
+            <h2>
                 <i class="fab fa-apple"></i>
                 Maipo Grande
-                <!-- <span>
-                    <img src="{% static 'core/img/logo_maipo.png' %}" width="40" height="40" class="d-inline-block align-top" alt="logo">
-                </span> -->
             </h2>
-          <p class="menu">
-            <a href="{% url 'home' %}"> Inicio</a> |
-            <a href="#"> Nosotros</a> |
-            <a href="#"> Servicios</a> |
-            <a href="#"> Contacto</a> 
-          </p>
-          <p class="name text-white"> Maipo Grande &copy; 2020</p>
+            <p class="menu">
+                <a href="{% url 'home' %}"> Inicio</a> |
+                <a href="#"> Nosotros</a> |
+                <a href="#"> Servicios</a> |
+                <a href="#"> Contacto</a>
+            </p>
+            <p class="name text-white"> Maipo Grande &copy; 2020</p>
         </div>
-      </footer>
+    </footer>
 
     {% block javascript %}
     {% endblock %}
@@ -164,8 +151,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
-
-
 
 </body>
 
