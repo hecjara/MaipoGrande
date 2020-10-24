@@ -246,10 +246,18 @@ class PROCESO_MINORISTA(models.Model):
     fecha_inicio = models.DateTimeField(null=False, blank=False)
     fecha_termino = models.DateTimeField(null=False, blank=False)
     id_prod_bod = models.ForeignKey(PRODUCTO_BODEGA, on_delete=models.CASCADE)
-    id_estado = models.ForeignKey(
-        ESTADO_MINORISTA, on_delete=models.CASCADE, null=True, blank=True
-    )
+    id_estado = models.ForeignKey(ESTADO_MINORISTA, on_delete=models.CASCADE, null=True, blank=True)
 
+
+class PRODUCTO_PROCESO(models.Model):
+    id_prod_proc = models.AutoField(primary_key=True)
+    id_minorista = models.ForeignKey(PROCESO_MINORISTA, on_delete=models.CASCADE)
+    id_prod_bod = models.ForeignKey(PRODUCTO_BODEGA, on_delete=models.CASCADE)
+
+class CARRITO(models.Model):
+    id_carrito = models.AutoField(primary_key=True)
+    id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    id_prod_proc = models.ForeignKey(PRODUCTO_PROCESO, on_delete=models.CASCADE)
 
 class PAGO(models.Model):
     id_pago = models.AutoField(primary_key=True)
@@ -257,10 +265,6 @@ class PAGO(models.Model):
     fecha_pago = models.DateTimeField(null=False, blank=False)
     id_tipo = models.ForeignKey(TIPO_PAGO, on_delete=models.CASCADE)
     id_dato_pago = models.ForeignKey(DATO_PAGO, on_delete=models.CASCADE)
-    id_proceso = models.ForeignKey(
-        PROCESO_VENTA, on_delete=models.CASCADE, null=True, blank=True
-    )
-    id_proceso_mino = models.ForeignKey(
-        PROCESO_MINORISTA, on_delete=models.CASCADE, null=True, blank=True
-    )
+    id_proceso = models.OneToOneField(PROCESO_VENTA, on_delete=models.CASCADE, null=True, blank=True)
+    id_carrito = models.OneToOneField(CARRITO, on_delete=models.CASCADE, null=True, blank=True)
 
