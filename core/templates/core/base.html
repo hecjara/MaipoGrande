@@ -35,8 +35,8 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-success sticky-top">
             <a class="navbar-brand text-white" href="{% url 'home' %}">
-                <img src="{% static 'core/img/logo_maipo.png' %}" width="30" height="30"
-                    class="d-inline-block align-top" alt="logo">
+                <!-- <img src="{% static 'core/img/logo_maipo.png' %}" width="30" height="30"class="d-inline-block align-top" alt="logo"> -->
+                <i class="fab fa-apple fa-lg"></i>
                 Maipo Grande
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
@@ -135,7 +135,13 @@
           </div>
         </div>
         <div class="footer-right col-md-4 col-sm-6">
-          <h2> Maipo Grande<span><img src="{% static 'core/img/logo_maipo.png' %}" width="40" height="40" class="d-inline-block align-top" alt="logo"></span></h2>
+            <h2> 
+                <i class="fab fa-apple"></i>
+                Maipo Grande
+                <!-- <span>
+                    <img src="{% static 'core/img/logo_maipo.png' %}" width="40" height="40" class="d-inline-block align-top" alt="logo">
+                </span> -->
+            </h2>
           <p class="menu">
             <a href="{% url 'home' %}"> Inicio</a> |
             <a href="#"> Nosotros</a> |
