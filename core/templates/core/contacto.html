@@ -1,0 +1,37 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% load auth_extras %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/parpadeo.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/centrar_texto.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/hoover.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/lista.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/contacto.css' %}">
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
+
+{% block contenido %}
+
+<br>
+
+<div class="container">
+    <!--Google map-->
+    <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 500px">
+        <iframe src="https://maps.google.com/maps?q=manhatan&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
+            style="border:0" allowfullscreen></iframe>
+    </div>
+
+    <!--Google Maps-->
+</div>
+
+<br>
+
+
+{% endblock %}

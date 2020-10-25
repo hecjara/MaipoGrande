@@ -39,6 +39,9 @@ from django.utils import timezone
 def home(request):
     return render(request, "core/home.html")
 
+def contacto(request):
+    return render(request, "core/contacto.html")
+
 
 ##################################################################################################
 ####                                                                                          ####
