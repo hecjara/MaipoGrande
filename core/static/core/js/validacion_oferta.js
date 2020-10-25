@@ -16,17 +16,17 @@ function validacion() {
     }
 
 
-    if (cant_solicitada > cantidad) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'La cantidad ofrecida debe ser mayor o igual que la cantidad solicitada.',
-            // footer: '<a href>Why do I have this issue?</a>'
-        })
+    // if (cant_solicitada > cantidad) {
+    //     Swal.fire({
+    //         icon: 'error',
+    //         title: 'Oops...',
+    //         text: 'La cantidad ofrecida debe ser mayor o igual que la cantidad solicitada.',
+    //         // footer: '<a href>Why do I have this issue?</a>'
+    //     })
  
-        return false;
-    }
-    else if (cantidad == null || cantidad.length == 0 || /^\s+$/.test(cantidad)) {
+    //     return false;
+    // }
+    if (cantidad == null || cantidad.length == 0 || /^\s+$/.test(cantidad)) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',

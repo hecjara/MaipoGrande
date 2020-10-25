@@ -204,7 +204,7 @@ class CONCLUSION(models.Model):
 
 class HISTORIAL_POSTULACION(models.Model):
     id_historial = models.AutoField(primary_key=True)
-    oferta = models.IntegerField(null=False, blank=False)
+    oferta_x_kilo = models.IntegerField(null=False, blank=False)
     cantidad = models.IntegerField(null=False, blank=False)
     fecha_oferta = models.DateTimeField(null=False, blank=False)
     id_proceso = models.ForeignKey(PROCESO_VENTA, on_delete=models.CASCADE)
