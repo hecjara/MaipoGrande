@@ -136,7 +136,15 @@
             <h6 class="card-title text-white">Maipo Grande</h6>
             <p class="card-text text-justify text-white">La empresa Maipo Grande ofrece servicio de venta en grandes
               cantidades
-              para el extranjero y grandes oportunidades para la venta local.</p>
+              para el extranjero y grandes oportunidades para la venta local.
+              <br>
+              <br>
+              Para obtener una cuenta ya sea de transportita, mayorista o proveedor, envianos un mail a maipogrande@company.com
+              con tus datos, solicitando y especificando el tipo de cuenta que necesites, o haciendo
+              <a class="btn btn-outline-light btn-sm" href="mailto:maipogrande@company.com">click aquí <i class="far fa-envelope"></i></a>
+            </p>
+              
+
             <a href="#" class="btn btn-primary">Mas información</a>
           </div>
         </div>
@@ -157,11 +165,10 @@
           <h2>Usuario Mayorista</h2>
           <p>Privilegios</p>
           <ul class="demo">
-            <li>The Great Gatsby</li>
-            <li>The Grapes of Wrath</li>
-            <li>Ulysses</li>
+            <li>Realizar solicitudes de compra</li>
+            <li>Seguimiento del pedido</li>
           </ul>
-          <p><a href="#" class="btn btn-primary">Get In Touch</a></p>
+          <!-- <p><a href="#" class="btn btn-primary">Get In Touch</a></p> -->
         </div>
       </div>
       <div class="hover_content_block col-sm-4"
@@ -173,11 +180,10 @@
           <h2>Usuario Proveedor</h2>
           <p>Privilegios</p>
           <ul class="demo">
-            <li>The Great Gatsby</li>
-            <li>The Grapes of Wrath</li>
-            <li>Ulysses</li>
+            <li>Agregar productos a bodega</li>
+            <li>Postular productos en subastas</li>
           </ul>
-          <p><a href="#" class="btn btn-primary">Click Me</a></p>
+          <!-- <p><a href="#" class="btn btn-primary">Click Me</a></p> -->
         </div>
       </div>
       <div class="hover_content_block col-sm-4"
@@ -189,11 +195,9 @@
           <h2>Usuario Transportista</h2>
           <p>Privilegios</p>
           <ul class="demo">
-            <li>The Great Gatsby</li>
-            <li>The Grapes of Wrath</li>
-            <li>Ulysses</li>
+            <li>Participar en subastas de transporte</li>
           </ul>
-          <p><a href="#" class="btn btn-primary">Why Us?</a></p>
+          <!-- <p><a href="#" class="btn btn-primary">Why Us?</a></p> -->
         </div>
       </div>
     </div>
@@ -211,7 +215,7 @@
               de su cuenta. Podrá ver los procesos de venta minorista activos y acceder a las ventas de saldo y realizar compras 
               al por menor en la web de Maipo Grande.
             </p>
-            <a href="{% url 'registro_minorista' %}" class="btn btn-primary">Registrate aquí</a>
+            <a href="{% url 'registro_minorista' %}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Registro de usuario minorista">Registrate aquí</a>
           </div>
         </div>
         <div class="col-md-3">
