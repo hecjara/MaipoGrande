@@ -148,9 +148,7 @@ def subasta_transporte(
     return render(request, "core/subasta_transporte.html", data)
 
 
-def listar_historial_ofertas_transporte(
-    id_subasta,
-):  # METODO PARA LISTAR TODAS LAS OFERTAS QUE SE HAN REALIZADO EN LA SUBASTA DE TRANSPORTE
+def listar_historial_ofertas_transporte(id_subasta):  # METODO PARA LISTAR TODAS LAS OFERTAS QUE SE HAN REALIZADO EN LA SUBASTA DE TRANSPORTE
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -164,9 +162,7 @@ def listar_historial_ofertas_transporte(
     return lista
 
 
-def agregar_oferta_transporte(
-    oferta, fecha_oferta, id_sub_trans, id_usuario
-):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA REALIZAR UNA OFERTA EN LA SUBASTA DE TRANSPORTE
+def agregar_oferta_transporte(oferta, fecha_oferta, id_sub_trans, id_usuario):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA REALIZAR UNA OFERTA EN LA SUBASTA DE TRANSPORTE
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
@@ -177,9 +173,7 @@ def agregar_oferta_transporte(
     return salida.getvalue()
 
 
-def buscar_subasta_transporte(
-    id_subasta,
-):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA BUSCAR UNA SUBASTA EN ESPECIFICO
+def buscar_subasta_transporte(id_subasta):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA BUSCAR UNA SUBASTA EN ESPECIFICO
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -207,9 +201,7 @@ def buscar_subasta_transporte(
 ##################################################################################################
 
 
-def rechazar_oferta(
-    request, id_solicitud
-):  # METODO PARA QUE EL CLIENTE RECHAZE LAS OFERTAS
+def rechazar_oferta(request, id_solicitud):  # METODO PARA QUE EL CLIENTE RECHAZE LAS OFERTAS
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
@@ -229,9 +221,7 @@ def rechazar_oferta(
     return redirect("solicitud_compra")
 
 
-def aceptar_oferta(
-    request, id_solicitud
-):  # METODO PARA QUE EL CLIENTE ACEPTE LAS OFERTAS
+def aceptar_oferta(request, id_solicitud):  # METODO PARA QUE EL CLIENTE ACEPTE LAS OFERTAS
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
@@ -253,9 +243,7 @@ def aceptar_oferta(
     return redirect("solicitud_compra")
 
 
-def resultado_solicitud(
-    request, id_solicitud
-):  # METODO PARA VER LOS PRODUCTOS GANADORES DE LA SUBASTA DE PRODUCTOS
+def resultado_solicitud(request, id_solicitud):  # METODO PARA VER LOS PRODUCTOS GANADORES DE LA SUBASTA DE PRODUCTOS
 
     data = {
         "ganadores": listar_ganadores(id_solicitud),
@@ -265,9 +253,7 @@ def resultado_solicitud(
     return render(request, "core/resultado_solicitud.html", data)
 
 
-def obtener_valor_total(
-    id_solicitud,
-):  # METODO PARA OBTENER EL VALOR DE LA SUMA DE LOS PRODUCTOS OFRECIDOS
+def obtener_valor_total(id_solicitud):  # METODO PARA OBTENER EL VALOR DE LA SUMA DE LOS PRODUCTOS OFRECIDOS
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -281,9 +267,7 @@ def obtener_valor_total(
     return lista
 
 
-def listar_ganadores(
-    id_solicitud,
-):  # METODO PARA LISTAR A LOS PRODUCTOS GANADORES DE LA OFERTA
+def listar_ganadores(id_solicitud):  # METODO PARA LISTAR A LOS PRODUCTOS GANADORES DE LA OFERTA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -298,9 +282,7 @@ def listar_ganadores(
 
 
 @login_required
-def procesos_venta(
-    request,
-):  # METODO QUE LISTA SOLAMENTE LOS PROCESOS DE VENTA (SUBASTAS DE PRODUCTOS) ACTIVAS
+def procesos_venta(request):  # METODO QUE LISTA SOLAMENTE LOS PROCESOS DE VENTA (SUBASTAS DE PRODUCTOS) ACTIVAS
     id_usuario = request.user.id
 
     data = {
@@ -310,9 +292,7 @@ def procesos_venta(
     return render(request, "core/procesos_venta.html", data)
 
 
-def listar_procesoventaconproductoscoincidentes(
-    id_usuario,
-):  # METODO QUE LISTA SOLO LAS SUBASTAS QUE TENGAN UN PRODUCTO QUE EL PROVEEDOR TENGA EN BODEGA
+def listar_procesoventaconproductoscoincidentes(id_usuario):  # METODO QUE LISTA SOLO LAS SUBASTAS QUE TENGAN UN PRODUCTO QUE EL PROVEEDOR TENGA EN BODEGA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -327,9 +307,7 @@ def listar_procesoventaconproductoscoincidentes(
 
 
 @login_required
-def producto_procesoventa(
-    request, id_detalle, id_proceso, id_producto
-):  # METODO PARA LISTAR LOS DATOS DE LA SUBASTA SELECCIONADA
+def producto_procesoventa(request, id_detalle, id_proceso, id_producto):  # METODO PARA LISTAR LOS DATOS DE LA SUBASTA SELECCIONADA
 
     id_usuario = request.user.id
 
@@ -383,9 +361,7 @@ def producto_procesoventa(
     return render(request, "core/producto_procesoventa.html", data)
 
 
-def listar_prod_bod(
-    id_producto, id_usuario
-):  ## METODO PARA LISTAR LOS DATOS DEL PRODUCTO SELECCIONADO
+def listar_prod_bod(id_producto, id_usuario):  ## METODO PARA LISTAR LOS DATOS DEL PRODUCTO SELECCIONADO
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -399,9 +375,7 @@ def listar_prod_bod(
     return lista
 
 
-def ver_productoProceso(
-    id,
-):  # METODO PARA LISTAR LOS DATOS DEL PRODUCTO DEL PROCESO DE VENTA
+def ver_productoProceso(id):  # METODO PARA LISTAR LOS DATOS DEL PRODUCTO DEL PROCESO DE VENTA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -415,9 +389,7 @@ def ver_productoProceso(
     return lista
 
 
-def listar_historial_ofertas(
-    id_proceso, id_producto
-):  # METODO PARA LISTAR LAS OFERTAS REALIZADAS EN EL PROCESO DE VENTA
+def listar_historial_ofertas(id_proceso, id_producto):  # METODO PARA LISTAR LAS OFERTAS REALIZADAS EN EL PROCESO DE VENTA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -431,9 +403,7 @@ def listar_historial_ofertas(
     return lista
 
 
-def actualizar_pedidorecibido(
-    request, id_solicitud
-):  # METODO PARA QUE EL CLIENTE CAMBIE EL ESTADO A RECIBIDO
+def actualizar_pedidorecibido(request, id_solicitud):  # METODO PARA QUE EL CLIENTE CAMBIE EL ESTADO A RECIBIDO
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
@@ -455,9 +425,7 @@ def actualizar_pedidorecibido(
     return redirect("solicitud_compra")
 
 
-def actualizar_pedidoanulado(
-    request, id_solicitud
-):  # METODO PARA ANULAR UNA SOLICITUD DE PROCESO DE VENTA
+def actualizar_pedidoanulado(request, id_solicitud):  # METODO PARA ANULAR UNA SOLICITUD DE PROCESO DE VENTA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
@@ -487,18 +455,14 @@ def actualizar_pedidoanulado(
 
 
 @login_required
-def mis_productos(
-    request,
-):  # METODO PARA LISTAR LOS PRODUCTOS QUE TIENE EL PROVEEDOR EN BODEGA
+def mis_productos(request):  # METODO PARA LISTAR LOS PRODUCTOS QUE TIENE EL PROVEEDOR EN BODEGA
 
     data = {"misproductos": listar_misproductos(request.user.id)}
 
     return render(request, "core/mis_productos.html", data)
 
 
-def listar_misproductos(
-    id_usuario,
-):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA LISTAR LOS PRODUCTOS DE BODEGA
+def listar_misproductos(id_usuario):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA LISTAR LOS PRODUCTOS DE BODEGA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()

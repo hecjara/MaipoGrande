@@ -1,8 +1,9 @@
 function validacion() {
-    lote = document.getElementById("cbolote").value;
+    lote = document.getElementById("cboprodbod").value;
     cantidad = document.getElementById("cantidadtxt").value;
     oferta = document.getElementById("ofertatxt").value;
-
+    cant_solicitada = document.getElementById("cantidad").value;
+    
     if (lote == null || lote == 0) {
         Swal.fire({
             icon: 'error',
@@ -14,7 +15,18 @@ function validacion() {
         return false;
     }
 
-    if (cantidad == null || cantidad.length == 0 || /^\s+$/.test(cantidad)) {
+
+    if (cant_solicitada > cantidad) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'La cantidad ofrecida debe ser mayor o igual que la cantidad solicitada.',
+            // footer: '<a href>Why do I have this issue?</a>'
+        })
+ 
+        return false;
+    }
+    else if (cantidad == null || cantidad.length == 0 || /^\s+$/.test(cantidad)) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -44,6 +56,7 @@ function validacion() {
 
         return false;
     }
+
 
     if (oferta == null || oferta.length == 0 || /^\s+$/.test(oferta)) {
         Swal.fire({
