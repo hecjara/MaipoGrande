@@ -245,7 +245,6 @@ class PROCESO_MINORISTA(models.Model):
     id_proceso = models.AutoField(primary_key=True)
     fecha_inicio = models.DateTimeField(null=False, blank=False)
     fecha_termino = models.DateTimeField(null=False, blank=False)
-    id_prod_bod = models.ForeignKey(PRODUCTO_BODEGA, on_delete=models.CASCADE)
     id_estado = models.ForeignKey(ESTADO_MINORISTA, on_delete=models.CASCADE, null=True, blank=True)
 
 
