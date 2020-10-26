@@ -1,0 +1,6 @@
+.fijo {
+position: fixed !important;
+right:0px;
+top:0px;
+z-index:10 !important;
+}

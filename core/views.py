@@ -53,7 +53,9 @@ def contacto(request):
 def venta_local(request):
 
     data = {
-        'ventalocal': listar_productos_venta_local()
+        'ventalocal': listar_productos_venta_local(),
+        'count': count_productos_carrito(request.user.id),
+
     }
 
     return render(request, "core/venta_local.html", data)
@@ -86,6 +88,54 @@ def agregar_al_carrito(request, id_prod_proc, id_usuario):  # METODO PARA LLAMAR
         messages.error(request, "Error al intentar agregar el producto al carrito.", extra_tags="alert alert-danger")
     return redirect("venta_local")
 
+
+def ver_carrito(request, id_usuario):
+
+    data = {
+        'carrito': listar_productos_carrito(id_usuario),
+        'total': valor_total_minorista(request.user.id),
+    }
+
+    return render(request, "core/ver_carrito.html", data)
+
+def count_productos_carrito(id_usuario):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_CONTAR_PRODUCTOS_CARRITO", [id_usuario, out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def valor_total_minorista(id_usuario):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_VALOR_TOTAL_MINORISTA", [id_usuario, out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def listar_productos_carrito(id_usuario):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_PRODUCTOS_CARRITO", [id_usuario, out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
 
 ##################################################################################################
 ####                                                                                          ####

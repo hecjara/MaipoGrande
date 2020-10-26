@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/parpadeo.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/cards.css' %}">
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'core/js/confirmacion_solicitud.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="{% static 'core/js/countdown.js' %}"></script>
+<script src="{% static 'core/js/hora.js' %}"></script>
+{% endblock %}
+
+{% block contenido %}
+<br>
+
+<div class="container">
+    <hr class="new4">
+    <h1 class="text-center text-white">Productos en el carrito <i class="fas fa-shopping-basket"></i></h1>
+    <hr class="new4">
+    <br>
+</div>
+
+<div class="container">
+    {% for c in carrito %}
+    <div class="card p-3 border-success">
+        <p class="card-text">Producto: {{ c.6 }}</p>
+        <p class="card-text">Cantidad: {{ c.8 }} Kilos</p>
+        <p class="card-text">Fecha vencimiento: {{ c.11|date:"d/m/y" }}</p>
+        <p class="card-text">Precio kilo: ${{ c.9 }}</p>
+    </div>
+    {% endfor %}
+    <div class="card p-3 border-success"> 
+        <p class="card-text">Total: $ {{ total.0.0 }}</p>
+        <div class="btn-group" role="group">
+            <a href="" class="btn btn-primary btn-sm mr-2">Pagar</a>
+            <a href="" class="btn btn-info btn-sm mr-2">Volver</a>
+        </div>
+    </div>
+</div>
+
+<br>
+{% endblock %}
