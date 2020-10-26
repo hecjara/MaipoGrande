@@ -256,7 +256,11 @@ class PRODUCTO_PROCESO(models.Model):
 class CARRITO(models.Model):
     id_carrito = models.AutoField(primary_key=True)
     id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class PRODUCTO_CARRITO(models.Model):
+    id_prod_carrito = models.AutoField(primary_key=True)
     id_prod_proc = models.ForeignKey(PRODUCTO_PROCESO, on_delete=models.CASCADE)
+    id_carrito = models.ForeignKey(CARRITO, on_delete=models.CASCADE)
 
 class PAGO(models.Model):
     id_pago = models.AutoField(primary_key=True)
@@ -266,4 +270,3 @@ class PAGO(models.Model):
     id_dato_pago = models.ForeignKey(DATO_PAGO, on_delete=models.CASCADE)
     id_proceso = models.OneToOneField(PROCESO_VENTA, on_delete=models.CASCADE, null=True, blank=True)
     id_carrito = models.OneToOneField(CARRITO, on_delete=models.CASCADE, null=True, blank=True)
-

@@ -30,19 +30,42 @@
 </div>
 
 <div class="container">
+    <button type="button" class="btn btn-primary">
+        <i class="fas fa-shopping-cart"></i> <span class="badge badge-light">9</span>
+        <span class="sr-only">Productos Agregados</span>
+    </button>
+</div>
+
+<br>
+
+<div class="container">
+
+    <div class="d-flex justify-content-center">
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <p{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</p>
+                {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+
+
 
     <div class="card-deck">
         {% for vt in ventalocal %}
         <div class="col-sm-4 mb-4">
             <div class="card h-100" style="width: 18rem;">
-                <img src="{{ vt.10 }}" alt="producto" width="100" height="100" >
+                <img src="{{ vt.5 }}" alt="producto" width="100" height="100">
                 <div class="card-body">
-                    <h5 class="card-title">{{ vt.9 }}</h5>
-                    <p class="card-text">Cantidad: {{ vt.3 }} Kilos</p>
-                    <p class="card-text">Fecha vencimiento: {{ vt.5|date:"d/m/y" }}</p>
-                    <p class="card-text">Precio Kilo: ${{ vt.11 }}</p>
-                    <p class="card-text">Precio Total: ${{ vt.12 }}</p>
-                    <a href="#" class="btn btn-primary">Agregar al carrito <i class="fas fa-cart-plus"></i></a>
+                    <h5 class="card-title">{{ vt.4 }}</h5>
+                    <p class="card-text">Cantidad: {{ vt.6 }} Kilos</p>
+                    <p class="card-text">Fecha vencimiento: {{ vt.10|date:"d/m/y" }}</p>
+                    <p class="card-text">Precio Kilo: ${{ vt.7 }}</p>
+                    <p class="card-text">Precio Total: ${{ vt.8 }}</p>
+                    <a href="{% url 'agregar_al_carrito' vt.0 request.user.id %}" class="btn btn-primary">Agregar al
+                        carrito <i class="fas fa-cart-plus"></i></a>
                 </div>
             </div>
         </div>

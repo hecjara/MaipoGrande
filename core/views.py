@@ -52,25 +52,39 @@ def contacto(request):
 
 def venta_local(request):
 
-    # data = {
-    #     'ventalocal': listar_productos_venta_local()
-    # }
+    data = {
+        'ventalocal': listar_productos_venta_local()
+    }
 
-    return render(request, "core/venta_local.html")
+    return render(request, "core/venta_local.html", data)
 
 
-# def listar_productos_venta_local():
-#     django_cursor = connection.cursor()
-#     cursor = django_cursor.connection.cursor()
-#     out_cur = django_cursor.connection.cursor()
+def listar_productos_venta_local():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
 
-#     cursor.callproc("SP_LISTAR_PRODUCTOS_VENTA_LOCAL", [out_cur])
+    cursor.callproc("SP_LISTAR_PRODUCTOS_VENTA_LOCAL", [out_cur])
 
-#     lista = []
+    lista = []
 
-#     for fila in out_cur:
-#         lista.append(fila)
-#     return lista
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
+def agregar_al_carrito(request, id_prod_proc, id_usuario):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA REALIZAR UNA OFERTA EN LA SUBASTA DE TRANSPORTE
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc("SP_AGREGAR_AL_CARRITO",[id_prod_proc, id_usuario, salida],)
+    res = salida.getvalue()
+    
+    if res == 1:
+        messages.success(request, "Producto agregado al carrito.", extra_tags="alert alert-success")
+    else:
+        messages.error(request, "Error al intentar agregar el producto al carrito.", extra_tags="alert alert-danger")
+    return redirect("venta_local")
 
 
 ##################################################################################################
