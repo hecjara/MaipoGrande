@@ -93,10 +93,20 @@ def ver_carrito(request, id_usuario):
 
     data = {
         'carrito': listar_productos_carrito(id_usuario),
-        'total': valor_total_minorista(request.user.id),
+        'total': valor_total_minorista(181),
     }
 
     return render(request, "core/ver_carrito.html", data)
+
+
+def valor_total_minorista(id_usuario):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callfunc("SF_VALOR_TOTAL_MINORISTA", salida, [id_usuario])
+    return salida.getvalue()
+
+
 
 def count_productos_carrito(id_usuario):
     django_cursor = connection.cursor()
@@ -111,18 +121,20 @@ def count_productos_carrito(id_usuario):
         lista.append(fila)
     return lista
 
-def valor_total_minorista(id_usuario):
-    django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor()
-    out_cur = django_cursor.connection.cursor()
+# def valor_total_minorista(id_usuario):
+#     django_cursor = connection.cursor()
+#     cursor = django_cursor.connection.cursor()
+#     out_cur = django_cursor.connection.cursor()
 
-    cursor.callproc("SP_VALOR_TOTAL_MINORISTA", [id_usuario, out_cur])
+#     cursor.callproc("SP_VALOR_TOTAL_MINORISTA", [id_usuario, out_cur])
 
-    lista = []
+#     lista = []
 
-    for fila in out_cur:
-        lista.append(fila)
-    return lista
+#     for fila in out_cur:
+#         lista.append(fila)
+#     return lista
+
+
 
 def listar_productos_carrito(id_usuario):
     django_cursor = connection.cursor()
