@@ -29,21 +29,77 @@
 </div>
 
 <div class="container">
-    {% for c in carrito %}
-    <div class="card p-3 border-success">
-        <p class="card-text">Producto: {{ c.6 }}</p>
-        <p class="card-text">Cantidad: {{ c.8 }} Kilos</p>
-        <p class="card-text">Fecha vencimiento: {{ c.11|date:"d/m/y" }}</p>
-        <p class="card-text">Precio kilo: ${{ c.9 }}</p>
-    </div>
-    {% endfor %}
-    <div class="card p-3 border-success"> 
-        <p class="card-text">Total: $ {{ total|remove_decimal_point }}</p>
-        <div class="btn-group" role="group">
-            <a href="" class="btn btn-primary btn-sm mr-2">Pagar</a>
-            <a href="" class="btn btn-info btn-sm mr-2">Volver</a>
+
+    <div class="row">
+        <div class="col-6">
+
+            <div class="card p-3 border-success w-75">
+                <p class="card-title">Productos del carrito</p>
+                <hr>
+                {% for c in carrito %}
+                <p class="card-text">Producto: {{ c.6 }}</p>
+                <p class="card-text">Cantidad: {{ c.8 }} Kilos</p>
+                <p class="card-text">Fecha vencimiento: {{ c.11|date:"d/m/y" }}</p>
+                <p class="card-text">Precio kilo: ${{ c.9 }}</p>
+                <br>
+                {% endfor %}
+                <hr>
+                <p class="card-text">Total: $ {{ total|remove_decimal_point }}</p>
+            </div>
+        </div>
+
+        <div class="col-6">
+
+            <div class="container">
+                <form action="" class="was-validated" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="tarjetatxt"><i class="fas fa-credit-card"></i> Nro. Tarjeta</label>
+                        <input type="text" name="tarjetatxt" id="tarjetatxt" class="form-control" required>
+                        <div class="invalid-feedback">Ingrese nro. de tarjeta válido</div>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="cvvtxt"><i class="fas fa-lock"></i> CVV</label>
+                        <input type="number" name="cvvtxt" id="cvvtxt" class="form-control" min="000" max="999" minlength="3" maxlength="3" required>
+                        <div class="invalid-feedback">Ingrese un cvv válido</div>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="fecventxt"><i class="far fa-calendar-alt"></i> Fecha de vencimiento</label>
+                        <input type="text" name="fecventxt" id="fecventxt" class="form-control" placeholder="mm/aa" minlength="5" maxlength="5" required>
+                        <div class="invalid-feedback">Ingrese una fecha de vencimiento válida</div>
+                    </div>
+    
+    
+                    <input type="hidden" name="vtotal" id="vtotal" value="{{ total|remove_decimal_point }}">
+                    <div class="btn-group" role="group">
+                        <input type="submit" value="Pagar" class="btn btn-primary btn-sm mr-2">
+                        <a href="" class="btn btn-info btn-sm mr-2">Volver</a>
+                    </div>
+    
+                </form>
+            </div>
+
+           
+
         </div>
     </div>
+
+
+    <div class="d-flex justify-content-center">
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <p{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</p>
+                {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    
+
+
+
 </div>
 
 <br>

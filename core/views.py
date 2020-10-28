@@ -32,6 +32,9 @@ from django.db import connection
 from django.core.files.base import ContentFile
 import base64
 from django.utils import timezone
+import zeep
+
+
 
 # Create your views here.
 
@@ -79,7 +82,7 @@ def agregar_al_carrito(request, id_prod_proc, id_usuario):  # METODO PARA LLAMAR
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc("SP_AGREGAR_AL_CARRITO",[id_prod_proc, id_usuario, salida],)
+    cursor.callproc("SP_AGREGAR_AL_CARRITO",[id_prod_proc, id_usuario, salida])
     res = salida.getvalue()
     
     if res == 1:
@@ -93,10 +96,48 @@ def ver_carrito(request, id_usuario):
 
     data = {
         'carrito': listar_productos_carrito(id_usuario),
-        'total': valor_total_minorista(181),
+        'total': valor_total_minorista(id_usuario),
     }
 
+    if request.POST:
+        tarjeta = request.POST.get("tarjetatxt")
+        cvv = request.POST.get("cvvtxt")
+        fecven = request.POST.get("fecventxt")
+        monto = request.POST.get("vtotal")
+
+        wsdl = 'http://localhost:8080/wsPagoMaipoGrande/Pago?WSDL'
+        client = zeep.Client(wsdl=wsdl)
+        res = client.service.Pago(monto, tarjeta, cvv, fecven)
+    
+        # if res == 1:
+
+        #     for x in carrito:
+
+
+        #     messages.success(
+        #         request,
+        #         "Compra realizada con exito.",
+        #         extra_tags="alert alert-success",
+        #     )
+        # else:
+        #     messages.error(
+        #         request,
+        #         "Error al intentar realizar la compra.",
+        #         extra_tags="alert alert-danger",
+        #     )
+        # return redirect("venta_local")
+
     return render(request, "core/ver_carrito.html", data)
+
+
+def agregar_pago(total, fecha_pago, id_carrito, id_prod_bod):  
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc("SP_COMPRAR_MINORISTA",[total, fecha_pago, id_carrito, id_prod_bod, salida])
+    return salida.getvalue()
+
+
 
 
 def valor_total_minorista(id_usuario):

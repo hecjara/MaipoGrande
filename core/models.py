@@ -253,10 +253,15 @@ class PRODUCTO_PROCESO(models.Model):
     id_minorista = models.ForeignKey(PROCESO_MINORISTA, on_delete=models.CASCADE)
     id_prod_bod = models.ForeignKey(PRODUCTO_BODEGA, on_delete=models.CASCADE)
 
+class ESTADO_CARRITO(models.Model):
+    id_estado = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=50, blank=True, null=True)
+
 class CARRITO(models.Model):
     id_carrito = models.AutoField(primary_key=True)
     id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     id_prod_proc = models.ForeignKey(PRODUCTO_PROCESO, on_delete=models.CASCADE)
+    id_estado = models.ForeignKey(ESTADO_CARRITO, on_delete=models.CASCADE)
 
 class PAGO(models.Model):
     id_pago = models.AutoField(primary_key=True)
