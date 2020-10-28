@@ -53,20 +53,21 @@
     </div>
   </div>
 </div>
-
 {% elif request.user|has_group:"CompradorMinorista" %}
-<hr class="new4">
-<h1 class="text-center text-white">Menu comprador Minorista</h1>
-<hr class="new4">
 <div class="container">
-  <div class="row row-cols-1 row-cols-md-2">
-    <div class="col mb-4">
-      <div class="card">
-        <img src="{% static 'core/img/venta_local_img.jpg' %}" class="card-img-top" alt="agregar">
-        <div class="card-body">
-          <h5 class="card-title">Ver ventas de saldo</h5>
-          <p class="card-text">Aquí podras realizar la compra de productos de saldo.</p>
-          <a href="{% url 'venta_local' %}" class="btn btn-primary">Ventas de saldo</a>
+  <hr class="new4">
+  <h1 class="text-center text-white">Menu comprador Minorista</h1>
+  <hr class="new4">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-md-2">
+      <div class="col mb-4">
+        <div class="card">
+          <img src="{% static 'core/img/venta_local_img.jpg' %}" class="card-img-top" alt="agregar">
+          <div class="card-body">
+            <h5 class="card-title">Ver ventas de saldo</h5>
+            <p class="card-text">Aquí podras realizar la compra de productos de saldo.</p>
+            <a href="{% url 'venta_local' %}" class="btn btn-primary">Ventas de saldo</a>
+          </div>
         </div>
       </div>
     </div>
