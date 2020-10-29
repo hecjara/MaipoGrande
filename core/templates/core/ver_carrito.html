@@ -37,17 +37,15 @@
                 <p class="card-title">Productos del carrito</p>
                 <hr>
                 {% for c in carrito %}
-                <input type="text" name="idcarritotxt_{{ c.0 }}" id="idcarritotxt_{{ c.0 }}" value="{{ c.0 }}">
-                <input type="text" name="idprodbodtxt_{{ c.0 }}" id="idprodbodtxt_{{ c.0 }}" value="{{ c.4 }}">
-                <input type="text" name="idtotaltxt_{{ c.0 }}" id="idtotaltxt_{{ c.0 }}" value="{{ c.14 }}">
-                <p class="card-text">Producto: {{ c.6 }}</p>
-                <p class="card-text">Cantidad: {{ c.8 }} Kilos</p>
-                <p class="card-text">Fecha vencimiento: {{ c.11|date:"d/m/y" }}</p>
-                <p class="card-text">Precio kilo: ${{ c.9 }}</p>
+                <p class="card-text">Producto: {{ c.8 }}</p>
+                <p class="card-text">Cantidad: {{ c.10 }} Kilos</p>
+                <p class="card-text">Fecha vencimiento: {{ c.14|date:"d/m/y" }}</p>
+                <p class="card-text">Precio kilo: ${{ c.11 }}</p>
+                <p class="card-text">Precio Total producto: ${{ c.12 }}</p>
                 <br>
                 {% endfor %}
                 <hr>
-                <p class="card-text">Total: $ {{ total|remove_decimal_point }}</p>
+                <p class="card-text">Precio Final: ${{ total|remove_decimal_point }}</p>
             </div>
         </div>
 
@@ -74,8 +72,10 @@
                         <div class="invalid-feedback">Ingrese una fecha de vencimiento válida</div>
                     </div>
     
-    
-                    <input type="hidden" name="vtotal" id="vtotal" value="{{ total|remove_decimal_point }}">
+
+
+                    <input type="text" name="idcarritotxt" id="idcarritotxt" value="{{ carrito.0.0 }}">
+                    <input type="text" name="totaltxt" id="totaltxt" value="{{ total|remove_decimal_point }}">
                     <div class="btn-group" role="group">
                         <input type="submit" value="Pagar" class="btn btn-primary btn-sm mr-2">
                         <a href="" class="btn btn-info btn-sm mr-2">Volver</a>

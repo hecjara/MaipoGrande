@@ -103,38 +103,41 @@ def ver_carrito(request, id_usuario):
         tarjeta = request.POST.get("tarjetatxt")
         cvv = request.POST.get("cvvtxt")
         fecven = request.POST.get("fecventxt")
-        monto = request.POST.get("vtotal")
+        monto = request.POST.get("totaltxt")
 
         wsdl = 'http://localhost:8080/wsPagoMaipoGrande/Pago?WSDL'
         client = zeep.Client(wsdl=wsdl)
         res = client.service.Pago(monto, tarjeta, cvv, fecven)
     
         if res == 1:
-            messages.success(
-                request,
-                "Compra realizada con exito.",
-                extra_tags="alert alert-success",
-            )
-        else:
-            messages.error(
-                request,
-                "Error al intentar realizar la compra.",
-                extra_tags="alert alert-danger",
-            )
+
+            total = request.POST.get("totaltxt")
+            id_carrito = request.POST.get("idcarritotxt")
+
+            res2 = agregar_pago(total, id_carrito)
+
+            if res2 == 1:
+                messages.success(
+                    request,
+                    "Compra realizada con exito.",
+                    extra_tags="alert alert-success",
+                )
+            else:
+                messages.error(
+                    request,
+                    "Error al intentar realizar la compra.",
+                    extra_tags="alert alert-danger",
+                )
         return redirect("venta_local")
 
     return render(request, "core/ver_carrito.html", data)
 
-
-def agregar_pago(total, id_carrito, id_prod_bod):  
+def agregar_pago(total, id_carrito):  
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc("SP_COMPRAR_MINORISTA",[total, id_carrito, id_prod_bod, salida])
+    cursor.callproc("SP_COMPRAR_MINORISTA",[total, id_carrito, salida])
     return salida.getvalue()
-
-
-
 
 def valor_total_minorista(id_usuario):
     django_cursor = connection.cursor()
@@ -142,8 +145,6 @@ def valor_total_minorista(id_usuario):
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callfunc("SF_VALOR_TOTAL_MINORISTA", salida, [id_usuario])
     return salida.getvalue()
-
-
 
 def count_productos_carrito(id_usuario):
     django_cursor = connection.cursor()
