@@ -78,11 +78,11 @@ def listar_productos_venta_local():
     return lista
 
 
-def agregar_al_carrito(request, id_prod_proc, id_usuario):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA REALIZAR UNA OFERTA EN LA SUBASTA DE TRANSPORTE
+def agregar_al_carrito(request, id_prod_proc, id_usuario):  
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc("SP_AGREGAR_AL_CARRITO",[id_prod_proc, id_usuario, salida])
+    cursor.callproc("SP_AGREGAR_AL_CARRITO", [id_prod_proc, id_usuario, salida])
     res = salida.getvalue()
     
     if res == 1:
@@ -109,32 +109,28 @@ def ver_carrito(request, id_usuario):
         client = zeep.Client(wsdl=wsdl)
         res = client.service.Pago(monto, tarjeta, cvv, fecven)
     
-        # if res == 1:
-
-        #     for x in carrito:
-
-
-        #     messages.success(
-        #         request,
-        #         "Compra realizada con exito.",
-        #         extra_tags="alert alert-success",
-        #     )
-        # else:
-        #     messages.error(
-        #         request,
-        #         "Error al intentar realizar la compra.",
-        #         extra_tags="alert alert-danger",
-        #     )
-        # return redirect("venta_local")
+        if res == 1:
+            messages.success(
+                request,
+                "Compra realizada con exito.",
+                extra_tags="alert alert-success",
+            )
+        else:
+            messages.error(
+                request,
+                "Error al intentar realizar la compra.",
+                extra_tags="alert alert-danger",
+            )
+        return redirect("venta_local")
 
     return render(request, "core/ver_carrito.html", data)
 
 
-def agregar_pago(total, fecha_pago, id_carrito, id_prod_bod):  
+def agregar_pago(total, id_carrito, id_prod_bod):  
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc("SP_COMPRAR_MINORISTA",[total, fecha_pago, id_carrito, id_prod_bod, salida])
+    cursor.callproc("SP_COMPRAR_MINORISTA",[total, id_carrito, id_prod_bod, salida])
     return salida.getvalue()
 
 

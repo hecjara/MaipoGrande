@@ -37,6 +37,9 @@
                 <p class="card-title">Productos del carrito</p>
                 <hr>
                 {% for c in carrito %}
+                <input type="text" name="idcarritotxt_{{ c.0 }}" id="idcarritotxt_{{ c.0 }}" value="{{ c.0 }}">
+                <input type="text" name="idprodbodtxt_{{ c.0 }}" id="idprodbodtxt_{{ c.0 }}" value="{{ c.4 }}">
+                <input type="text" name="idtotaltxt_{{ c.0 }}" id="idtotaltxt_{{ c.0 }}" value="{{ c.14 }}">
                 <p class="card-text">Producto: {{ c.6 }}</p>
                 <p class="card-text">Cantidad: {{ c.8 }} Kilos</p>
                 <p class="card-text">Fecha vencimiento: {{ c.11|date:"d/m/y" }}</p>
