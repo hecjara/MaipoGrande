@@ -128,6 +128,12 @@ def ver_carrito(request, id_usuario):
                     "Error al intentar realizar la compra.",
                     extra_tags="alert alert-danger",
                 )
+        else:
+            messages.error(
+                request,
+                "Error al intentar realizar la compra.",
+                extra_tags="alert alert-danger",
+            )
         return redirect("venta_local")
 
     return render(request, "core/ver_carrito.html", data)
@@ -158,21 +164,6 @@ def count_productos_carrito(id_usuario):
     for fila in out_cur:
         lista.append(fila)
     return lista
-
-# def valor_total_minorista(id_usuario):
-#     django_cursor = connection.cursor()
-#     cursor = django_cursor.connection.cursor()
-#     out_cur = django_cursor.connection.cursor()
-
-#     cursor.callproc("SP_VALOR_TOTAL_MINORISTA", [id_usuario, out_cur])
-
-#     lista = []
-
-#     for fila in out_cur:
-#         lista.append(fila)
-#     return lista
-
-
 
 def listar_productos_carrito(id_usuario):
     django_cursor = connection.cursor()
