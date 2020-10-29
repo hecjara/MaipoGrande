@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 
 {% load static %}
-
+{% load remover_decimal %}
 {% block css %}
 <link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
 <link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
@@ -33,7 +33,7 @@
 
 <div class="container">
     <a href="{% url 'ver_carrito' request.user.id %}" type="button" class="btn btn-primary">
-        <i class="fas fa-shopping-cart"></i> Ir al carrito <span class="badge badge-light">{{ count.0.0 }}</span>
+        <i class="fas fa-shopping-cart"></i> Ir al carrito <span class="badge badge-light">{{ count|remove_decimal_point }}</span>
         <span class="sr-only">Productos Agregados</span>
     </a>
 </div>

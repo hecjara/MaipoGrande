@@ -155,15 +155,9 @@ def valor_total_minorista(id_usuario):
 def count_productos_carrito(id_usuario):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
-    out_cur = django_cursor.connection.cursor()
-
-    cursor.callproc("SP_CONTAR_PRODUCTOS_CARRITO", [id_usuario, out_cur])
-
-    lista = []
-
-    for fila in out_cur:
-        lista.append(fila)
-    return lista
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callfunc("SF_CONTAR_PRODUCTOS_CARRITO", salida, [id_usuario])
+    return salida.getvalue()
 
 def listar_productos_carrito(id_usuario):
     django_cursor = connection.cursor()
