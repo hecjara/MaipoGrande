@@ -45,6 +45,8 @@
         <span class="sr-only">Productos Agregados</span>
     </a>
     {% endif %}
+
+    <a href="{% url 'home' %}" class="btn btn-info"><i class="fas fa-step-backward"></i> Volver</a>
 </div>
 
 <br>
@@ -64,8 +66,8 @@
     <div class="card-deck">
         {% for vt in ventalocal %}
         <div class="col-sm-4 mb-4">
-            <div class="card h-100" style="width: 18rem;">
-                <img src="{{ vt.5 }}" alt="producto" width="100" height="100">
+            <div class="card h-100 p-3" style="width: 18rem;">
+                <img src="{{ vt.5 }}" alt="producto" width="100" height="100" class="mx-auto d-block">
                 <div class="card-body">
                     <h5 class="card-title">{{ vt.4 }}</h5>
                     <p class="card-text">Cantidad: {{ vt.6 }} Kilos</p>
