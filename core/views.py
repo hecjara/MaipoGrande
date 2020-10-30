@@ -48,6 +48,25 @@ def contacto(request):
 
 ##################################################################################################
 ####                                                                                          ####
+####                       MODULO DASHBOARD                                                   ####
+####                                                                                          ####
+##################################################################################################
+
+
+def dashboard(request):
+    return render(request, "core/dashboard.html")
+
+
+
+
+##################################################################################################
+####                                                                                          ####
+####                       FIN MODULO DASHBOARD                                               ####
+####                                                                                          ####
+##################################################################################################
+
+##################################################################################################
+####                                                                                          ####
 ####                       MODULO DE VENTA LOCAL                                              ####
 ####                                                                                          ####
 ##################################################################################################
@@ -438,39 +457,21 @@ def producto_procesoventa(request, id_detalle, id_proceso, id_producto):  # METO
     }
 
     if request.POST:
+        oferta_x_kilo = request.POST.get("ofertatxt")
+        cantidad = request.POST.get("cantidadtxt")
+        id_prod_bod = request.POST.get("cboprodbod")
+        id_proceso = request.POST.get("id_proceso")
+        id_usuario = request.user.id
 
-        historial = HISTORIAL_POSTULACION()
-        historial.oferta = request.POST.get("ofertatxt")
-        historial.cantidad = request.POST.get("cantidadtxt")
+        salida = agregar_oferta_producto(oferta_x_kilo, cantidad, id_proceso, id_prod_bod, id_usuario)
 
-        now = timezone.now()
-        # now = datetime.now()
-        historial.fecha_oferta = now
-
-        pv = PROCESO_VENTA()
-        pv.id_proceso = request.POST.get("id_proceso")
-        historial.id_proceso = pv
-
-        pb = PRODUCTO_BODEGA()
-        pb.id_prod_bod = request.POST.get("cboprodbod")
-        historial.id_prod_bod = pb
-
-        user = User()
-        user.id = request.user.id
-        historial.id_usuario = user
-
-        conclusion = CONCLUSION()
-        conclusion.id_conclusion = 0
-        historial.id_conclusion = conclusion
-
-        try:
-            historial.save()
+        if salida == 1:
             messages.success(
                 request,
                 "Oferta realizada correctamente.",
                 extra_tags="alert alert-success",
             )
-        except Exception as e:
+        else:
             messages.error(
                 request,
                 "Error al realizar la oferta " + str(e),
@@ -481,6 +482,13 @@ def producto_procesoventa(request, id_detalle, id_proceso, id_producto):  # METO
     return render(request, "core/producto_procesoventa.html", data)
 
 
+def agregar_oferta_producto(oferta_x_kilo, cantidad, id_proceso, id_prod_bod, id_usuario):  
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc("SP_AGREGAR_OFERTA_PRODUCTO", [oferta_x_kilo, cantidad, id_proceso, id_prod_bod, id_usuario, salida])
+    return salida.getvalue()
+    
 def listar_prod_bod(id_producto, id_usuario):  ## METODO PARA LISTAR LOS DATOS DEL PRODUCTO SELECCIONADO
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -493,7 +501,6 @@ def listar_prod_bod(id_producto, id_usuario):  ## METODO PARA LISTAR LOS DATOS D
     for fila in out_cur:
         lista.append(fila)
     return lista
-
 
 def ver_productoProceso(id):  # METODO PARA LISTAR LOS DATOS DEL PRODUCTO DEL PROCESO DE VENTA
     django_cursor = connection.cursor()
@@ -508,7 +515,6 @@ def ver_productoProceso(id):  # METODO PARA LISTAR LOS DATOS DEL PRODUCTO DEL PR
         lista.append(fila)
     return lista
 
-
 def listar_historial_ofertas(id_proceso, id_producto):  # METODO PARA LISTAR LAS OFERTAS REALIZADAS EN EL PROCESO DE VENTA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -521,7 +527,6 @@ def listar_historial_ofertas(id_proceso, id_producto):  # METODO PARA LISTAR LAS
     for fila in out_cur:
         lista.append(fila)
     return lista
-
 
 def actualizar_pedidorecibido(request, id_solicitud):  # METODO PARA QUE EL CLIENTE CAMBIE EL ESTADO A RECIBIDO
     django_cursor = connection.cursor()
@@ -543,7 +548,6 @@ def actualizar_pedidorecibido(request, id_solicitud):  # METODO PARA QUE EL CLIE
             extra_tags="alert alert-danger",
         )
     return redirect("solicitud_compra")
-
 
 def actualizar_pedidoanulado(request, id_solicitud):  # METODO PARA ANULAR UNA SOLICITUD DE PROCESO DE VENTA
     django_cursor = connection.cursor()

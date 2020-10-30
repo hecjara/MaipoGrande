@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% load remover_decimal %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/parpadeo.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/cards.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/fijo.css' %}">
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'core/js/confirmacion_solicitud.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="{% static 'core/js/countdown.js' %}"></script>
+<script src="{% static 'core/js/hora.js' %}"></script>
+{% endblock %}
+
+{% block contenido %}
+<br>
+
+
+
+<br>
+{% endblock %}

@@ -120,6 +120,26 @@
     </div>
   </div>
 </div>
+{% elif request.user|has_group:"Consultor" %}
+<div class="container">
+  <hr class="new4">
+  <h1 class="text-center text-white">Menu Consultor</h1>
+  <hr class="new4">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-md-2">
+      <div class="col mb-4">
+        <div class="card">
+          <img src="{% static 'core/img/graficos_img.jpg' %}" class="card-img-top" alt="graficos">
+          <div class="card-body">
+            <h5 class="card-title">Ver ventas de saldo</h5>
+            <p class="card-text">Dashboard de Maipo Grande.</p>
+            <a href="{% url 'dashboard' %}" class="btn btn-primary">Ir al dashboard</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endif %}
 
 {% else %}
