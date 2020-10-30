@@ -76,6 +76,27 @@ def listar_productos_venta_local():
     for fila in out_cur:
         lista.append(fila)
     return lista
+    
+def eliminar_producto_carrito(request, id_prod_car):  # METODO PARA ELIMINAR UN PRODUCTO DEL CARRITO
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc("SP_ELIMINAR_PRODUCTO_CARRITO", [id_prod_car, salida])
+    res = salida.getvalue()
+
+    if res == 1:
+        messages.success(
+            request,
+            "La producto ha sido eliminado del carrito.",
+            extra_tags="alert alert-success",
+        )
+    else:
+        messages.error(
+            request,
+            "Error al intentar eliminar el producto del carrito.",
+            extra_tags="alert alert-danger",
+        )
+    return redirect("venta_local")
 
 
 def agregar_al_carrito(request, id_prod_proc, id_usuario):  

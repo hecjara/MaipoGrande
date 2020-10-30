@@ -23,7 +23,7 @@
 
 <div class="container">
     <hr class="new4">
-    <h1 class="text-center text-white">Productos en el carrito <i class="fas fa-shopping-basket"></i></h1>
+    <h1 class="text-center text-white">Productos en el carrito <i class="fas fa-apple-crate"></i></h1>
     <hr class="new4">
     <br>
 </div>
@@ -33,62 +33,82 @@
     <div class="row">
         <div class="col-6">
 
-            <div class="card p-3 border-success w-75">
-                <p class="card-title">Productos del carrito</p>
-                <hr>
-                {% for c in carrito %}
-                <p class="card-text">Producto: {{ c.8 }}</p>
-                <p class="card-text">Cantidad: {{ c.10 }} Kilos</p>
-                <p class="card-text">Fecha vencimiento: {{ c.14|date:"d/m/y" }}</p>
-                <p class="card-text">Precio kilo: ${{ c.11 }}</p>
-                <p class="card-text">Precio Total producto: ${{ c.12 }}</p>
-                <br>
-                {% endfor %}
-                <hr>
-                <p class="card-text">Precio Final: ${{ total|remove_decimal_point }}</p>
+            <div class="card border-success w-75">
+                
+                <div class="card-header text-white bg-success text-center">
+                    <strong>
+                        Productos del carrito <i class="fas fa-apple-crate"></i>
+                    </strong>
+                </div>
+
+                <div class="p-3">
+                    {% for c in carrito %}
+                    <p class="card-text">Producto: {{ c.8 }}</p>
+                    <p class="card-text">Cantidad: {{ c.10 }} Kilos</p>
+                    <p class="card-text">Fecha vencimiento: {{ c.14|date:"d/m/y" }}</p>
+                    <p class="card-text">Precio kilo: ${{ c.11 }}</p>
+                    <p class="card-text">Precio Total producto: ${{ c.12 }}</p>
+                    <hr>
+                    {% endfor %}
+                </div>
+                
+                <div class="card-footer text-white bg-success text-center">
+                    <strong>
+                        Precio Final: ${{ total|remove_decimal_point }}
+                    </strong>
+                </div>
+
             </div>
         </div>
 
         <div class="col-6">
 
             <div class="container">
-                <form action="" class="was-validated" method="POST">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="tarjetatxt"><i class="fas fa-credit-card"></i> Nro. Tarjeta</label>
-                        <input type="text" name="tarjetatxt" id="tarjetatxt" class="form-control" required>
-                        <div class="invalid-feedback">Ingrese nro. de tarjeta válido</div>
-                    </div>
-    
-                    <div class="form-group">
-                        <label for="cvvtxt"><i class="fas fa-lock"></i> CVV</label>
-                        <input type="number" name="cvvtxt" id="cvvtxt" class="form-control" min="000" max="999" minlength="3" maxlength="3" required>
-                        <div class="invalid-feedback">Ingrese un cvv válido</div>
-                    </div>
-    
-                    <div class="form-group">
-                        <label for="fecventxt"><i class="far fa-calendar-alt"></i> Fecha de vencimiento</label>
-                        <input type="text" name="fecventxt" id="fecventxt" class="form-control" placeholder="mm/aa" minlength="5" maxlength="5" required>
-                        <div class="invalid-feedback">Ingrese una fecha de vencimiento válida</div>
-                    </div>
-    
 
+                <div class="card border-success">
 
-                    <input type="text" name="idcarritotxt" id="idcarritotxt" value="{{ carrito.0.0 }}">
-                    <input type="text" name="totaltxt" id="totaltxt" value="{{ total|remove_decimal_point }}">
-                    <div class="btn-group" role="group">
-                        <input type="submit" value="Pagar" class="btn btn-primary btn-sm mr-2">
-                        <a href="" class="btn btn-info btn-sm mr-2">Volver</a>
+                    <div class="card-header text-white bg-success text-center">
+                        <strong>
+                            Formulario de pago <i class="fas fa-cash-register"></i>
+                        </strong>
                     </div>
+                    
+                    <div class="p-4">
+                        <form action="" class="was-validated" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="tarjetatxt"><i class="fas fa-credit-card"></i> Nro. Tarjeta</label>
+                                <input type="text" name="tarjetatxt" id="tarjetatxt" class="form-control" minlength="16" maxlength="16" required>
+                                <div class="invalid-feedback">Ingrese nro. de tarjeta válido</div>
+                            </div>
+            
+                            <div class="form-group">
+                                <label for="cvvtxt"><i class="fas fa-lock"></i> CVV</label>
+                                <input type="number" name="cvvtxt" id="cvvtxt" class="form-control" min="000" max="999" minlength="3" maxlength="3" required>
+                                <div class="invalid-feedback">Ingrese un cvv válido</div>
+                            </div>
+            
+                            <div class="form-group">
+                                <label for="fecventxt"><i class="far fa-calendar-alt"></i> Fecha de vencimiento</label>
+                                <input type="text" name="fecventxt" id="fecventxt" class="form-control" placeholder="mm/aa" minlength="5" maxlength="5" required>
+                                <div class="invalid-feedback">Ingrese una fecha de vencimiento válida</div>
+                            </div>
+            
+                            <input type="hidden" name="idcarritotxt" id="idcarritotxt" value="{{ carrito.0.0 }}">
+                            <input type="hidden" name="totaltxt" id="totaltxt" value="{{ total|remove_decimal_point }}">
     
-                </form>
+                            <div class="text-center">
+                                <div class="btn-group" role="group">
+                                    <input type="submit" value="Pagar" class="btn btn-primary mr-2">
+                                    <a href="{% url 'venta_local' %}" class="btn btn-info mr-2">Volver</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-
-           
-
         </div>
     </div>
-
 
     <div class="d-flex justify-content-center">
         {% if messages %}
@@ -100,9 +120,6 @@
         {% endif %}
     </div>
     
-
-
-
 </div>
 
 <br>

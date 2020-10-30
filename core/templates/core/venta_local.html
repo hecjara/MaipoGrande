@@ -32,14 +32,20 @@
 
 
 <div class="container">
+    {% if count > 0 %}
     <a href="{% url 'ver_carrito' request.user.id %}" type="button" class="btn btn-primary">
-        <i class="fas fa-shopping-cart"></i> Ir al carrito <span class="badge badge-light">{{ count|remove_decimal_point }}</span>
+        <i class="fas fa-shopping-cart"></i> Ir al carrito <span
+            class="badge badge-light">{{ count|remove_decimal_point }}</span>
         <span class="sr-only">Productos Agregados</span>
     </a>
+    {% else %}
+    <a href="{% url 'ver_carrito' request.user.id %}" type="button" class="btn btn-primary disabled">
+        <i class="fas fa-shopping-cart"></i> Ir al carrito <span
+            class="badge badge-light">{{ count|remove_decimal_point }}</span>
+        <span class="sr-only">Productos Agregados</span>
+    </a>
+    {% endif %}
 </div>
-
-
-
 
 <br>
 
@@ -55,9 +61,6 @@
         {% endif %}
     </div>
 
-
-
-
     <div class="card-deck">
         {% for vt in ventalocal %}
         <div class="col-sm-4 mb-4">
@@ -69,15 +72,29 @@
                     <p class="card-text">Fecha vencimiento: {{ vt.10|date:"d/m/y" }}</p>
                     <p class="card-text">Precio Kilo: ${{ vt.7 }}</p>
                     <p class="card-text">Precio Total: ${{ vt.8 }}</p>
-                    <a href="{% url 'agregar_al_carrito' vt.0 request.user.id %}" class="btn btn-primary">Agregar al
-                        carrito <i class="fas fa-cart-plus"></i></a>
+
+                    <div class="btn-group" role="group">
+                        {% if vt.15 is None %}
+                        <a href="{% url 'agregar_al_carrito' vt.0 request.user.id %}" class="btn btn-primary mr-2"><i
+                                class="fas fa-cart-plus"></i> Agregar</a>
+                        {% else %}
+                        <a href="{% url 'agregar_al_carrito' vt.0 request.user.id %}"
+                            class="btn btn-primary mr-2 disabled"><i class="fas fa-cart-plus"></i> Agregar</a>
+                        {% endif %}
+                        {% if vt.15 is None %}
+                        <a href="{% url 'eliminar_producto_carrito' vt.15 %}" class="btn btn-danger ml-2 disabled"><i
+                                class="fas fa-minus-circle"></i> Quitar</a>
+                        {% else %}
+                        <a href="{% url 'eliminar_producto_carrito' vt.15 %}" class="btn btn-danger ml-2"><i
+                                class="fas fa-minus-circle"></i> Quitar</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
-
 
 {% else %}
 

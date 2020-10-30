@@ -30,6 +30,7 @@ from .views import (
     contacto,
     agregar_al_carrito,
     ver_carrito,
+    eliminar_producto_carrito,
 )
 
 urlpatterns = [
@@ -63,5 +64,6 @@ urlpatterns = [
     path("contacto/", contacto, name="contacto"),
     path("agregar_al_carrito/<id_prod_proc>/<id_usuario>/", agregar_al_carrito, name="agregar_al_carrito"),
     path("ver_carrito/<id_usuario>/", ver_carrito, name="ver_carrito"),
+    path("eliminar_producto_carrito/<id_prod_car>/", eliminar_producto_carrito, name="eliminar_producto_carrito"),
 
 ]
