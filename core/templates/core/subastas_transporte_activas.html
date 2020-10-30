@@ -16,45 +16,50 @@
 
 {% block contenido %}
 
-<hr class="new4">
-<h1 class="text-center text-white">Subastas de transporte activas <i class="fas fa-truck"></i></h1>
-<hr class="new4">
-
-{% if subastas %}
-
-{% for s in subastas %}
-
 <div class="container">
-    <div class="card text-center">
-        <div class="card-header bg-success text-white">
-            Subasta Transporte Nro. {{ s.0 }} - Solicitud Nro. {{ s.4 }}
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Se requiere un transporte con las siguientes características:</h5>
-            <p class="card-text">Capacidad: {{ s.10 }}</p>
-            <p class="card-text">Destino: {{ s.11 }}</p>
-            <p class="card-text">Requiere refrigeración: {{ s.8 }}</p>
-            <p class="card-text">Fecha entrega: {{ s.12|date:"d/m/y" }}</p>
-            <a href="{% url 'subasta_transporte' s.0 %}" class="btn btn-success">Ir a subasta</a>
-        </div>
-        <div class="card-footer bg-success text-white"></div>
-    </div>
-</div>
-
-{% endfor %}
-
-
-{% else %}
-
-<div class="container mt-5 mb-5">
-    <h3 class="text-center text-white">No existen subastas de transporte activas.</h3>
-    <h4 class="text-center text-white">Por favor, vuelva a intentarlo en otro momento.</h4>
     <hr class="new4">
-    <h4 class="text-center text-white">Maipo Grande
-        <img src="{% static '/core/img/logo_maipo.png' %}" alt="logo" width="30" height="30" class="mb-2">
-    </h4>
+    <h1 class="text-center text-white">Subastas de transporte activas <i class="fas fa-truck"></i></h1>
+    <hr class="new4">
+    
+    {% if subastas %}
+    
+    {% for s in subastas %}
+    
+    <div class="container">
+        <div class="card text-center">
+            <div class="card-header bg-success text-white">
+                Subasta Transporte Nro. {{ s.0 }} - Solicitud Nro. {{ s.4 }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Se requiere un transporte con las siguientes características:</h5>
+                <p class="card-text">Capacidad: {{ s.10 }}</p>
+                <p class="card-text">Destino: {{ s.11 }}</p>
+                <p class="card-text">Requiere refrigeración: {{ s.8 }}</p>
+                <p class="card-text">Fecha entrega: {{ s.12|date:"d/m/y" }}</p>
+                <a href="{% url 'subasta_transporte' s.0 %}" class="btn btn-success">Ir a subasta</a>
+            </div>
+            <div class="card-footer bg-success text-white"></div>
+        </div>
+    </div>
+    <br>
+    
+    {% endfor %}
+    
+    
+    {% else %}
+    
+    <div class="container mt-5 mb-5">
+        <h3 class="text-center text-white">No existen subastas de transporte activas.</h3>
+        <h4 class="text-center text-white">Por favor, vuelva a intentarlo en otro momento.</h4>
+        <hr class="new4">
+        <h4 class="text-center text-white">Maipo Grande
+            <img src="{% static '/core/img/logo_maipo.png' %}" alt="logo" width="30" height="30" class="mb-2">
+        </h4>
+    </div>
+    
+    {% endif %}
 </div>
 
-{% endif %}
+
 
 {% endblock %}

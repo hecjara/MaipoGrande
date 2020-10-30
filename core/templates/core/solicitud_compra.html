@@ -65,21 +65,16 @@
                     <td class="text-center">{{ s.3 }}</td>
                     <td class="text-center">Entre {{ s.4|date:"d/m/y" }} y {{ s.5|date:"d/m/y" }} </td>
 
-                    {% if s.3 == 'Anulado' or s.3 == 'Recibido' or s.3 == 'Oferta rechazada' %}
+                    {% if s.3 != 'Pendiente' %}
                     <td class="text-center">
                         <a class="btn btn-danger btn-rounded btn-sm disabled"
                             onclick="confirmarAnularSolicitud({{s.0}})"><i class="fas fa-minus-circle mr-1"
                                 aria-hidden="true"></i>Anular</a>
-                        <a class="btn btn-secondary btn-rounded btn-sm disabled"
-                            onclick="confirmarActualizarSolicitud({{s.0}})"><i class="fas fa-hand-receiving mr-1"
-                                aria-hidden="true"></i>Recibido</a>
                     </td>
                     {% else %}
                     <td class="text-center">
                         <a class="btn btn-danger btn-rounded btn-sm" onclick="confirmarAnularSolicitud({{s.0}})"><i
                                 class="fas fa-minus-circle mr-1" aria-hidden="true"></i>Anular</a>
-                        <a class="btn btn-info btn-rounded btn-sm" onclick="confirmarActualizarSolicitud({{s.0}})"><i
-                                class="fas fa-hand-receiving mr-1" aria-hidden="true"></i>Recibido</a>
                     </td>
                     {% endif %}
 
@@ -155,7 +150,7 @@
                     {% elif s.3 == 'En bodega' %}
 
                     <td class="text-center">
-                        <a href="" role="button" class="btn btn-warning btn-sm parpadea" data-toggle="tooltip"
+                        <a href="{% url 'envio' %}" role="button" class="btn btn-warning btn-sm parpadea" data-toggle="tooltip"
                             data-placement="top" title="Resultado transporte disponible">
                             <i class="far fa-eye"></i>
                         </a>
@@ -164,7 +159,7 @@
                     {% else %}
 
                     <td class="text-center">
-                        <a href="" role="button" class="btn btn-secondary btn-sm" data-toggle="tooltip"
+                        <a href="{% url 'envio' %}" role="button" class="btn btn-secondary btn-sm" data-toggle="tooltip"
                             data-placement="top" title="Ver envio">
                             <i class="far fa-eye"></i>
                         </a>

@@ -392,18 +392,12 @@ def resultado_solicitud(request, id_solicitud):  # METODO PARA VER LOS PRODUCTOS
     return render(request, "core/resultado_solicitud.html", data)
 
 
-def obtener_valor_total(id_solicitud):  # METODO PARA OBTENER EL VALOR DE LA SUMA DE LOS PRODUCTOS OFRECIDOS
+def obtener_valor_total(id_solicitud):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
-    out_cur = django_cursor.connection.cursor()
-
-    cursor.callproc("SP_VALOR_TOTAL", [id_solicitud, out_cur])
-
-    lista = []
-
-    for fila in out_cur:
-        lista.append(fila)
-    return lista
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callfunc("SF_VALOR_TOTAL_PRECIO_CANTIDAD", salida, [id_solicitud])
+    return salida.getvalue()
 
 
 def listar_ganadores(id_solicitud):  # METODO PARA LISTAR A LOS PRODUCTOS GANADORES DE LA OFERTA
@@ -895,6 +889,9 @@ def actualizar_detalle_solicitud(id_detalle, id_solicitud, cantidad, id_producto
     )
     return salida.getvalue()
 
+@login_required
+def envio(request):
+    return render(request, "core/envio.html")
 
 @login_required
 def listar_productos(
