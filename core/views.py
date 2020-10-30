@@ -890,8 +890,28 @@ def actualizar_detalle_solicitud(id_detalle, id_solicitud, cantidad, id_producto
     return salida.getvalue()
 
 @login_required
-def envio(request):
-    return render(request, "core/envio.html")
+def envio(request, id_subasta, id_proceso):
+
+    data = {
+        'ganador': listar_subasta_ganadora(id_subasta, id_proceso)
+    }
+
+
+    return render(request, "core/envio.html", data)
+
+
+def listar_subasta_ganadora(id_subasta, id_proceso):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_TRANSPORTE_GANADOR", [id_subasta, id_proceso, out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
 
 @login_required
 def listar_productos(
