@@ -20,8 +20,14 @@
 {% block contenido %}
 
 <br>
+<div class="container">
+    <a href="{% url 'solicitud_compra' %}" class="btn btn-info"><i class="fas fa-step-backward"></i> Volver</a>
+</div>
+<br>
 
 <div class="container">
+
+    
     <div class="card">
         <div class="card-header bg-success text-white">
             Resultados proceso venta Nro. {{ ganadores.0.0 }}
@@ -33,11 +39,12 @@
 
             <div class="card">
                 <div class="row mt-2">
-                    <img src="{{ g.4 }}" alt="fruta" class="mr-2 ml-5" width="150" height="150">
+                    <img src="{{ g.2 }}" alt="fruta" class="mr-2 ml-5" width="150" height="150">
                     <div class="col">
-                        <p>Producto ofrecido: {{ g.3 }}</p>
-                        <p>Cantidad ofrecida: {{ g.1 }} Kilos</p>
-                        <p>Precio por kilo: ${{ g.6 }}</p>
+                        <p>Producto ofrecido: {{ g.1 }}</p>
+                        <p>Cantidad ofrecida: {{ g.3 }} Kilos</p>
+                        <p>Precio por kilo: ${{ g.4 }}</p>
+                        <p>Total por producto: ${{ g.5 }}</p>
                     </div>
                 </div>
             </div>
@@ -47,8 +54,20 @@
 
             <p>Total a pagar por productos: ${{ total|remove_decimal_point }}</p>
 
-            <a href="{% url 'aceptar_oferta' ganadores.0.0 %}" class="btn btn-primary"><i class="fas fa-check-circle mr-2"></i>Aceptar oferta</a>
-            <a href="{% url 'rechazar_oferta' ganadores.0.0 %}" class="btn btn-danger"><i class="fas fa-ban mr-2"></i>Rechazar oferta</a>
+            {% if ganadores.0.6 == 3 %}
+
+            <a href="{% url 'aceptar_oferta' ganadores.0.0 %}" class="btn btn-primary"><i class="fas fa-check-circle"></i>Aceptar oferta</a>
+            <a href="{% url 'rechazar_oferta' ganadores.0.0 %}" class="btn btn-danger"><i class="fas fa-ban"></i>Rechazar oferta</a>
+            <a href="{% url 'solicitud_compra' %}" class="btn btn-info"><i class="fas fa-step-backward"></i> Volver</a>
+
+            {% else %}
+
+            <a href="{% url 'aceptar_oferta' ganadores.0.0 %}" class="btn btn-primary disabled"><i class="fas fa-check-circle"></i>Aceptar oferta</a>
+            <a href="{% url 'rechazar_oferta' ganadores.0.0 %}" class="btn btn-danger disabled"><i class="fas fa-ban"></i>Rechazar oferta</a>
+            <a href="{% url 'solicitud_compra' %}" class="btn btn-info"><i class="fas fa-step-backward"></i> Volver</a>
+
+            {% endif %}
+
         </div>
         <div class="card-footer text-muted bg-success">
         </div>

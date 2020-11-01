@@ -18,193 +18,199 @@
 
 <br>
 
-<div class="mr-5 ml-5">
+<div class="container-fluid">
+    <div class="mr-5 ml-5">
 
-    <hr class="new4">
-    <h1 class="text-center text-white">Mis solicitudes <i class="fas fa-shopping-basket"></i></h1>
-    <hr class="new4">
-
-    <a href="{% url 'formulario_solicitud' %}" class="btn btn-primary btn-rounded">
-        <i class="fas fa-plus-circle" aria-hidden="true"></i>
-        Nueva Solicitud
-    </a>
-    <a href="{% url 'home' %}" class="btn btn-primary btn-rounded">
-        <i class="fas fa-step-backward"></i> 
-        Volver
-    </a>
-
-    <br>
-    <br>
-
-{% if soli %}
-
-
-    <div class="table-responsive">
-        <!--Table-->
-        <table id="tablePreview" class="table table-condensed table-hover table-fixed table-bordered table-light">
-            <!--Table head-->
-            <thead class="green white-text">
-                <tr>
-                    <th scope="col" class="text-center">Nro. Solicitud</th>
-                    <th scope="col" class="text-center">Fecha ingreso</th>
-                    <th scope="col" class="text-center">Estado</th>
-                    <th scope="col" class="text-center">Envio</th>
-                    <th scope="col" class="text-center">Opciones Solicitud</th>
-                    <th scope="col" class="text-center">Opciones Productos</th>
-                    <th scope="col" class="text-center">Oferta</th>
-                    <th scope="col" class="text-center">Envio</th>
-                </tr>
-            </thead>
-            <!--Table head-->
-            <!--Table body-->
-            <tbody>
-                {% for s in soli %}
-                <tr>
-                    <td class="text-center">{{ s.0 }}</td>
-                    <td class="text-center">{{ s.1|date:"d/m/y" }}</td>
-                    <td class="text-center">{{ s.3 }}</td>
-                    <td class="text-center">Entre {{ s.4|date:"d/m/y" }} y {{ s.5|date:"d/m/y" }} </td>
-
-                    {% if s.3 != 'Pendiente' %}
-                    <td class="text-center">
-                        <a class="btn btn-danger btn-rounded btn-sm disabled"
-                            onclick="confirmarAnularSolicitud({{s.0}})"><i class="fas fa-minus-circle mr-1"
-                                aria-hidden="true"></i>Anular</a>
-                    </td>
-                    {% else %}
-                    <td class="text-center">
-                        <a class="btn btn-danger btn-rounded btn-sm" onclick="confirmarAnularSolicitud({{s.0}})"><i
-                                class="fas fa-minus-circle mr-1" aria-hidden="true"></i>Anular</a>
-                    </td>
-                    {% endif %}
-
-                    {% if s.3 == 'Pendiente' %}
-
-                    <td class="text-center">
-                        <a class="btn btn-primary btn-sm" href="{% url 'agregar_producto' s.0 %}"><i
-                                class="fas fa-cart-plus mr-1"></i>Agregar</a>
-                        <a class="btn btn-primary btn-sm" href="{% url 'listar_productos' s.0 %}"><i
-                                class="fas fa-cog mr-1"></i>Administrar</a>
-                    </td>
-
-                    {% elif s.3 == 'Oferta rechazada' %}
-                    <td class="text-center">
-                        <a class="btn btn-secondary btn-sm disabled" href="{% url 'agregar_producto' s.0 %}"><i
-                                class="fas fa-cart-plus mr-1"></i>Agregar</a>
-                        <a class="btn btn-secondary btn-sm disabled" href="{% url 'listar_productos' s.0 %}"><i
-                                class="far fa-eye mr-1"></i>Productos</a>
-                    </td>
-                    {% else %}
-
-                    <td class="text-center">
-                        <a class="btn btn-secondary btn-sm disabled" href="{% url 'agregar_producto' s.0 %}"><i
-                                class="fas fa-cart-plus mr-1"></i>Agregar</a>
-                        <a class="btn btn-primary btn-sm" href="{% url 'listar_productos' s.0 %}"><i
-                                class="far fa-eye mr-1"></i>Productos</a>
-                    </td>
-
-                    {% endif %}
-
-
-                    {% if s.3 == 'Pendiente' or s.3 == 'En proceso' or s.3 == 'Oferta rechazada' %}
-
-                    <td class="text-center">
-                        <a href="{% url 'resultado_solicitud' s.0 %}" role="button"
-                            class="btn btn-secondary btn-sm disabled" data-toggle="tooltip" data-placement="top"
-                            title="No disponible">
-                            <i class="far fa-eye"></i>
-                        </a>
-                    </td>
-
-                    {% elif s.3 == 'Terminado' %}
-
-                    <td class="text-center">
-                        <a href="{% url 'resultado_solicitud' s.0 %}" role="button"
-                            class="btn btn-warning btn-sm parpadea" data-toggle="tooltip" data-placement="top"
-                            title="Resultado solicitud disponible">
-                            <i class="far fa-eye"></i>
-                        </a>
-                    </td>
-
-                    {% else %}
-
-                    <td class="text-center">
-                        <a href="{% url 'resultado_solicitud' s.0 %}" role="button" class="btn btn-secondary btn-sm"
-                            data-toggle="tooltip" data-placement="top" title="Ver resultado solicitud">
-                            <i class="far fa-eye"></i>
-                        </a>
-                    </td>
-
-                    {% endif %}
-
-
-                    {% if s.3 == 'Pendiente' or s.3 == 'En proceso' or s.3 == 'Terminado' or s.3 == 'Eligiendo transporte' or s.3 == 'Oferta rechazada' %}
-
-                    <td class="text-center">
-                        <a href="" role="button" class="btn btn-secondary btn-sm disabled" data-toggle="tooltip"
-                            data-placement="top" title="No disponible">
-                            <i class="far fa-eye"></i>
-                        </a>
-                    </td>
-
-                    {% elif s.3 == 'En bodega' %}
-
-                    <td class="text-center">
-                        <a href="{% url 'envio' s.6 s.7 %}" role="button" class="btn btn-warning btn-sm parpadea" data-toggle="tooltip"
-                            data-placement="top" title="Resultado transporte disponible">
-                            <i class="far fa-eye"></i>
-                        </a>
-                    </td>
-
-                    {% else %}
-
-                    <td class="text-center">
-                        <a href="{% url 'envio' s.6 s.7 %}" role="button" class="btn btn-secondary btn-sm" data-toggle="tooltip"
-                            data-placement="top" title="Ver envio">
-                            <i class="far fa-eye"></i>
-                        </a>
-                    </td>
-
-                    {% endif %}
-
-                </tr>
-
-                {% endfor %}
-
-            </tbody>
-            <!--Table body-->
-        </table>
-        <!--Table-->
-
+        <hr class="new4">
+        <h1 class="text-center text-white">Mis solicitudes <i class="fas fa-shopping-basket"></i></h1>
+        <hr class="new4">
+    
+        <a href="{% url 'formulario_solicitud' %}" class="btn btn-primary btn-rounded">
+            <i class="fas fa-plus-circle" aria-hidden="true"></i>
+            Nueva Solicitud
+        </a>
+        <a href="{% url 'home' %}" class="btn btn-info btn-rounded">
+            <i class="fas fa-step-backward"></i> 
+            Volver
+        </a>
+    
+        <br>
+        <br>
+    
+    {% if soli %}
+    
+    
+        <div class="table-responsive">
+            <!--Table-->
+            <table id="tablePreview" class="table table-condensed table-hover table-fixed table-bordered table-light">
+                <!--Table head-->
+                <thead class="green white-text">
+                    <tr>
+                        <th scope="col" class="text-center">Nro. Solicitud</th>
+                        <th scope="col" class="text-center">Fecha ingreso</th>
+                        <th scope="col" class="text-center">Estado</th>
+                        <th scope="col" class="text-center">Envio</th>
+                        <th scope="col" class="text-center">Opciones Solicitud</th>
+                        <th scope="col" class="text-center">Opciones Productos</th>
+                        <th scope="col" class="text-center">Oferta</th>
+                        <th scope="col" class="text-center">Envio</th>
+                    </tr>
+                </thead>
+                <!--Table head-->
+                <!--Table body-->
+                <tbody>
+                    {% for s in soli %}
+                    <tr>
+                        <td class="text-center">{{ s.0 }}</td>
+                        <td class="text-center">{{ s.1|date:"d/m/y" }}</td>
+                        <td class="text-center">{{ s.3 }}</td>
+                        <td class="text-center">Entre {{ s.4|date:"d/m/y" }} y {{ s.5|date:"d/m/y" }} </td>
+    
+                        {% if s.3 != 'Pendiente' %}
+                        <td class="text-center">
+                            <a class="btn btn-danger btn-rounded btn-sm disabled"
+                                onclick="confirmarAnularSolicitud({{s.0}})"><i class="fas fa-minus-circle mr-1"
+                                    aria-hidden="true"></i>Anular</a>
+                        </td>
+                        {% else %}
+                        <td class="text-center">
+                            <a class="btn btn-danger btn-rounded btn-sm" onclick="confirmarAnularSolicitud({{s.0}})"><i
+                                    class="fas fa-minus-circle mr-1" aria-hidden="true"></i>Anular</a>
+                        </td>
+                        {% endif %}
+    
+                        {% if s.3 == 'Pendiente' %}
+    
+                        <td class="text-center">
+                            <a class="btn btn-primary btn-sm" href="{% url 'agregar_producto' s.0 %}"><i
+                                    class="fas fa-cart-plus mr-1"></i>Agregar</a>
+                            <a class="btn btn-primary btn-sm" href="{% url 'listar_productos' s.0 %}"><i
+                                    class="fas fa-cog mr-1"></i>Administrar</a>
+                        </td>
+    
+                        {% elif s.3 == 'Oferta rechazada' %}
+                        <td class="text-center">
+                            <a class="btn btn-secondary btn-sm disabled" href="{% url 'agregar_producto' s.0 %}"><i
+                                    class="fas fa-cart-plus mr-1"></i>Agregar</a>
+                            <a class="btn btn-secondary btn-sm disabled" href="{% url 'listar_productos' s.0 %}"><i
+                                    class="far fa-eye mr-1"></i>Productos</a>
+                        </td>
+                        {% else %}
+    
+                        <td class="text-center">
+                            <a class="btn btn-secondary btn-sm disabled" href="{% url 'agregar_producto' s.0 %}"><i
+                                    class="fas fa-cart-plus mr-1"></i>Agregar</a>
+                            <a class="btn btn-primary btn-sm" href="{% url 'listar_productos' s.0 %}"><i
+                                    class="far fa-eye mr-1"></i>Productos</a>
+                        </td>
+    
+                        {% endif %}
+    
+    
+                        {% if s.3 == 'Pendiente' or s.3 == 'En proceso' or s.3 == 'Oferta rechazada' %}
+    
+                        <td class="text-center">
+                            <a href="{% url 'resultado_solicitud' s.0 %}" role="button"
+                                class="btn btn-secondary btn-sm disabled" data-toggle="tooltip" data-placement="top"
+                                title="No disponible">
+                                <i class="far fa-eye"></i>
+                            </a>
+                        </td>
+    
+                        {% elif s.3 == 'Terminado' %}
+    
+                        <td class="text-center">
+                            <a href="{% url 'resultado_solicitud' s.0 %}" role="button"
+                                class="btn btn-warning btn-sm parpadea" data-toggle="tooltip" data-placement="top"
+                                title="Resultado solicitud disponible">
+                                <i class="far fa-eye"></i>
+                            </a>
+                        </td>
+    
+                        {% else %}
+    
+                        <td class="text-center">
+                            <a href="{% url 'resultado_solicitud' s.0 %}" role="button" class="btn btn-secondary btn-sm"
+                                data-toggle="tooltip" data-placement="top" title="Ver resultado solicitud">
+                                <i class="far fa-eye"></i>
+                            </a>
+                        </td>
+    
+                        {% endif %}
+    
+    
+                        {% if s.3 == 'Pendiente' or s.3 == 'En proceso' or s.3 == 'Terminado' or s.3 == 'Eligiendo transporte' or s.3 == 'Oferta rechazada' %}
+    
+                        <td class="text-center">
+                            <a href="" role="button" class="btn btn-secondary btn-sm disabled" data-toggle="tooltip"
+                                data-placement="top" title="No disponible">
+                                <i class="far fa-eye"></i>
+                            </a>
+                        </td>
+    
+                        {% elif s.3 == 'En bodega' %}
+    
+                        <td class="text-center">
+                            <a href="{% url 'envio' s.6 s.7 %}" role="button" class="btn btn-warning btn-sm" data-toggle="tooltip"
+                                data-placement="top" title="Resultado transporte disponible">
+                                <i class="far fa-eye"></i>
+                            </a>
+                        </td>
+    
+                        {% elif s.3 == 'En camino' or s.3 == 'Recibido' %}
+    
+                        {% else %}
+    
+                        <td class="text-center">
+                            <a href="{% url 'envio' s.6 s.7 %}" role="button" class="btn btn-secondary btn-sm disabled" data-toggle="tooltip"
+                                data-placement="top" title="Ver envio">
+                                <i class="far fa-eye"></i>
+                            </a>
+                        </td>
+    
+                        {% endif %}
+    
+                    </tr>
+    
+                    {% endfor %}
+    
+                </tbody>
+                <!--Table body-->
+            </table>
+            <!--Table-->
+    
+        </div>
+    
     </div>
-
-</div>
-
-{% else %}
-
-<div class="container mt-5 mb-5">
-    <h3 class="text-center text-white">Aún no ha realizado ninguna solicitud.</h3>
-    <h4 class="text-center text-white">Por favor, realice su solicitud en 
-    <a href="{% url 'formulario_solicitud' %}">aquí.</a>    
-    </h4>
-    <hr class="new4">
-    <h4 class="text-center text-white">Maipo Grande
-      <img src="{% static '/core/img/logo_maipo.png' %}" alt="logo" width="30" height="30" class="mb-2">
-    </h4>
-  </div>
-
-{% endif %}
-
-
-<div class="d-flex justify-content-center">
-    {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-        <p{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</p>
-            {% endfor %}
-    </div>
+    
+    {% else %}
+    
+    <div class="container mt-5 mb-5">
+        <h3 class="text-center text-white">Aún no ha realizado ninguna solicitud.</h3>
+        <h4 class="text-center text-white">Por favor, realice su solicitud en 
+        <a href="{% url 'formulario_solicitud' %}">aquí.</a>    
+        </h4>
+        <hr class="new4">
+        <h4 class="text-center text-white">Maipo Grande
+          <img src="{% static '/core/img/logo_maipo.png' %}" alt="logo" width="30" height="30" class="mb-2">
+        </h4>
+      </div>
+    
     {% endif %}
+    
+    
+    <div class="d-flex justify-content-center">
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <p{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</p>
+                {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    
 </div>
+
 
 
 {% endblock %}

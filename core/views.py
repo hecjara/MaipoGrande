@@ -892,12 +892,12 @@ def actualizar_detalle_solicitud(id_detalle, id_solicitud, cantidad, id_producto
 @login_required
 def envio(request, id_subasta, id_proceso):
 
-    data = {
-        'ganador': listar_subasta_ganadora(id_subasta, id_proceso)
-    }
+    # data = {
+    #     'ganador': listar_subasta_ganadora(id_subasta, id_proceso)
+    # }
 
 
-    return render(request, "core/envio.html", data)
+    return render(request, "core/envio.html")
 
 
 def listar_subasta_ganadora(id_subasta, id_proceso):
