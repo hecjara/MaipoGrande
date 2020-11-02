@@ -3,12 +3,69 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/parpadeo.css' %}">
+{% endblock %}
+
 {% block contenido %}
 <br>
 <div class="container">
     <a href="{% url 'home' %}" class="btn btn-info"><i class="fas fa-step-backward"></i> Volver</a>
 </div>
 <br>
+
+{% if perso %}
+
+{% for p in perso %}
+
+<div class="container table-responsive">
+
+    <table id="tablePreview" class="table table-bordered table-hover table-condensed table-light">
+
+        <thead class="bg-success">
+            <tr>
+                <th class="text-center">Nombres</th>
+                <th class="text-center">Apellidos</th>
+                <th class="text-center">Tipo Cuenta</th>
+                <th class="text-center">Opciones</th>
+            </tr>
+        </thead>
+    
+        <tbody>
+            <td class="text-center">
+                {{p.nombres}}
+            </td>
+            <td class="text-center">
+                {{p.apellidos}}
+            </td>
+            <td class="text-center">
+                {{p.id_tipo.nombre_tipo}}
+            </td>
+            <td class="text-center">
+                <a href="{% url 'registro_usuario' p.codigo_activacion %}" class="btn btn-success">Activar Usuario</a>
+            </td>
+        </tbody>
+    </table>
+{% endfor %}
+
+</div>
+
+<br>
+
+<div class="d-flex justify-content-center">
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+{% else %}
 
 <div class="card container">
 
@@ -43,54 +100,17 @@
 
     <br>
 
-</div>
-
-<br>
-
-<div class="d-flex justify-content-center">
-    {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-        {% endfor %}
+    <div class="d-flex justify-content-center">
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
+
 </div>
-
-{% if perso %}
-
-{% for p in perso %}
-
-<table id="tablePreview" class="table table-bordered container">
-
-    <thead class="bg-success">
-        <tr>
-            <th class="text-center">Nombres</th>
-            <th class="text-center">Apellidos</th>
-            <th class="text-center">Tipo Cuenta</th>
-            <th class="text-center">Opciones</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        <td class="text-center">
-            {{p.nombres}}
-        </td>
-        <td class="text-center">
-            {{p.apellidos}}
-        </td>
-        <td class="text-center">
-            {{p.id_tipo.nombre_tipo}}
-        </td>
-        <td class="text-center">
-            <a href="{% url 'registro_usuario' p.codigo_activacion %}" class="btn btn-success">Activar Usuario</a>
-        </td>
-    </tbody>
-    <tr>
-    </tr>
-</table>
-
-{% endfor %}
 
 {% endif %}
 
