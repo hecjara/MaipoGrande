@@ -258,33 +258,60 @@ def subasta_transporte(
     }
 
     if request.POST:
-
         oferta = request.POST.get("ofertatxt")
-
         now = timezone.now()
         fecha_oferta = now
+        id_usuario = request.user.id
+        id_subasta = request.POST.get("subasta")
 
         id_usuario = request.user.id
 
-        id_subasta = request.POST.get("subasta")
+        poliza = obtener_poliza(id_usuario)
 
-        salida = agregar_oferta_transporte(oferta, fecha_oferta, id_subasta, id_usuario)
+        if poliza is not None:
+            wsdl = 'http://localhost:8080/wsSeguroMaipoGrande/wsSeguro?WSDL'
+            client = zeep.Client(wsdl=wsdl)
+            res = client.service.Validar_seguro(poliza)
 
-        if salida == 1:
-            messages.success(
-                request,
-                "Oferta realizada correctamente.",
-                extra_tags="alert alert-success",
-            )
+            if res == 1:
+                salida = agregar_oferta_transporte(oferta, fecha_oferta, id_subasta, id_usuario)
+
+                if salida == 1:
+                    messages.success(
+                        request,
+                        "Oferta realizada correctamente.",
+                        extra_tags="alert alert-success",
+                    )
+                else:
+                    messages.error(
+                        request,
+                        "Error al intentar ingresar la oferta.",
+                        extra_tags="alert alert-danger",
+                    )
+            else:
+                messages.error(
+                    request,
+                    "La poliza registrada esta sin vigencia, contactese con el administrador.",
+                    extra_tags="alert alert-danger",
+                )
         else:
             messages.error(
                 request,
-                "Error al intentar ingresar la oferta.",
+                "El usuario no posee una poliza asociada. Contactese con el administrador.",
                 extra_tags="alert alert-danger",
             )
+
         return redirect("subasta_transporte", id_subasta)
 
     return render(request, "core/subasta_transporte.html", data)
+
+
+def obtener_poliza(id_usuario):  
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.STRING)
+    cursor.callproc("SP_GET_POLIZA",[id_usuario, salida])
+    return salida.getvalue()
 
 
 def listar_historial_ofertas_transporte(id_subasta):  # METODO PARA LISTAR TODAS LAS OFERTAS QUE SE HAN REALIZADO EN LA SUBASTA DE TRANSPORTE

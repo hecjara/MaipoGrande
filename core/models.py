@@ -82,20 +82,18 @@ class ASEGURADORA(models.Model):
     id_pais = models.ForeignKey(PAIS, on_delete=models.CASCADE)
 
 
-class ESTADO_POLIZA(models.Model):
-    id_estado = models.AutoField(primary_key=True)
-    nombre_estado = models.CharField(max_length=30, null=False, blank=False)
+# class ESTADO_POLIZA(models.Model):
+#     id_estado = models.AutoField(primary_key=True)
+#     nombre_estado = models.CharField(max_length=30, null=False, blank=False)
 
 
 class SEGURO(models.Model):
     id_seguro = models.AutoField(primary_key=True)
     poliza = models.CharField(max_length=35, null=False, blank=False)
     fecha_actualizacion = models.DateField(null=False, blank=False)
-    id_persona = models.ForeignKey(
-        PERSONA, on_delete=models.CASCADE, null=True, blank=True
-    )
+    id_persona = models.ForeignKey(PERSONA, on_delete=models.CASCADE, null=True, blank=True)
     id_aseguradora = models.ForeignKey(ASEGURADORA, on_delete=models.CASCADE)
-    id_estado = models.ForeignKey(ESTADO_POLIZA, on_delete=models.CASCADE)
+    # id_estado = models.ForeignKey(ESTADO_POLIZA, on_delete=models.CASCADE)
 
 
 class FORMA_PAGO(models.Model):
