@@ -11,7 +11,7 @@ class CustomUserForm(UserCreationForm):
     dni = forms.CharField(required=False, label='DNI', min_length=10, max_length=20, widget=forms.TextInput(attrs={'placeholder':'Ingrese solo en caso de ser extranjero'}))
     fecha_nacimiento = forms.DateField(widget=forms.SelectDateWidget(years=range(1920,2021)), required=True, label='Fecha de nacimiento')
     telefono = forms.IntegerField(required=True, label='Teléfono')
-    pais = forms.ModelChoiceField(PAIS.objects.all(), initial=46, required=True)
+    pais = forms.ModelChoiceField(PAIS.objects.all(), initial=42, required=True)
     first_name = forms.CharField(required=True, label='Nombres', min_length=2, max_length=100)
     last_name = forms.CharField(required=True, label='Apellidos', min_length=2, max_length=100)
     email = forms.EmailField(required=True, label='Email', min_length=5, max_length=100)
