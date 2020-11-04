@@ -3,22 +3,107 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/parpadeo.css' %}">
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'core/js/confirmacion_solicitud.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+{% endblock %}
+
 {% block contenido %}
 <br>
 
+<div class="container">
+    <hr class="new4">
+    <h1 class="text-center text-white">Registro de compradores minoristas</h1>
+    <hr class="new4">
+</div>
 <!-- <div class="col-md-3 container"> -->
     <div class="container">
-        <h2>Registro de compradores minoristas</h2>
+        <div class="card p-5">
+            <form action="" method="POST" >
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label for="">RUT</label>
+                        {{ form.rut }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="">DNI</label>
+                        {{ form.dni }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label for="">Nombres</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="">Apellidos</label>
+                        {{ form.last_name }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label for="">Email</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="">Telefono</label>
+                        {{ form.telefono }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label for="">Dirección</label>
+                        {{ form.direccion }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="">País</label>
+                        {{ form.pais }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                    <label for="">Fecha nacimiento</label>
+                    {{ form.fecha_nacimiento }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label for="">Nombre de usuario</label>
+                        {{ form.username }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label for="">Contraseña</label>
+                        {{ form.password1 }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="">Confirmación de contraseña</label>
+                        {{ form.password2 }}
+                    </div>
+                </div>
+
+                <!-- {{ form|crispy }} -->
+            
+                <input type="reset" value="Limpiar" class="btn btn-success">
+                <input type="submit" value="Registrar" class="btn btn-info">
+            
+            </form>
+        </div>
+
+
     </div>
     
-    <form action="" method="POST" class="container">
-        {% csrf_token %}
-        {{ form|crispy }}
-    
-        <input type="reset" value="Limpiar" class="btn btn-success">
-        <input type="submit" value="Registrar" class="btn btn-info">
-    
-    </form>
+
 <!-- </div> -->
 
 
