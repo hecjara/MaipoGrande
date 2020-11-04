@@ -227,6 +227,7 @@ class HISTORIAL_SUBASTA(models.Model):
     fecha_oferta = models.DateTimeField()
     id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     id_subasta = models.ForeignKey(SUBASTA_TRANSPORTE, on_delete=models.CASCADE)
+    id_conclusion = models.ForeignKey(CONCLUSION, on_delete=models.CASCADE)
 
 
 class TIPO_PAGO(models.Model):

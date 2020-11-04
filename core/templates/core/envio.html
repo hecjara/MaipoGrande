@@ -1,6 +1,7 @@
 {% extends 'core/base.html' %}
 
 {% load static %}
+{% load remover_decimal %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
@@ -22,31 +23,34 @@
     <div class="card p-5">
 
         {% for g in ganador %}
-        <div class="card-title">El detalle del pedido Nro.xxx es:</div>
+        <div class="card-title">El detalle del pedido Nro. {{ g.8 }} es:</div>
         <ul>
-            <li>
+            {% for p in proceso %}
+            <li>{{ p.1 }}, Cantidad: {{ p.3 }} Kilos, Precio por kilo: {{ p.4 }}</li>
+            {% endfor %}
 
-
-            </li>
         </ul>
 
         <div class="cart-title">La empresa de transporte seleccionada es:</div>
         <ul>
             <li>{{ g.2 }} {{ g.3 }}</li>
             <li>Empresa: {{ g.4 }}</li>
+            <li>Total a pagar: ${{ total|remove_decimal_point }}</li>
+            <input type="hidden" name="total" id="total" value="{{ total }}">
         </ul>
 
-        {% endfor %}
-
+        
         <div class="card-text">La fecha de entrega estimada es:</div>
-        <div class="card-text"></div>
-
+        <ul>
+            <li>Entre {{ g.5|date:"d/m/y" }} y {{ g.6|date:"d/m/y" }}</li>
+        </ul>
         
         <div class="btn-group" role="group">
-            <a href="" class="btn btn-success mr-2">Aceptar y Pagar</a>
+            <a href="{% url 'pago_mayorista' g.8 %}" class="btn btn-success mr-2">Recibir y Pagar</a>
             <a href="" class="btn btn-danger ml-2">Rechazar</a>
         </div>
-
+        
+        {% endfor %}
 
     </div>
 

@@ -1,0 +1,66 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% load remover_decimal %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/parpadeo.css' %}">
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'core/js/confirmacion_solicitud.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+{% endblock %}
+
+
+{% block contenido %}
+
+<div class="container">
+    <hr class="new4">
+    <h1 class="text-center text-white">Formumlario de pago</h1>
+    <hr class="new4">
+</div>
+
+<div class="container col-md-3">
+    <div class="card p-5">
+        <form action="" class="was-validated" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="tarjetatxt"><i class="fas fa-credit-card"></i> Nro. Tarjeta</label>
+                <input type="text" name="tarjetatxt" id="tarjetatxt" class="form-control" minlength="16" maxlength="16" required>
+                <div class="invalid-feedback">Ingrese nro. de tarjeta válido</div>
+            </div>
+        
+            <div class="form-group">
+                <label for="cvvtxt"><i class="fas fa-lock"></i> CVV</label>
+                <input type="number" name="cvvtxt" id="cvvtxt" class="form-control" min="000" max="999" minlength="3" maxlength="3" required>
+                <div class="invalid-feedback">Ingrese un cvv válido</div>
+            </div>
+        
+            <div class="form-group">
+                <label for="fecventxt"><i class="far fa-calendar-alt"></i> Fecha de vencimiento</label>
+                <input type="text" name="fecventxt" id="fecventxt" class="form-control" placeholder="mm/aa" minlength="5" maxlength="5" required>
+                <div class="invalid-feedback">Ingrese una fecha de vencimiento válida</div>
+            </div>
+        
+            <input type="hidden" name="totaltxt" id="totaltxt" value="{{ valor_final }}">
+            <input type="hidden" name="idprocesotxt" id="idprocesotxt" value="{{ id_proceso|remove_decimal_point }}">
+        
+            <div class="text-center">
+                <div class="btn-group" role="group">
+                    <input type="submit" value="Pagar" class="btn btn-primary mr-2">
+                    <a href="" class="btn btn-info mr-2">Volver</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    
+</div>
+
+
+
+{% endblock %}
