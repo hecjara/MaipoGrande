@@ -34,6 +34,8 @@ from .views import (
     dashboard,
     envio,
     pago_mayorista,
+    rechazar_solicitud,
+    # nota_pedido_rechazado,
 )
 
 urlpatterns = [
@@ -71,5 +73,7 @@ urlpatterns = [
     path("dashboard/", dashboard, name="dashboard"),
     path("envio/<id_solicitud>/", envio, name="envio"),
     path("pago_mayorista/<id_solicitud>/", pago_mayorista, name="pago_mayorista"),
+    path("rechazar_solicitud/<id_solicitud>/", rechazar_solicitud, name="rechazar_solicitud"),
+    # path("nota_pedido_rechazado/<id_solicitud>/", nota_pedido_rechazado, name="nota_pedido_rechazado"),
 
 ]

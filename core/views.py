@@ -1000,15 +1000,6 @@ def envio(request, id_solicitud):
 
     return render(request, "core/envio.html", data)
 
-
-
-def agregar_pago_mayorista(monto, proceso):
-    django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor()
-    salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc("SP_COMPRAR_MAYORISTA", [monto, proceso, salida])
-    return salida.getvalue()
-
 @login_required
 def pago_mayorista(request, id_solicitud):
 
@@ -1056,6 +1047,38 @@ def pago_mayorista(request, id_solicitud):
         return redirect("solicitud_compra")
 
     return render(request, "core/pago_mayorista.html", data)
+
+
+# def nota_pedido_rechazado(request, id_solicitud):
+#     return render(request, "core/pedido_rechazado.html")
+
+def rechazar_solicitud(request, id_solicitud):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc("SP_RECHAZAR_SOLICITUD", [id_solicitud, salida])
+    res = salida.getvalue()
+
+    if res == 1:
+        messages.success(
+        request,
+        "El pedido ha sido rechazado.",
+        extra_tags="alert alert-success",
+    )
+    else:
+        messages.error(
+        request,
+        "Error al rechazar el pedido.",
+        extra_tags="alert alert-danger",
+    )
+    return redirect("solicitud_compra")
+
+def agregar_pago_mayorista(monto, proceso):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc("SP_COMPRAR_MAYORISTA", [monto, proceso, salida])
+    return salida.getvalue()
 
 def obtener_valor_transporte(id_solicitud):
     django_cursor = connection.cursor()

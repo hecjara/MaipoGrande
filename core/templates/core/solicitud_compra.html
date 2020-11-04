@@ -151,23 +151,39 @@
                         {% elif s.3 == 'En bodega' %}
     
                         <td class="text-center">
-                            <a href="{% url 'envio' s.0 %}" role="button" class="btn btn-warning btn-sm" data-toggle="tooltip"
+                            <a href="{% url 'envio' s.0 %}" role="button" class="btn btn-warning btn-sm parpadea" data-toggle="tooltip"
                                 data-placement="top" title="Resultado transporte disponible">
                                 <i class="far fa-eye"></i>
                             </a>
                         </td>
     
-                        {% elif s.3 == 'En camino' or s.3 == 'Recibido' %}
-    
-                        {% else %}
-    
+                        {% elif s.3 == 'En camino' %}
+
                         <td class="text-center">
-                            <a href="{% url 'envio' s.0 %}" role="button" class="btn btn-secondary btn-sm disabled" data-toggle="tooltip"
+                            <a href="{% url 'envio' s.0 %}" role="button" class="btn btn-info btn-sm" data-toggle="tooltip"
                                 data-placement="top" title="Ver envio">
                                 <i class="far fa-eye"></i>
                             </a>
                         </td>
+
+                        {% elif s.3 == 'Recibido' %}
     
+                        <td class="text-center">
+                            <a href="{% url 'envio' s.0 %}" role="button" class="btn btn-success btn-sm" data-toggle="tooltip"
+                                data-placement="top" title="Ver envio">
+                                <i class="far fa-eye"></i>
+                            </a>
+                        </td>
+
+                        {% elif s.3 == 'Rechazado' %}
+    
+                        <td class="text-center">
+                            <a href="{% url 'envio' s.0 %}" role="button" class="btn btn-danger btn-sm" data-toggle="tooltip"
+                                data-placement="top" title="Ver envio">
+                                <i class="far fa-eye"></i>
+                            </a>
+                        </td>
+
                         {% endif %}
     
                     </tr>

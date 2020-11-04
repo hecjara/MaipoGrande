@@ -275,3 +275,7 @@ class PAGO(models.Model):
     id_proceso = models.OneToOneField(PROCESO_VENTA, on_delete=models.CASCADE, null=True, blank=True)
     id_carrito = models.OneToOneField(CARRITO, on_delete=models.CASCADE, null=True, blank=True)
 
+class NOTA_SOLICITUD(models.Model):
+    id_nota = models.AutoField(primary_key=True)
+    nota = models.CharField(max_length=2000, null=False, blank=False)
+    id_solicitud = models.OneToOneField(SOLICITUD_COMPRA, null=True, blank=True, on_delete=models.CASCADE)

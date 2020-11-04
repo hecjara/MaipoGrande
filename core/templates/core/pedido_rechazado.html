@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% load remover_decimal %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/parpadeo.css' %}">
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'core/js/confirmacion_solicitud.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+{% endblock %}
+
+{% block contenido %}
+<br>
+
+<div class="container">
+    <hr class="new4">
+    <h1 class="text-center text-white">Opcional: Ingrese las razones del rechazo del pedido:</h1>
+    <hr class="new4">
+
+    <div class="card p-3">
+        <form action="" method="POST">
+            <textarea class="form-control" name="razones" id="razones" cols="10" rows="5"
+                placeholder="Opcional"></textarea>
+
+                <br>
+
+            <div class="text-center">
+                <div class="btn-group" role="group">
+                    <input type="submit" value="Guardar y rechazar pedido" class="btn btn-success mr-4">
+                    <a href="" class="btn btn-info ml-4">Volver</a>
+                </div>
+            </div>
+
+        </form>
+
+        <br>
+
+
+    </div>
+
+</div>
+
+
+
+<br>
+{% endblock %}
