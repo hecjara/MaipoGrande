@@ -52,12 +52,39 @@
                 <td class="text-center">{{ d.2 }}</td>
                 <td class="text-center">{{ d.3 }} Kilos</td>
                 <td class="text-center">
+
+                    {% if d.5 == 1 %}
                     <a href="{% url 'modificar_detalleproducto' d.0 %}" role="button"
-                        class="btn btn-primary">Modificar</a>
+                    class="btn btn-primary">Modificar</a>
+
                     <a onclick="validacion_eliminacion({{ d.0 }})" role="button"
-                        class="btn btn-danger">Eliminar</a>
+                    class="btn btn-danger">Eliminar</a>
+
                     <a href="{% url 'agregar_producto' d.4 %}" role="button"
-                        class="btn btn-success">Agregar otro Producto</a>
+                    class="btn btn-success">Agregar otro Producto</a>
+
+                    {% else %}
+                      
+                    <a href="{% url 'modificar_detalleproducto' d.0 %}" role="button"
+                    class="btn btn-primary disabled">Modificar</a>
+
+                    <a onclick="validacion_eliminacion({{ d.0 }})" role="button"
+                    class="btn btn-danger disabled">Eliminar</a>
+
+                    <a href="{% url 'agregar_producto' d.4 %}" role="button"
+                    class="btn btn-success disabled">Agregar otro Producto</a>
+
+                    {% endif %}
+                    
+
+
+
+
+
+
+
+
+
                 </td>
             </tr>
             {% endfor %}
