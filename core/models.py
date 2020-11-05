@@ -272,7 +272,7 @@ class PAGO(models.Model):
     fecha_pago = models.DateTimeField(null=False, blank=False)
     id_tipo = models.ForeignKey(TIPO_PAGO, on_delete=models.CASCADE)
     id_dato_pago = models.ForeignKey(DATO_PAGO, on_delete=models.CASCADE, null=True, blank=True)
-    id_proceso = models.OneToOneField(PROCESO_VENTA, on_delete=models.CASCADE, null=True, blank=True)
+    id_proceso = models.ForeignKey(PROCESO_VENTA, on_delete=models.CASCADE, null=True, blank=True)
     id_carrito = models.OneToOneField(CARRITO, on_delete=models.CASCADE, null=True, blank=True)
 
 class NOTA_SOLICITUD(models.Model):

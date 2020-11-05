@@ -832,9 +832,7 @@ def eliminar_producto_bodega(
 
 
 ######################################## PENDIENTE PENDIENTE PENDIENTE PENDIENTE PENDIENTE PENDIENTE PENDIENTE
-def datos_producto_bodega(
-    id_prod_bod,
-):  # METODO PARA LISTAR LOS DATOS DEL PRODUCTO SELECCIONADO PARA MODIFICAR
+def datos_producto_bodega(id_prod_bod):  # METODO PARA LISTAR LOS DATOS DEL PRODUCTO SELECCIONADO PARA MODIFICAR
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
