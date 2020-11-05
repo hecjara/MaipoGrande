@@ -2,27 +2,34 @@
 
 {% load static %}
 {% load auth_extras %}
-{% block javascript %}
-
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/cards.css' %}">
 {% endblock %}
+
+{% block javascript %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+{% endblock %}
+
 
 {% block contenido %}
 
+<div class="container">
+    <hr class="new4">
+    <h1 class="text-center text-white">Perfil de usuario</h1>
+    <hr class="new4">
+</div>
 
 
+<div class="container">
 
-<div class="cardcontainer container">
-    <div class="card-body">
-
+    <div class="card p-3">
         <form action="" method="POST">
             {% csrf_token %}
-
             <br>
-
-            <h1 class="d-flex justify-content-center">Perfil de usuario</h1>
-            <hr>
             <h2>Datos Personales:</h2>
-
             <hr>
             <input type="hidden" name="txtid_usuario" id="txtid_usuario" value="{{ persona.id_usuario_id }}">
             <input type="hidden" name="txtid_persona" id="txtid_persona" value="{{ persona.id_persona }}">
@@ -32,13 +39,15 @@
 
                 <div class="form-group col-md-6">
                     <label for="">RUT:</label>
-                    <input type="text" name="txtrut" id="txtrut" class="form-control" value="{{ persona.rut }}" disabled>
+                    <input type="text" name="txtrut" id="txtrut" class="form-control" value="{{ persona.rut }}"
+                        disabled>
 
                 </div>
                 {% else %}
                 <div class="form-group col-md-6">
                     <label for="">DNI:</label>
-                    <input type="text" name="txtdni" id="txtdni" class="form-control" value="{{ persona.dni }}" disabled>
+                    <input type="text" name="txtdni" id="txtdni" class="form-control" value="{{ persona.dni }}"
+                        disabled>
                 </div>
 
                 {% endif %}
@@ -129,18 +138,21 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <a role="button" class="btn btn-info" href="">Cambiar contraseña</a>
+                    <a role="button" class="btn btn-info disabled" href="">Cambiar contraseña</a>
                 </div>
 
             </div>
 
-
-
-
         </form>
 
     </div>
+
 </div>
+
+
+
+
+
 
 <hr>
 
@@ -148,8 +160,8 @@
     {% if messages %}
     <div class="messages">
         {% for message in messages %}
-        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-        {% endfor %}
+        <p{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</p>
+            {% endfor %}
     </div>
     {% endif %}
 </div>
