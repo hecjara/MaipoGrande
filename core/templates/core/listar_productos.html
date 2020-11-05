@@ -28,7 +28,10 @@
 </div>
 
 <div class="container">
-    <a href="{% url 'solicitud_compra' %}" class="btn btn-primary mb-3"><i class="fas fa-step-backward"></i> Volver</a>
+    <div class="btn-group" role="group">
+        <a href="{% url 'solicitud_compra' %}" class="btn btn-info mb-3 mr-2"><i class="fas fa-step-backward"></i> Volver</a>
+        <a class="btn btn-primary mb-3 ml-2" href="{% url 'agregar_producto' id_sol %}"><i class="fas fa-plus-circle"></i> Agregar Producto</a>
+      </div>
 </div>
 
 {% if det %}
@@ -60,8 +63,8 @@
                     <a onclick="validacion_eliminacion({{ d.0 }})" role="button"
                     class="btn btn-danger">Eliminar</a>
 
-                    <a href="{% url 'agregar_producto' d.4 %}" role="button"
-                    class="btn btn-success">Agregar otro Producto</a>
+                    <!-- <a href="{% url 'agregar_producto' d.4 %}" role="button"
+                    class="btn btn-success">Agregar otro Producto</a> -->
 
                     {% else %}
                       
@@ -71,8 +74,8 @@
                     <a onclick="validacion_eliminacion({{ d.0 }})" role="button"
                     class="btn btn-danger disabled">Eliminar</a>
 
-                    <a href="{% url 'agregar_producto' d.4 %}" role="button"
-                    class="btn btn-success disabled">Agregar otro Producto</a>
+                    <!-- <a href="{% url 'agregar_producto' d.4 %}" role="button"
+                    class="btn btn-success disabled">Agregar otro Producto</a> -->
 
                     {% endif %}
                     
@@ -85,16 +88,14 @@
 {% else %}
 <div class="container mt-5 mb-5">
     <h3 class="text-center text-white">No existen productos en la solicitud.</h3>
+    <div class="text-center">
+        <a class="btn btn-primary" href="{% url 'agregar_producto' id_sol %}">Presione aquí para agregar un producto</a>
+    </div>
     </h3>
     <hr class="new4">
-    <h4 class="text-center text-white">Maipo Grande
-        <img src="{% static '/core/img/logo_maipo.png' %}" alt="logo" width="30" height="30" class="mb-2">
-    </h4>
-    <!-- <div class="text-center">
-        <a href="{% url 'solicitud_compra' %}" class="btn btn-primary">
-            <i class="fas fa-step-backward"></i> Volver
-        </a>
-    </div> -->
+    <h4 class="text-center text-white"><i class="fab fa-apple fa-lg mr-2"></i>Maipo Grande</h4>
+
+ 
 </div>
 
 

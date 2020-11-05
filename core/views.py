@@ -1113,7 +1113,10 @@ def listar_productos(
     request, id_solicitud
 ):  # METODO PARA LISTAR LOS PRODUCTOS DE LA SOLICITUD
 
-    data = {"det": listar_productos_solicitud(id_solicitud)}
+    data = {
+        "det": listar_productos_solicitud(id_solicitud),
+        "id_sol": id_solicitud,
+        }
 
     return render(request, "core/listar_productos.html", data)
 
