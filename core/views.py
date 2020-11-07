@@ -54,7 +54,41 @@ def contacto(request):
 
 
 def dashboard(request):
-    return render(request, "core/dashboard.html")
+
+    if request.POST:
+        id_producto = request.POST.get("cboproducto")
+        desde = request.POST.get("desdetxt")
+        hasta = request.POST.get("hastatxt")
+
+        print(id_producto)
+
+        if id_producto is None:
+            id_producto = 0
+
+    return render(
+        request,
+        "core/dashboard.html",
+        {
+            "vencidas": listar_fruta_vencida(id_producto, desde, hasta),
+            "productos": listar_productos_select(),
+        },
+    )
+
+
+def listar_fruta_vencida(id_producto, desde, hasta):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc(
+        "SP_LISTAR_PRODUCTOS_VENCIDOS", [id_producto, desde, hasta, out_cur]
+    )
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
 
 
 ##################################################################################################
@@ -270,8 +304,6 @@ def subasta_transporte(
 
     if request.POST:
         oferta = request.POST.get("ofertatxt")
-        now = timezone.now()
-        fecha_oferta = now
         id_usuario = request.user.id
         id_subasta = request.POST.get("subasta")
 
@@ -285,8 +317,14 @@ def subasta_transporte(
             res = client.service.Validar_seguro(poliza)
 
             if res == 1:
+                # messages.success(
+                #     request,
+                #     "ok.",
+                #     extra_tags="alert alert-success",
+                # )
+
                 salida = agregar_oferta_transporte(
-                    oferta, fecha_oferta, id_subasta, id_usuario
+                    oferta, id_subasta, id_usuario
                 )
 
                 if salida == 1:
@@ -344,14 +382,14 @@ def listar_historial_ofertas_transporte(
 
 
 def agregar_oferta_transporte(
-    oferta, fecha_oferta, id_sub_trans, id_usuario
+    oferta, id_sub_trans, id_usuario
 ):  # METODO PARA LLAMAR AL PROCEDIMIENTO ALMACENADO PARA REALIZAR UNA OFERTA EN LA SUBASTA DE TRANSPORTE
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc(
         "SP_AGREGAR_OFERTA_TRANSPORTE",
-        [oferta, fecha_oferta, id_sub_trans, id_usuario, salida],
+        [oferta, id_sub_trans, id_usuario, salida],
     )
     return salida.getvalue()
 
@@ -832,7 +870,9 @@ def eliminar_producto_bodega(
 
 
 ######################################## PENDIENTE PENDIENTE PENDIENTE PENDIENTE PENDIENTE PENDIENTE PENDIENTE
-def datos_producto_bodega(id_prod_bod):  # METODO PARA LISTAR LOS DATOS DEL PRODUCTO SELECCIONADO PARA MODIFICAR
+def datos_producto_bodega(
+    id_prod_bod,
+):  # METODO PARA LISTAR LOS DATOS DEL PRODUCTO SELECCIONADO PARA MODIFICAR
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
@@ -998,6 +1038,7 @@ def envio(request, id_solicitud):
 
     return render(request, "core/envio.html", data)
 
+
 @login_required
 def pago_mayorista(request, id_solicitud):
 
@@ -1050,6 +1091,7 @@ def pago_mayorista(request, id_solicitud):
 # def nota_pedido_rechazado(request, id_solicitud):
 #     return render(request, "core/pedido_rechazado.html")
 
+
 def rechazar_solicitud(request, id_solicitud):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -1059,17 +1101,14 @@ def rechazar_solicitud(request, id_solicitud):
 
     if res == 1:
         messages.success(
-        request,
-        "El pedido ha sido rechazado.",
-        extra_tags="alert alert-success",
-    )
+            request, "El pedido ha sido rechazado.", extra_tags="alert alert-success",
+        )
     else:
         messages.error(
-        request,
-        "Error al rechazar el pedido.",
-        extra_tags="alert alert-danger",
-    )
+            request, "Error al rechazar el pedido.", extra_tags="alert alert-danger",
+        )
     return redirect("solicitud_compra")
+
 
 def agregar_pago_mayorista(monto, proceso):
     django_cursor = connection.cursor()
@@ -1077,6 +1116,7 @@ def agregar_pago_mayorista(monto, proceso):
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc("SP_COMPRAR_MAYORISTA", [monto, proceso, salida])
     return salida.getvalue()
+
 
 def obtener_valor_transporte(id_solicitud):
     django_cursor = connection.cursor()
@@ -1116,7 +1156,7 @@ def listar_productos(
     data = {
         "det": listar_productos_solicitud(id_solicitud),
         "id_sol": id_solicitud,
-        }
+    }
 
     return render(request, "core/listar_productos.html", data)
 
