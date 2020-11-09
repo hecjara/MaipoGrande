@@ -34,7 +34,6 @@ import base64
 from django.utils import timezone
 import zeep
 
-
 # Create your views here.
 
 
@@ -55,34 +54,99 @@ def contacto(request):
 
 def dashboard(request):
 
-    if request.POST:
-        id_producto = request.POST.get("cboproducto")
-        desde = request.POST.get("desdetxt")
-        hasta = request.POST.get("hastatxt")
-
-        print(id_producto)
-
-        if id_producto is None:
-            id_producto = 0
-
-    return render(
-        request,
-        "core/dashboard.html",
-        {
-            "vencidas": listar_fruta_vencida(id_producto, desde, hasta),
-            "productos": listar_productos_select(),
-        },
-    )
+    data = {
+        'total':total_vencidos(),
+        'vencidosxtotal': total_vencidos_x_producto(),
+        'cinco_mas_vencidos': cinco_mas_vencidos(),
+        'cinco_mejor_vendidos': cinco_mejor_vendidos(),
+    }
 
 
-def listar_fruta_vencida(id_producto, desde, hasta):
+
+    return render(request, "core/dashboard.html", data)
+
+def total_vencidos():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc("SP_TOTAL_VENCIDOS", [salida])
+    return salida.getvalue()
+
+def cinco_mas_vencidos():
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
 
-    cursor.callproc(
-        "SP_LISTAR_PRODUCTOS_VENCIDOS", [id_producto, desde, hasta, out_cur]
-    )
+    cursor.callproc("SP_CINCO_MAS_VENCIDOS", [out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def cinco_mejor_vendidos():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_CINCO_MEJOR_VENDIDOS", [out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
+def total_vencidos_x_producto():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_TOTAL_VENCIDOS_X_PRODUCTO", [out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
+def filtro(id_producto, id_estado, desde, hasta):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("sp_filtro", [id_producto, id_estado, desde, hasta, ])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
+def listar_estados_producto_bodega():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_ESTADOS_PRODUCTO_BODEGA", [out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
+def listar_todos_productos_bodega():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_TODOS_PRODUCTOS_BODEGA", [out_cur])
 
     lista = []
 
