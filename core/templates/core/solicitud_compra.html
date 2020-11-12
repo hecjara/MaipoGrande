@@ -54,7 +54,7 @@
 
         <br>
     
-    {% if soli %}
+    {% if entity %}
     
     
         <div class="table-responsive">
@@ -76,7 +76,7 @@
                 <!--Table head-->
                 <!--Table body-->
                 <tbody>
-                    {% for s in soli %}
+                    {% for s in entity %}
                     <tr>
                         <td class="text-center">{{ s.0 }}</td>
                         <td class="text-center">{{ s.1|date:"d/m/y" }}</td>
@@ -211,7 +211,12 @@
                 <!--Table body-->
             </table>
             <!--Table-->
-    
+            <hr class="new4">
+
+            <div>
+                {% include 'core/paginator.html' %}
+            </div>
+
         </div>
     
     </div>

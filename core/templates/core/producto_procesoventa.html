@@ -4,8 +4,10 @@
 {% load auth_extras %}
 
 {% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
 <link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
-<link rel="stylesheet" href="{% static 'core/css/centro.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+
 {% endblock %}
 
 {% block javascript %}
@@ -147,7 +149,7 @@
 </div>
 
 
-{% if historial %}
+{% if entity %}
 <div class="container table-responsive">
     <table class="table table-bordered table-hover table-condensed table-light">
         <thead>
@@ -159,7 +161,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for h in historial %}
+            {% for h in entity %}
             <tr>
                 <td class="text-center">{{ h.1 }}</td>
                 <td class="text-center">{{ h.2 }}</td>
@@ -169,6 +171,11 @@
             {% endfor %}
         </tbody>
     </table>
+    <hr class="new4">
+
+    <div>
+        {% include 'core/paginator.html' %}
+    </div>
 </div>
 {% else %}
 <div class="container mt-5 mb-5">

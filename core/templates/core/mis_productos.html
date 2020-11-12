@@ -46,7 +46,7 @@
     {% endif %} 
 </div>
 
-{% if misproductos %}
+{% if entity %}
 <br>
 <div class="container table-responsive">
     <table class="table table-bordered table-hover table-condensed table-light">
@@ -64,7 +64,7 @@
         </tr>
 
         <tbody>
-            {% for mp in misproductos %}
+            {% for mp in entity %}
             <tr>
                 <!-- <td class="text-center">{{ mp.0 }}</td> -->
                 <td class="text-center">{{ mp.4 }}</td>
@@ -102,8 +102,14 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <hr class="new4">
+
+    <div>
+        {% include 'core/paginator.html' %}
+    </div>
 </div>
-<br>
+
 {% else %}
 <div class="container mt-5 mb-5">
     <h3 class="text-center text-white">Usted aún no tiene productos agregados a la bodega.</h3>
@@ -119,8 +125,5 @@
 </div>
 {% endif %}
 
-
-
-<br>
 
 {% endblock %}

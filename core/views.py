@@ -33,6 +33,8 @@ from django.core.files.base import ContentFile
 import base64
 from django.utils import timezone
 import zeep
+from django.core.paginator import Paginator
+from django.http import Http404
 
 # Create your views here.
 
@@ -334,11 +336,21 @@ def listar_productos_carrito(id_usuario):
 ##################################################################################################
 
 
-def subastas_transporte_activas(
-    request,
-):  # METODO QUE LISTA SOLO LAS SUBASTAS QUE ESTAN ACTIVAS
+def subastas_transporte_activas(request):  # METODO QUE LISTA SOLO LAS SUBASTAS QUE ESTAN ACTIVAS
 
-    data = {"subastas": listar_subastas_transporte_activas()}
+    subastas = listar_subastas_transporte_activas()
+    page = request.GET.get('page', 1)
+
+    try:
+        paginator = Paginator(subastas, 3) # cantidad de productos por pagina
+        subastas = paginator.page(page)
+    except:
+        raise Http404
+
+    data = {
+        "entity": subastas,
+        'paginator': paginator,
+    }
 
     return render(request, "core/subastas_transporte_activas.html", data)
 
@@ -357,13 +369,21 @@ def listar_subastas_transporte_activas():  # METODO PARA LLAMAR AL PROCEDIMIENTO
     return lista
 
 
-def subasta_transporte(
-    request, id_subasta
-):  # METODO PARA LISTAR LOS DATOS DE LA SUBASTA SELECCIONADA
-    # Y REALIZAR OFERTAS EN DICHA SUBASTA
+def subasta_transporte(request, id_subasta):  # METODO PARA LISTAR LOS DATOS DE LA SUBASTA SELECCIONADA
+                                              # Y REALIZAR OFERTAS EN DICHA SUBASTA
+    historial = listar_historial_ofertas_transporte(id_subasta)
+    page = request.GET.get('page', 1)
+
+    try:
+        paginator = Paginator(historial, 10) # cantidad de productos por pagina
+        historial = paginator.page(page)
+    except:
+        raise Http404
+
+
     data = {
         "subasta": buscar_subasta_transporte(id_subasta),
-        "historial": listar_historial_ofertas_transporte(id_subasta),
+        "entity": historial,
     }
 
     if request.POST:
@@ -571,13 +591,19 @@ def listar_ganadores(
 
 
 @login_required
-def procesos_venta(
-    request,
-):  # METODO QUE LISTA SOLAMENTE LOS PROCESOS DE VENTA (SUBASTAS DE PRODUCTOS) ACTIVAS
-    id_usuario = request.user.id
+def procesos_venta(request):  # METODO QUE LISTA SOLAMENTE LOS PROCESOS DE VENTA (SUBASTAS DE PRODUCTOS) ACTIVAS
+    procesos = listar_procesoventaconproductoscoincidentes(request.user.id)
+    page = request.GET.get('page', 1)
+
+    try:
+        paginator = Paginator(procesos, 3) # cantidad de productos por pagina
+        procesos = paginator.page(page)
+    except:
+        raise Http404
 
     data = {
-        "procesos": listar_procesoventaconproductoscoincidentes(id_usuario),
+        "entity": procesos,
+        'paginator': paginator,
     }
 
     return render(request, "core/procesos_venta.html", data)
@@ -604,12 +630,20 @@ def producto_procesoventa(
     request, id_detalle, id_proceso, id_producto
 ):  # METODO PARA LISTAR LOS DATOS DE LA SUBASTA SELECCIONADA
 
-    id_usuario = request.user.id
+    historial = listar_historial_ofertas(id_proceso, id_producto)
+    page = request.GET.get('page', 1)
+
+    try:
+        paginator = Paginator(historial, 10) # cantidad de productos por pagina
+        historial = paginator.page(page)
+    except:
+        raise Http404
 
     data = {
         "producto": ver_productoProceso(id_detalle),
-        "prod_bod": listar_prod_bod(id_producto, id_usuario),
-        "historial": listar_historial_ofertas(id_proceso, id_producto),
+        "prod_bod": listar_prod_bod(id_producto, request.user.id),
+        "entity": historial,
+        'paginator': paginator,
     }
 
     if request.POST:
@@ -757,11 +791,21 @@ def actualizar_pedidoanulado(
 
 
 @login_required
-def mis_productos(
-    request,
-):  # METODO PARA LISTAR LOS PRODUCTOS QUE TIENE EL PROVEEDOR EN BODEGA
+def mis_productos(request):  # METODO PARA LISTAR LOS PRODUCTOS QUE TIENE EL PROVEEDOR EN BODEGA
 
-    data = {"misproductos": listar_misproductos(request.user.id)}
+    productos = listar_misproductos(request.user.id)
+    page = request.GET.get('page', 1)
+
+    try:
+        paginator = Paginator(productos, 10) # cantidad de productos por pagina
+        productos = paginator.page(page)
+    except:
+        raise Http404
+
+    data = {
+        "entity": productos,
+        'paginator': paginator,
+    }
 
     return render(request, "core/mis_productos.html", data)
 
@@ -968,9 +1012,19 @@ def datos_producto_bodega(
 @login_required
 def solicitud_compra(request):  # METODO PARA MOSTRAR MENU DE LAS SOLICITUDES
 
-    id_usuario = request.user.id
+    soli = listar_solicitudes(request.user.id)
+    page = request.GET.get('page', 1)
 
-    data = {"soli": listar_solicitudes(id_usuario)}
+    try:
+        paginator = Paginator(soli, 5) # cantidad de productos por pagina
+        soli = paginator.page(page)
+    except:
+        raise Http404
+
+    data = {
+        "entity": soli,
+        'paginator': paginator,
+    }
 
     return render(request, "core/solicitud_compra.html", data)
 
@@ -1217,12 +1271,20 @@ def listar_subasta_ganadora(id_solicitud):
 
 
 @login_required
-def listar_productos(
-    request, id_solicitud
-):  # METODO PARA LISTAR LOS PRODUCTOS DE LA SOLICITUD
+def listar_productos(request, id_solicitud):  # METODO PARA LISTAR LOS PRODUCTOS DE LA SOLICITUD
+
+    det = listar_productos_solicitud(id_solicitud)
+    page = request.GET.get('page', 1)
+
+    try:
+        paginator = Paginator(det, 3) # cantidad de productos por pagina
+        det = paginator.page(page)
+    except:
+        raise Http404
 
     data = {
-        "det": listar_productos_solicitud(id_solicitud),
+        "entity": det,
+        "paginator": paginator,
         "id_sol": id_solicitud,
     }
 

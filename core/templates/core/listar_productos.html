@@ -31,7 +31,7 @@
 <div class="container">
     <div class="btn-group" role="group">
         <a href="{% url 'solicitud_compra' %}" class="btn btn-info mb-3 mr-2"><i class="fas fa-step-backward"></i> Volver</a>
-        {% if det.0.5 == 1 %}
+        {% if entity.0.5 == 1 %}
         <a class="btn btn-primary mb-3 ml-2" href="{% url 'agregar_producto' id_sol %}"><i class="fas fa-plus-circle"></i> Agregar Producto</a>
         {% else %}
         <a class="btn btn-primary mb-3 ml-2 disabled" href="{% url 'agregar_producto' id_sol %}"><i class="fas fa-plus-circle"></i> Agregar Producto</a>
@@ -54,7 +54,7 @@
     {% endif %} 
 </div>
 
-{% if det %}
+{% if entity %}
 <div class="container table-responsive">
     <table class="table table-bordered table-hover table-condensed  table-light">
         <tr>
@@ -68,7 +68,7 @@
         </tr>
 
         <tbody>
-            {% for d in det %}
+            {% for d in entity %}
             <tr>
                 <!-- <td>{{ d.0 }}</td> -->
                 <!-- <td>{{ d.4 }}</td> -->
@@ -104,6 +104,11 @@
             {% endfor %}
         </tbody>
     </table>
+    <hr class="new4">
+
+    <div>
+        {% include 'core/paginator.html' %}
+    </div>
 </div>
 {% else %}
 <div class="container mt-5 mb-5">
