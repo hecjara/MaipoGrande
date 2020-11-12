@@ -1,9 +1,10 @@
 function validacion() {
     lote = document.getElementById("cboprodbod").value;
-    cantidad = document.getElementById("cantidadtxt").value;
+    cantidad = document.getElementById("cantidadtxt").value;  //cantidad ofrecida
     oferta = document.getElementById("ofertatxt").value;
-    cant_solicitada = document.getElementById("cantidad").value;
-    
+    cant_solicitada = document.getElementById("cant_sol").value; //cantidad solicitada
+    cant_lote = document.getElementById("cant_lote").value; // cantidad de productos que hay en el lote
+
     if (lote == null || lote == 0) {
         Swal.fire({
             icon: 'error',
@@ -14,19 +15,30 @@ function validacion() {
 
         return false;
     }
+    
+    if (cantidad > cant_lote) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'No puede ofrecer más productos de los que tiene en el lote.',
+            // footer: '<a href>Why do I have this issue?</a>'
+        })
+
+        return false;
+    }
 
 
-    // if (cant_solicitada > cantidad) {
-    //     Swal.fire({
-    //         icon: 'error',
-    //         title: 'Oops...',
-    //         text: 'La cantidad ofrecida debe ser mayor o igual que la cantidad solicitada.',
-    //         // footer: '<a href>Why do I have this issue?</a>'
-    //     })
+    if (cantidad < cant_solicitada) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'La cantidad ofrecida debe ser menor o igual que la cantidad solicitada.',
+            // footer: '<a href>Why do I have this issue?</a>'
+        })
  
-    //     return false;
-    // }
-    if (cantidad == null || cantidad.length == 0 || /^\s+$/.test(cantidad)) {
+        return false;
+    }
+    else if (cantidad == null || cantidad.length == 0 || /^\s+$/.test(cantidad)) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
