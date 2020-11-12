@@ -12,6 +12,7 @@
 {% block javascript %}
 <script src="{% static 'core/js/confirmacion_solicitud.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="{% static 'core/js/validar_actualizacion_miProducto.js' %}"></script>
 {% endblock %}
 
 {% block contenido %}
@@ -27,7 +28,7 @@
     <br>
 
     <div class="card p-4">
-        <form method="POST" class="was-validated">
+        <form method="POST" onsubmit="return validacion();">
             {% csrf_token %}
     
             <input type="hidden" name="id_prod_bodtxt" id="id_prod_bodtxt" value="{{ miproducto.0.0}} ">
@@ -36,7 +37,7 @@
                 <div class="input-group-prepend">
                     <label class="input-group-text bg-success text-white" for="cboproducto">Producto</label>
                 </div>
-                <select class="custom-select" name="cboproducto" id="cboproducto" disabled required>
+                <select class="custom-select" name="cboproducto" id="cboproducto" disabled>
                     <option selected value="">Seleccione un producto</option>
                     {% for p in productos %}
                     <option 
@@ -46,20 +47,20 @@
                     value="{{ p.0 }}">{{ p.1 }}</option>
                     {% endfor %}
                 </select>
-                <div class="invalid-feedback">Seleccione un producto de la lista</div>
+                <!-- <div class="invalid-feedback">Seleccione un producto de la lista</div> -->
             </div>
     
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="cantidadtxt">Cantidad</label>
                     <input type="number" name="cantidadtxt" id="cantidadtxt" class="form-control"
-                        placeholder="Cantidad en Kilos" value="{{ miproducto.0.6 }}" required>
-                    <div class="invalid-feedback">Ingrese una cantidad válida</div>
+                        placeholder="Cantidad en Kilos" value="{{ miproducto.0.6 }}">
+                    <!-- <div class="invalid-feedback">Ingrese una cantidad válida</div> -->
                 </div>
                 <div class="form-group col-md-6">
                     <label for="preciotxt">Precio Kilo</label>
-                    <input type="number" name="preciotxt" id="preciotxt" class="form-control" placeholder="$" value="{{ miproducto.0.7 }}" required>
-                    <div class="invalid-feedback">Ingrese un precio válido</div>
+                    <input type="number" name="preciotxt" id="preciotxt" class="form-control" placeholder="$" value="{{ miproducto.0.7 }}">
+                    <!-- <div class="invalid-feedback">Ingrese un precio válido</div> -->
                 </div>
             </div>
     

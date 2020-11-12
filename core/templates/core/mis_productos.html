@@ -31,7 +31,7 @@
     <a href="{% url 'home' %}" class="btn btn-info"><i class="fas fa-step-backward"></i> Volver al inicio</a>
 </div>
 
-<div class="d-flex justify-content-center messages">
+<div class="d-flex justify-content-center messages mt-2">
     {% if messages %}
 
     {% for message in messages %}
@@ -43,7 +43,7 @@
 
     {% endfor %}
 
-{% endif %}
+    {% endif %} 
 </div>
 
 {% if misproductos %}
