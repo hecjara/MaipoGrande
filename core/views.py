@@ -1050,7 +1050,11 @@ def modificar_detalleproducto(
     detalle = DETALLE_SOLICITUD.objects.get(pk=id)
     productos = PRODUCTO.objects.all()
 
-    variables = {"detalle": detalle, "productos": productos}
+    variables = {
+        "detalle": detalle, 
+        "productos": productos,
+        "id_sol": id,
+        }
 
     if request.POST:
 
@@ -1066,13 +1070,13 @@ def modificar_detalleproducto(
         if salida == 1:
             messages.success(
                 request,
-                "Solicitud ingresada correctamente.",
+                "Producto actualizado correctamente.",
                 extra_tags="alert alert-success",
             )
         else:
             messages.error(
                 request,
-                "Error al intentar ingresar la solicitud.",
+                "Error al intentar actualizar el producto.",
                 extra_tags="alert alert-danger",
             )
         return redirect("listar_productos", detalle.id_solicitud.id_solicitud)

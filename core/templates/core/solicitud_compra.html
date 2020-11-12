@@ -12,6 +12,7 @@
 {% block javascript %}
 <script src="{% static 'core/js/confirmacion_solicitud.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="{% static 'core/js/cerrar_alerta.js' %}"></script>
 {% endblock %}
 
 {% block contenido %}
@@ -35,6 +36,22 @@
         </a>
     
         <br>
+
+        <div class="d-flex justify-content-center messages mt-2">
+            {% if messages %}
+        
+            {% for message in messages %}
+        
+            <div id="alert" {% if message.tags %} class="{{ message.tags }}" {% endif %}> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {{ message }}
+            </div> 
+        
+            {% endfor %}
+        
+            {% endif %} 
+        </div>
+
         <br>
     
     {% if soli %}
@@ -213,18 +230,7 @@
       </div>
     
     {% endif %}
-    
-    
-    <div class="d-flex justify-content-center">
-        {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-            <p{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</p>
-                {% endfor %}
-        </div>
-        {% endif %}
-    </div>
-    
+        
 </div>
 
 

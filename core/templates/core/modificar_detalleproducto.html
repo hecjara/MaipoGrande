@@ -11,6 +11,7 @@
 
 {% block javascript %}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="{% static 'core/js/validacion_agregarProducto.js' %}"></script>
 {% endblock %}
 
 {% block contenido %}
@@ -28,7 +29,7 @@
 <div class="container col-md-3">
 
     <div class="card p-4">
-        <form action="" method="POST">
+        <form action="" method="POST" onsubmit="return validacion();">
 
             <input type="hidden" name="iddetalle" id="iddetalle" value="{{ detalle.id_detalle }}">
             <input type="hidden" name="idsolicitud" id="idsolicitud" value="{{ detalle.id_solicitud.id_solicitud }}">
@@ -52,6 +53,7 @@
     
         
                 <input type="submit" value="Modificar Producto" class="btn btn-primary">
+                <a href="{% url 'listar_productos' id_sol %}" class="btn btn-info"><i class="fas fa-step-backward"></i> Volver</a>
         
         </form>
     </div>
