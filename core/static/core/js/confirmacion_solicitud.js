@@ -2,7 +2,7 @@ function confirmarActualizarSolicitud(id_solicitud) {
     Swal.fire({
         title: '¿Recibiste lo solicitado?',
         text: "No podras deshacer esta acción!",
-        icon: 'warning',
+        icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',

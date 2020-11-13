@@ -23,21 +23,6 @@
     <hr class="new4">
 </div>
 
-<div class="d-flex justify-content-center messages mt-2">
-    {% if messages %}
-
-    {% for message in messages %}
-
-    <div id="alert" {% if message.tags %} class="{{ message.tags }}" {% endif %}> 
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        {{ message }}
-    </div> 
-
-    {% endfor %}
-
-    {% endif %} 
-</div>
-
 <div class="container">
     <div class="card p-3">
         <form action="" method="POST">

@@ -88,7 +88,7 @@
     </header>
 
     {% block contenido %}
-
+    
     {% endblock %}
 
     <footer class="footer bg-success">
@@ -137,8 +137,27 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags %}                         
+                <script>
+                    Swal.fire({
+                        "title": "Resultado",
+                        "text": "{{ message }}",
+                        "icon": "{{ message.tags }}",
+                    })
+                    console.log("{{ message.tags }}")
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
     {% block javascript %}
     {% endblock %}
+
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

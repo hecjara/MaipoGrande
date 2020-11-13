@@ -206,14 +206,12 @@ def eliminar_producto_carrito(
     if res == 1:
         messages.success(
             request,
-            "La producto ha sido eliminado del carrito.",
-            extra_tags="alert alert-success",
+            "La producto ha sido eliminado del carrito."
         )
     else:
         messages.error(
             request,
-            "Error al intentar eliminar el producto del carrito.",
-            extra_tags="alert alert-danger",
+            "Error al intentar eliminar el producto del carrito."
         )
     return redirect("venta_local")
 
@@ -227,13 +225,12 @@ def agregar_al_carrito(request, id_prod_proc, id_usuario):
 
     if res == 1:
         messages.success(
-            request, "Producto agregado al carrito.", extra_tags="alert alert-success"
+            request, "Producto agregado al carrito.", extra_tags="success"
         )
     else:
         messages.error(
             request,
-            "Error al intentar agregar el producto al carrito.",
-            extra_tags="alert alert-danger",
+            "Error al intentar agregar el producto al carrito."
         )
     return redirect("venta_local")
 
@@ -265,20 +262,17 @@ def ver_carrito(request, id_usuario):
             if res2 == 1:
                 messages.success(
                     request,
-                    "Compra realizada con exito.",
-                    extra_tags="alert alert-success",
+                    "Compra realizada con exito."
                 )
             else:
                 messages.error(
                     request,
-                    "Error al intentar realizar la compra.",
-                    extra_tags="alert alert-danger",
+                    "Error al intentar realizar la compra."
                 )
         else:
             messages.error(
                 request,
-                "Error al intentar realizar la compra.",
-                extra_tags="alert alert-danger",
+                "Error al intentar realizar la compra."
             )
         return redirect("venta_local")
 
@@ -414,26 +408,22 @@ def subasta_transporte(request, id_subasta):  # METODO PARA LISTAR LOS DATOS DE 
                 if salida == 1:
                     messages.success(
                         request,
-                        "Oferta realizada correctamente.",
-                        extra_tags="alert alert-success",
+                        "Oferta realizada correctamente."
                     )
                 else:
                     messages.error(
                         request,
-                        "Error al intentar ingresar la oferta.",
-                        extra_tags="alert alert-danger",
+                        "Error al intentar ingresar la oferta."
                     )
             else:
-                messages.error(
+                messages.warning(
                     request,
-                    "La poliza registrada esta sin vigencia, contactese con el administrador.",
-                    extra_tags="alert alert-danger",
+                    "La poliza registrada esta sin vigencia, contactese con el administrador."
                 )
         else:
-            messages.error(
+            messages.warning(
                 request,
-                "El usuario no posee una poliza asociada. Contactese con el administrador.",
-                extra_tags="alert alert-danger",
+                "El usuario no posee una poliza asociada. Contactese con el administrador."
             )
 
         return redirect("subasta_transporte", id_subasta)
@@ -519,13 +509,13 @@ def rechazar_oferta(
 
     if res == 1:
         messages.success(
-            request, "La oferta ha sido rechazada.", extra_tags="alert alert-success",
+            request, "La oferta ha sido rechazada."
         )
     else:
         messages.error(
             request,
-            "Error al intentar rechazar la oferta.",
-            extra_tags="alert alert-danger",
+            "Error al intentar rechazar la oferta."
+            
         )
     return redirect("solicitud_compra")
 
@@ -542,14 +532,12 @@ def aceptar_oferta(
     if res == 1:
         messages.success(
             request,
-            "La oferta ha sido aceptada, ahora pasara a la fase de subasta de transporte.",
-            extra_tags="alert alert-success",
+            "La oferta ha sido aceptada, ahora pasara a la fase de subasta de transporte."
         )
     else:
         messages.error(
             request,
-            "Error al intentar aceptar la oferta.",
-            extra_tags="alert alert-danger",
+            "Error al intentar aceptar la oferta."
         )
     return redirect("solicitud_compra")
 
@@ -660,14 +648,12 @@ def producto_procesoventa(
         if salida == 1:
             messages.success(
                 request,
-                "Oferta realizada correctamente.",
-                extra_tags="alert alert-success",
+                "Oferta realizada correctamente."
             )
         else:
             messages.error(
                 request,
-                "Error al realizar la oferta " + str(e),
-                extra_tags="alert alert-danger",
+                "Error al realizar la oferta " + str(e)
             )
         return redirect("producto_procesoventa", id_detalle, id_proceso, id_producto)
 
@@ -747,14 +733,12 @@ def actualizar_pedidorecibido(
     if res == 1:
         messages.success(
             request,
-            "Estado actualizado correctamente.",
-            extra_tags="alert alert-success",
+            "Estado actualizado correctamente."
         )
     else:
         messages.error(
             request,
-            "Error al intentar actualizar el estado.",
-            extra_tags="alert alert-danger",
+            "Error al intentar actualizar el estado."
         )
     return redirect("solicitud_compra")
 
@@ -771,14 +755,12 @@ def actualizar_pedidoanulado(
     if res == 1:
         messages.success(
             request,
-            "La solicitud ha sido anulada correctamente.",
-            extra_tags="alert alert-success",
+            "La solicitud ha sido anulada correctamente."
         )
     else:
         messages.error(
             request,
-            "Error al intentar anular la solicitud.",
-            extra_tags="alert alert-danger",
+            "Error al intentar anular la solicitud."
         )
     return redirect("solicitud_compra")
 
@@ -866,14 +848,12 @@ def agregar_producto_bodega(request):  # METODO PARA INGRESAR UN PRODUCTO A BODE
         if salida == 1:
             messages.success(
                 request,
-                "Producto ingresado correctamente.",
-                extra_tags="alert alert-success",
+                "Producto ingresado correctamente."
             )
         else:
             messages.error(
                 request,
-                "Error al intentar ingresar el producto.",
-                extra_tags="alert alert-danger",
+                "Error al intentar ingresar el producto."
             )
         return redirect("mis_productos")
 
@@ -919,14 +899,12 @@ def actualizar_mi_producto(
         if salida == 1:
             messages.success(
                 request,
-                "Producto actualizado correctamente.",
-                extra_tags="alert alert-success",
+                "Producto actualizado correctamente."
             )
         else:
             messages.error(
                 request,
-                "Error al intentar actualizar el producto.",
-                extra_tags="alert alert-danger",
+                "Error al intentar actualizar el producto."
             )
         return redirect("mis_productos")
 
@@ -965,14 +943,12 @@ def eliminar_producto_bodega(
     if res == 1:
         messages.success(
             request,
-            "La producto ha sido eliminado correctamente.",
-            extra_tags="alert alert-success",
+            "La producto ha sido eliminado correctamente."
         )
     else:
         messages.error(
             request,
-            "Error al intentar eliminar el producto.",
-            extra_tags="alert alert-danger",
+            "Error al intentar eliminar el producto."
         )
     return redirect("mis_productos")
 
@@ -1055,14 +1031,12 @@ def anular_solicitud(request, id):  # METODO PARA ANULAR UNA SOLICITUD
         solicitud.save()
         messages.success(
             request,
-            "La solicitud ha sido anulada correctamente.",
-            extra_tags="alert alert-success",
+            "La solicitud ha sido anulada correctamente."
         )
     except Exception as e:
         messages.error(
             request,
-            "Error al intentar agregar el producto a la solicitud" + str(e),
-            extra_tags="alert alert-danger",
+            "Error al intentar agregar el producto a la solicitud" + str(e)
         )
     return redirect("solicitud_compra")
 
@@ -1077,14 +1051,12 @@ def eliminar_detalleproducto(
     if salida == 1:
         messages.success(
             request,
-            "La producto ha sido eliminado correctamente.",
-            extra_tags="alert alert-success",
+            "La producto ha sido eliminado correctamente."
         )
     else:
         messages.error(
             request,
-            "Error al intentar eliminar el producto.",
-            extra_tags="alert alert-danger",
+            "Error al intentar eliminar el producto."
         )
     return redirect("listar_productos", id_detalle)
 
@@ -1124,14 +1096,12 @@ def modificar_detalleproducto(
         if salida == 1:
             messages.success(
                 request,
-                "Producto actualizado correctamente.",
-                extra_tags="alert alert-success",
+                "Producto actualizado correctamente."
             )
         else:
             messages.error(
                 request,
-                "Error al intentar actualizar el producto.",
-                extra_tags="alert alert-danger",
+                "Error al intentar actualizar el producto."
             )
         return redirect("listar_productos", detalle.id_solicitud.id_solicitud)
 
@@ -1191,19 +1161,19 @@ def pago_mayorista(request, id_solicitud):
                 messages.success(
                     request,
                     "Compra realizada con exito.",
-                    extra_tags="alert alert-success",
+                    
                 )
             else:
                 messages.error(
                     request,
                     "Error al intentar realizar la compra.",
-                    extra_tags="alert alert-danger",
+                    
                 )
         else:
             messages.error(
                 request,
                 "Error al intentar realizar la compra.",
-                extra_tags="alert alert-danger",
+                
             )
         return redirect("solicitud_compra")
 
@@ -1223,11 +1193,11 @@ def rechazar_solicitud(request, id_solicitud):
 
     if res == 1:
         messages.success(
-            request, "El pedido ha sido rechazado.", extra_tags="alert alert-success",
+            request, "El pedido ha sido rechazado."
         )
     else:
         messages.error(
-            request, "Error al rechazar el pedido.", extra_tags="alert alert-danger",
+            request, "Error al rechazar el pedido."
         )
     return redirect("solicitud_compra")
 
@@ -1340,14 +1310,12 @@ def agregar_producto(
         if salida == 1:
             messages.success(
                 request,
-                "La producto ha sido agregado correctamente.",
-                extra_tags="alert alert-success",
+                "La producto ha sido agregado correctamente."
             )
         else:
             messages.error(
                 request,
-                "Error al intentar agregar el producto.",
-                extra_tags="alert alert-danger",
+                "Error al intentar agregar el producto."
             )
         return redirect("listar_productos", id_solicitud)
 
@@ -1383,14 +1351,12 @@ def formulario_solicitud(request):  # METODO PARA REALIZAR UNA SOLICITUD DE COMP
         if salida == 1:
             messages.success(
                 request,
-                "Solicitud ingresada correctamente.",
-                extra_tags="alert alert-success",
+                "Solicitud ingresada correctamente."
             )
         else:
             messages.error(
                 request,
-                "Error al intentar ingresar la solicitud.",
-                extra_tags="alert alert-danger",
+                "Error al intentar ingresar la solicitud."
             )
         return redirect("solicitud_compra")
 
@@ -1471,14 +1437,12 @@ def modificar_datos_personales(
             persona.save()
             messages.success(
                 request,
-                "Sus datos personales han sido modificados correctamente.",
-                extra_tags="alert alert-success",
+                "Sus datos personales han sido modificados correctamente."
             )
         except Exception as e:
             messages.error(
                 request,
-                "Error al intentar modificar sus datos personales" + str(e),
-                extra_tags="alert alert-danger",
+                "Error al intentar modificar sus datos personales" + str(e)
             )
         return redirect("perfil_usuario", request.user.id)
 
@@ -1601,7 +1565,7 @@ def codigo_activacion(
 
         if perso:
             messages.success(
-                request, "Usuario encontrado!", extra_tags="alert alert-success"
+                request, "Usuario encontrado!"
             )
             return render(
                 request, "registration/codigo_activacion.html", {"perso": perso}
@@ -1609,8 +1573,7 @@ def codigo_activacion(
         else:
             messages.error(
                 request,
-                "Usuario no existente o código de activación no valido",
-                extra_tags="alert alert-danger",
+                "Usuario no existente o código de activación no valido"
             )
             return render(request, "registration/codigo_activacion.html")
     return render(request, "registration/codigo_activacion.html")

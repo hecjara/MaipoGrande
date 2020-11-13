@@ -2,7 +2,7 @@ function validacion_eliminacion(id_detalle){
     Swal.fire({
         title: '¿Desea eliminar el producto de la solicitud?',
         text: "No podras deshacer esta acción!",
-        icon: 'warning',
+        icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',

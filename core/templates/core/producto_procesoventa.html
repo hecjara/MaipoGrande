@@ -136,19 +136,6 @@
 
 <br>
 
-
-<div class="d-flex justify-content-center">
-    {% if messages %}
-    <div class="messages">
-        <!-- <div class="guardado"></div> -->
-        {% for message in messages %}
-        <p{% if message.tags %} class="{{ message.tags }}"{% endif %} id="pm">{{ message }}</p>
-        {% endfor %}
-    </div>
-    {% endif %}
-</div>
-
-
 {% if entity %}
 <div class="container table-responsive">
     <table class="table table-bordered table-hover table-condensed table-light">
