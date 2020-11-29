@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe Maipo Grande</title>
+</head>
+<body>
+    <div>
+        <p>Informe Maipo Grande - {{ fecha }}</p>
+        <p>Todos los resultados a continuación, se basan consultas realizadas a la fecha y hora actual.</p> 
+    </div>
+
+    <div>
+        <ul>
+            <li>Cantidad total de kilos vencidos: {{ total }} Kilos</li>
+            <li>Cantidad total vendida (venta mayorista + venta minorista): {{ cantidad_total_vendida }} Kilos</li>
+        </ul>
+    </div>
+
+    <div>
+        <h5>Cinco productos que mas vencen en bodega:</h5>
+        <ul>
+            {% for c1 in cinco_mas_vencidos %}
+                <li>{{ c1.0 }}, Cantidad: {{ c1.1 }} Kilos</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div>
+        <h5>Cinco productos que mas se venden en <strong>ventas minoristas</strong>:</h5>
+        <ul>
+            {% for c2 in cinco_mejor_vendidos_minorista %}
+                <li>{{ c2.0 }}, Cantidad: {{ c2.1 }} Kilos</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div>
+        <h5>Cinco productos que mas se venden en <strong>ventas mayoristas</strong>:</h5>
+        <ul>
+            {% for c3 in cinco_mejor_vendidos_mayorista %}
+                <li>{{ c3.0 }}, Cantidad: {{ c3.1 }} Kilos</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</body>
+</html>

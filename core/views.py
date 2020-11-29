@@ -35,6 +35,12 @@ from django.utils import timezone
 import zeep
 from django.core.paginator import Paginator
 from django.http import Http404
+import os
+from django.conf import settings
+from django.http import HttpResponse
+from django.template import Context
+from django.template.loader import get_template
+from django_xhtml2pdf.utils import pdf_decorator
 
 # Create your views here.
 
@@ -53,17 +59,38 @@ def contacto(request):
 ####                                                                                          ####
 ##################################################################################################
 
+fecha_actual = str(datetime.datetime.now().strftime('%d-%m-%Y'))
 
-def dashboard(request):
+@pdf_decorator(pdfname="informeMaipoGrande_Fecha"+fecha_actual+".pdf")
+@login_required
+def datos_pdf(request):
+    fecha = datetime.datetime.now()
 
     data = {
         'total':total_vencidos(),
         'vencidosxtotal': total_vencidos_x_producto(),
         'cinco_mas_vencidos': cinco_mas_vencidos(),
-        'cinco_mejor_vendidos': cinco_mejor_vendidos(),
+        'cinco_mejor_vendidos_minorista': cinco_mejor_vendidos_minorista(),
+        'cinco_mejor_vendidos_mayorista': cinco_mejor_vendidos_mayorista(),
+        'cantidad_total_vendida': cantidad_total_vendida(),
+        'fecha': fecha,
     }
+    return render(request, 'core/datos_pdf.html', data)
 
+@login_required
+def dashboard(request):
 
+    fecha = datetime.datetime.now()
+
+    data = {
+        'total':total_vencidos(),
+        'vencidosxtotal': total_vencidos_x_producto(),
+        'cinco_mas_vencidos': cinco_mas_vencidos(),
+        'cinco_mejor_vendidos_minorista': cinco_mejor_vendidos_minorista(),
+        'cinco_mejor_vendidos_mayorista': cinco_mejor_vendidos_mayorista(),
+        'cantidad_total_vendida': cantidad_total_vendida(),
+        'fecha': fecha,
+    }
 
     return render(request, "core/dashboard.html", data)
 
@@ -72,6 +99,13 @@ def total_vencidos():
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc("SP_TOTAL_VENCIDOS", [salida])
+    return salida.getvalue()
+
+def cantidad_total_vendida():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc("SP_CANTIDAD_TOTAL_VENDIDA", [salida])
     return salida.getvalue()
 
 def cinco_mas_vencidos():
@@ -87,12 +121,25 @@ def cinco_mas_vencidos():
         lista.append(fila)
     return lista
 
-def cinco_mejor_vendidos():
+def cinco_mejor_vendidos_minorista():
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
 
-    cursor.callproc("SP_CINCO_MEJOR_VENDIDOS", [out_cur])
+    cursor.callproc("SP_CINCO_MEJOR_VENDIDOS_MINORISTA", [out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def cinco_mejor_vendidos_mayorista():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_CINCO_MEJOR_VENDIDOS_MAYORISTA", [out_cur])
 
     lista = []
 

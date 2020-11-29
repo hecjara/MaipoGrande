@@ -3,4 +3,4 @@ python -m pip install cx_Oracle --upgrade
 pip install django-crispy-forms
 pip install zeep
 pip install pillow
-python -m pip install -U matplotlib
+pip install django_xhtml2pdf

@@ -4,71 +4,77 @@
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
-<link rel="stylesheet" href="{% static 'core/css/colortabla.css' %}">
 <link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
-<link rel="stylesheet" href="{% static 'core/css/parpadeo.css' %}">
-<link rel="stylesheet" href="{% static 'core/css/lista.css' %}">
 {% endblock %}
 
 {% block javascript %}
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-<script src="{% static 'core/js/graficos.js' %}"></script>
-
 
 {% endblock %}
 
 {% block contenido %}
-<br>
 
-<div class="card bg-success mt-3">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col p-2">
-                <div class="container">
-                    <div id="grafico_mas_vencidos" style="height: 370px; width: 100%;"></div>
+<div class="container">
+    <br>
+    <hr class="new4">
+    <h1 class="text-center text-white">Dashboard <i class="fas fa-tachometer-alt"></i></h1>
+    <hr class="new4">
+    <br>
+</div>
+
+<div class="container">
+
+    <div class="btn-group" role="group">
+        <a href="{% url 'datos_pdf' %}" class="btn btn-danger mb-3">Exportar informe a PDF <i class="fas fa-file-pdf"></i></a>
+        <a href="{% url 'home' %}" class="btn btn-info mb-3 ml-3"><i class="fas fa-step-backward"></i> Volver</a>
+    </div>
+
+    <div class="card">
+        <div class="card-header text-center bg-success text-white">
+            <strong>
+                <i class="fab fa-apple"></i> 
+                Maipo Grande - Fecha y hora actual: {{ fecha }}
+            </strong>
+        </div>
+        <div class="card-header text-center bg-success text-white">Todos los resultados a continuación, se basan consultas realizadas a la fecha y hora actual.</div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="card-text">Cantidad total de kilos vencidos: {{ total }} Kilos</div>
+                    <div class="card-text">Cantidad total vendida (venta mayorista + venta minorista): {{ cantidad_total_vendida }} Kilos</div>
+                </div>
+                <div class="col">
+                    <div class="card-text">Cinco productos que mas vencen en bodega: </div>
+                    <ul class="ml-5">
+                        {% for c1 in cinco_mas_vencidos %}
+                            <li>{{ c1.0 }}, Cantidad: {{ c1.1 }} Kilos</li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
-            <div class="col p-2">
-                <div class="container">
-                    <div id="grafico_mejor_vendidos_minorista" style="height: 370px; width: 100%;"></div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="card-text">Cinco productos que mas se venden en <strong>ventas mayoristas</strong>:</div>
+                    <ul class="ml-5">
+                        {% for c3 in cinco_mejor_vendidos_mayorista %}
+                            <li>{{ c3.0 }}, Cantidad: {{ c3.1 }} Kilos</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col">
+                    <div class="card-text">Cinco productos que mas se venden en <strong>ventas minoristas</strong>:</div>
+                    <ul class="ml-5">
+                        {% for c2 in cinco_mejor_vendidos_minorista %}
+                            <li>{{ c2.0 }}, Cantidad: {{ c2.1 }} Kilos</li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
-
-
-
-
-
-
-
-<input type="hidden" name="prod_ven_1" id="prod_ven_1" value="{{ cinco_mas_vencidos.0.0 }}">
-<input type="hidden" name="cant_ven_1" id="cant_ven_1" value="{{ cinco_mas_vencidos.0.1 }}">
-<input type="hidden" name="prod_ven_2" id="prod_ven_2" value="{{ cinco_mas_vencidos.1.0 }}">
-<input type="hidden" name="cant_ven_2" id="cant_ven_2" value="{{ cinco_mas_vencidos.1.1 }}">
-<input type="hidden" name="prod_ven_3" id="prod_ven_3" value="{{ cinco_mas_vencidos.2.0 }}">
-<input type="hidden" name="cant_ven_3" id="cant_ven_3" value="{{ cinco_mas_vencidos.2.1 }}">
-<input type="hidden" name="prod_ven_4" id="prod_ven_4" value="{{ cinco_mas_vencidos.3.0 }}">
-<input type="hidden" name="cant_ven_4" id="cant_ven_4" value="{{ cinco_mas_vencidos.3.1 }}">
-<input type="hidden" name="prod_ven_5" id="prod_ven_5" value="{{ cinco_mas_vencidos.4.0 }}">
-<input type="hidden" name="cant_ven_5" id="cant_ven_5" value="{{ cinco_mas_vencidos.4.1 }}">
-
-
-<input type="hidden" name="prod_vendidos_1" id="prod_vendidos_1" value="{{ cinco_mejor_vendidos.0.0 }}">
-<input type="hidden" name="cant_vendidos_1" id="cant_vendidos_1" value="{{ cinco_mejor_vendidos.0.1 }}">
-<input type="hidden" name="prod_vendidos_2" id="prod_vendidos_2" value="{{ cinco_mejor_vendidos.1.0 }}">
-<input type="hidden" name="cant_vendidos_2" id="cant_vendidos_2" value="{{ cinco_mejor_vendidos.1.1 }}">
-<input type="hidden" name="prod_vendidos_3" id="prod_vendidos_3" value="{{ cinco_mejor_vendidos.2.0 }}">
-<input type="hidden" name="cant_vendidos_3" id="cant_vendidos_3" value="{{ cinco_mejor_vendidos.2.1 }}">
-<input type="hidden" name="prod_vendidos_4" id="prod_vendidos_4" value="{{ cinco_mejor_vendidos.3.0 }}">
-<input type="hidden" name="cant_vendidos_4" id="cant_vendidos_4" value="{{ cinco_mejor_vendidos.3.1 }}">
-<input type="hidden" name="prod_vendidos_5" id="prod_vendidos_5" value="{{ cinco_mejor_vendidos.4.0 }}">
-<input type="hidden" name="cant_vendidos_5" id="cant_vendidos_5" value="{{ cinco_mejor_vendidos.4.1 }}">
-
-
-
-
 
 <br>
 {% endblock %}
