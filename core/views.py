@@ -216,7 +216,7 @@ def listar_todos_productos_bodega():
 ####                                                                                          ####
 ##################################################################################################
 
-
+@login_required
 def venta_local(request):
 
     data = {
@@ -225,6 +225,41 @@ def venta_local(request):
     }
 
     return render(request, "core/venta_local.html", data)
+
+@login_required
+def mis_compras_minorista(request):
+
+    mis_compras = listar_mis_compras_minorista(request.user.id)
+    page = request.GET.get('page', 1)
+
+    try:
+        paginator = Paginator(mis_compras, 3)
+        mis_compras = paginator.page(page)
+    except:
+        raise Http404
+
+
+    data = {
+        "entity": mis_compras,
+        'paginator': paginator, 
+    }
+
+    return render(request, "core/mis_compras_minorista.html", data)
+
+
+def listar_mis_compras_minorista(id_usuario):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_COMPRAS_MINORISTAS", [id_usuario, out_cur])
+
+    lista = []
+
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
 
 
 def listar_productos_venta_local():

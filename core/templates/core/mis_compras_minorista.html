@@ -1,0 +1,81 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% load remover_decimal %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/colores.css' %}">
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
+
+{% block contenido %}
+
+<div class="container">
+    <br>
+    <hr class="new4">
+    <h1 class="text-center text-white">Mis compras</h1>
+    <hr class="new4">
+    <br>
+    <a href="{% url 'home' %}" class="btn btn-info btn-rounded">
+        <i class="fas fa-step-backward"></i> 
+        Volver
+    </a>
+    <br>
+    <br>
+</div>
+
+
+
+{% if entity %}
+
+<div class="container">
+
+    {% for mc in entity %}
+    <div class="card text-center mb-3">
+        <div class="card-header bg-success text-white font-weight-bolder"></div>
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <div class="vertical-center">
+                    <img src="{{ mc.9 }}" class="card-img" alt="imagen-fruta">
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Producto: {{ mc.6 }}</li>
+                        <li class="list-group-item">Cantidad: {{ mc.7 }} Kilos</li>
+                        <li class="list-group-item">Precio Kilo: ${{ mc.8 }}</li>
+                        <li class="list-group-item">Total: ${{ mc.10 }}</li>
+                        <li class="list-group-item">Fecha Compra: {{ mc.12 }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-success text-white"></div>
+    </div>
+    {% endfor %}
+
+    <hr class="new4">
+
+    <div>
+        {% include 'core/paginator.html' %}
+    </div>
+</div>
+
+{% else %}
+<div class="container">
+    <br>
+    <hr class="new4">
+    <h1 class="text-center text-white">Usted no ha realizado compras</h1>
+    <h3 class="text-center text-white">Para empezar a comprar, haga click <a class="btn btn-primary"
+            href="{% url 'venta_local' %}">Aquí</a></h3>
+    <hr class="new4">
+    <h4 class="text-center text-white"><i class="fab fa-apple fa-lg mr-2"></i>Maipo Grande</h4>
+    <br>
+</div>
+{% endif %}
+
+{% endblock %}

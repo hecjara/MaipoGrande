@@ -36,6 +36,7 @@ from .views import (
     pago_mayorista,
     rechazar_solicitud,
     datos_pdf,
+    mis_compras_minorista,
     # nota_pedido_rechazado,
 )
 
@@ -73,6 +74,7 @@ urlpatterns = [
     path("eliminar_producto_carrito/<id_prod_car>/", eliminar_producto_carrito, name="eliminar_producto_carrito"),
     path("dashboard/", dashboard, name="dashboard"),
     path("datos_pdf/", datos_pdf, name="datos_pdf"),
+    path("mis_compras_minorista/", mis_compras_minorista, name="mis_compras_minorista"),
     path("envio/<id_solicitud>/", envio, name="envio"),
     path("pago_mayorista/<id_solicitud>/", pago_mayorista, name="pago_mayorista"),
     path("rechazar_solicitud/<id_solicitud>/", rechazar_solicitud, name="rechazar_solicitud"),
