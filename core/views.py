@@ -1089,9 +1089,9 @@ def anular_solicitud(request, id):  # METODO PARA ANULAR UNA SOLICITUD
 
 
 @login_required
-def eliminar_detalleproducto(
-    request, id_detalle
-):  # METODO PARA ELIMINAR UN PRODUCTO DE LA SOLICITUD
+def eliminar_detalleproducto(request, id_detalle):  # METODO PARA ELIMINAR UN PRODUCTO DE LA SOLICITUD
+
+    id_sol = consultar_idsolicitud(id_detalle)
 
     salida = eliminar_detalle_producto(id_detalle)
 
@@ -1105,8 +1105,15 @@ def eliminar_detalleproducto(
             request,
             "Error al intentar eliminar el producto."
         )
-    return redirect("listar_productos", id_detalle)
+    return redirect("listar_productos", id_sol)
 
+
+def consultar_idsolicitud(id_detalle):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callfunc("SF_CONSULTAR_IDSOLICITUD", salida, [id_detalle])
+    return salida.getvalue()
 
 def eliminar_detalle_producto(id_detalle):
     django_cursor = connection.cursor()
@@ -1287,6 +1294,13 @@ def listar_subasta_ganadora(id_solicitud):
     return lista
 
 
+def count_productos_detalle(id_solicitud):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callfunc("SF_CONTAR_PRODUCTOS_DETALLE", salida, [id_solicitud])
+    return salida.getvalue()
+
 @login_required
 def listar_productos(request, id_solicitud):  # METODO PARA LISTAR LOS PRODUCTOS DE LA SOLICITUD
 
@@ -1303,6 +1317,7 @@ def listar_productos(request, id_solicitud):  # METODO PARA LISTAR LOS PRODUCTOS
         "entity": det,
         "paginator": paginator,
         "id_sol": id_solicitud,
+        "count": count_productos_detalle(id_solicitud),
     }
 
     return render(request, "core/listar_productos.html", data)
