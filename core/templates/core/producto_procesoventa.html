@@ -61,7 +61,7 @@
                                             <select class="custom-select" name="cboprodbod" id="cboprodbod" required>
                                                 <option selected value="">Seleccione lote</option>
                                                 {% for pb in prod_bod %}
-                                                {% if pb.1 == p.8 and pb.6 == request.user.id  %}
+                                                {% if pb.1 == p.8 and pb.6 == request.user.id and pb.3 > 0 and pb.7 == 1 or pb.7 == 3 %}
                                                 <option value="{{ pb.0 }}">Lote Nro. {{ pb.0 }}, {{ pb.2 }}, {{ pb.3 }} Kilos</option>
                                                 {% endif %}
                                                 {% endfor %}
