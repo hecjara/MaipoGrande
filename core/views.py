@@ -624,9 +624,7 @@ def aceptar_oferta(
     return redirect("solicitud_compra")
 
 
-def resultado_solicitud(
-    request, id_solicitud
-):  # METODO PARA VER LOS PRODUCTOS GANADORES DE LA SUBASTA DE PRODUCTOS
+def resultado_solicitud(request, id_solicitud):  # METODO PARA VER LOS PRODUCTOS GANADORES DE LA SUBASTA DE PRODUCTOS
 
     data = {
         "ganadores": listar_ganadores(id_solicitud),
@@ -644,9 +642,7 @@ def obtener_valor_total(id_solicitud):
     return salida.getvalue()
 
 
-def listar_ganadores(
-    id_solicitud,
-):  # METODO PARA LISTAR A LOS PRODUCTOS GANADORES DE LA OFERTA
+def listar_ganadores(id_solicitud):  # METODO PARA LISTAR A LOS PRODUCTOS GANADORES DE LA OFERTA
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
